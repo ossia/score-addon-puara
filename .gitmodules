@@ -1,0 +1,3 @@
+[submodule "3rdparty/puara-gestures"]
+	path = 3rdparty/puara-gestures
+	url = https://github.com/mneedham01/puara-gestures
