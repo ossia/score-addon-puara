@@ -9,26 +9,69 @@ if(NOT TARGET score_plugin_avnd)
 endif()
 
 project(score_addon_puara LANGUAGES CXX)
-
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
+)
+
+target_sources(score_addon_puara PRIVATE
+    3rdparty/puara-gestures/descriptors/IMU_Sensor_Fusion/imu_orientation.cpp
+#    3rdparty/puara-gestures/descriptors/puara-utils.cpp
 )
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/Puara.hpp
-    Puara/PuaraModel.hpp
-    Puara/PuaraModel.cpp
-    Puara/PuaraUi.hpp
-    3rdparty/puara-gestures/descriptors/IMU_Sensor_Fusion/imu_orientation.cpp
+    Puara/LeakyIntegrator.hpp
   TARGET puara
-  MAIN_CLASS Puara
-  NAMESPACE Example
+  MAIN_CLASS LeakyIntegrator
+  NAMESPACE Puara
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Roll.hpp
+    Puara/Roll.cpp
+  TARGET puara_roll
+  MAIN_CLASS Roll
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Tilt.hpp
+    Puara/Tilt.cpp
+  TARGET puara_tilt
+  MAIN_CLASS Tilt
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab.hpp
+    Puara/Jab.cpp
+  TARGET puara_jab
+  MAIN_CLASS Jab
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Shake.hpp
+    Puara/Shake.cpp
+  TARGET puara_shake
+  MAIN_CLASS Shake
+  NAMESPACE puara_gestures::objects
 )
 
 target_include_directories(score_addon_puara
-PRIVATE 3rdparty/puara-gestures 3rdparty/puara-gestures/descriptors)
+  PRIVATE
+    3rdparty/puara-gestures
+    3rdparty/puara-gestures/descriptors
+)
 
 avnd_score_plugin_finalize(
   BASE_TARGET score_addon_puara
