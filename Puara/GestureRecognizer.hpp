@@ -1,19 +1,18 @@
 #pragma once
-
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-#include <puara/descriptors/shake.h>
+#include <puara/gestures.h>
 
 namespace puara_gestures::objects
 {
-class Shake
+class GestureRecognizer
 {
 public:
-  halp_meta(name, "Shake")
+  halp_meta(name, "Gesture recognizer")
   halp_meta(category, "Gestures")
-  halp_meta(c_name, "puara_shake")
-  halp_meta(uuid, "ecb5dc46-164c-46a0-a01e-90e3c3bd7527")
+  halp_meta(c_name, "puara_roll")
+  halp_meta(uuid, "3135b5e0-39a6-4151-8ae4-a657d577eab8")
 
   struct ins
   {
@@ -24,7 +23,10 @@ public:
 
   struct
   {
-    halp::val_port<"Output", float> output;
+    halp::val_port<"Jab", puara_gestures::Coord3D> jab;
+    halp::val_port<"Shake", puara_gestures::Coord3D> shake;
+    halp::val_port<"Tilt", float> tilt;
+    halp::val_port<"Roll", float> roll;
   } outputs;
 
   halp::setup setup;
@@ -33,7 +35,10 @@ public:
   using tick = halp::tick;
   void operator()(halp::tick t);
 
-  puara_gestures::Shake impl;
+  puara_gestures::Jab3D jab;
+  puara_gestures::Shake3D shake;
+  puara_gestures::Tilt tilt;
+  puara_gestures::Roll roll;
 };
 
 }

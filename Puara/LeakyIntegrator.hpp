@@ -3,8 +3,7 @@
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-
-#include <descriptors/puara-utils.h>
+#include <puara/utils/leakyintegrator.h>
 
 namespace Puara
 {

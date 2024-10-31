@@ -3,8 +3,7 @@
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-
-#include <puara-tilt.h>
+#include <puara/descriptors/tilt.h>
 
 namespace puara_gestures::objects
 {

@@ -3,8 +3,7 @@
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-
-#include <puara-jab.h>
+#include <puara/descriptors/jab.h>
 
 namespace puara_gestures::objects
 {
