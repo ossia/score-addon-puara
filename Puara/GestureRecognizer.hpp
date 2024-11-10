@@ -11,7 +11,12 @@ class GestureRecognizer
 public:
   halp_meta(name, "Gesture recognizer")
   halp_meta(category, "Gestures")
-  halp_meta(c_name, "puara_roll")
+  halp_meta(c_name, "puara_gestures")
+  halp_meta(
+      author,
+      "Puara authors, Edu Meneses, Rochana Fardon, Sarah Al Mamoun, Joseph Malloch, "
+      "Maggie Needham")
+  halp_meta(manual_url, "https://ossia.io/score-docs/processes/gestures.html")
   halp_meta(uuid, "3135b5e0-39a6-4151-8ae4-a657d577eab8")
 
   struct ins
