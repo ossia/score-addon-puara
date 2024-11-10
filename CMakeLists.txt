@@ -11,6 +11,7 @@ endif()
 project(score_addon_puara LANGUAGES CXX)
 
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
+set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 add_subdirectory(3rdparty/puara-gestures SYSTEM)
 
 avnd_score_plugin_init(
