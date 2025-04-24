@@ -4,4 +4,4 @@
 [submodule "3rdparty/BioData"]
 	path = 3rdparty/BioData
 	url = https://github.com/eringee/BioData.git
-	branch = Ossia
+	branch = Fall_2024_Puara

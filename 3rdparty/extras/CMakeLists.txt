@@ -6,6 +6,6 @@ project(extras VERSION 1.0 LANGUAGES CXX)
 add_library(extras
   PeakDetector.cpp
   PeakDetector.h
-  utils.cpp
-  utils.h
+  helpers.cpp
+  helpers.h
 )
