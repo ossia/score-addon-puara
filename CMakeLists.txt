@@ -15,7 +15,7 @@ set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
 add_subdirectory(3rdparty/BioData SYSTEM)
 add_subdirectory(3rdparty/extras SYSTEM)
-add_subdirectory(3rdparty/puara-gestures SYSTEM)
+add_subdirectory(3rdparty/puara-gestures)
 add_dependencies(puara_gestures BioData)
 add_dependencies(puara_gestures extras)
 target_link_libraries(puara_gestures PUBLIC BioData)
