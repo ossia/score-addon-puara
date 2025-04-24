@@ -21,7 +21,7 @@
  */
 
 #include "PeakDetector.h"
-#include "utils.h"
+#include "helpers.h"
 
 PeakDetector::PeakDetector(float triggerThreshold_, uint8_t mode_)
   : 
@@ -55,7 +55,7 @@ void PeakDetector::triggerThreshold(float triggerThreshold) {
 
 void PeakDetector::reloadThreshold(float reloadThreshold) {
   if (modeInverted()) reloadThreshold = -reloadThreshold;
-  reloadThreshold = min(reloadThreshold, _triggerThreshold);
+  reloadThreshold = helpers::min(reloadThreshold, _triggerThreshold);
 
   if (_reloadThreshold != reloadThreshold) {
     _reloadThreshold = reloadThreshold;
@@ -64,7 +64,7 @@ void PeakDetector::reloadThreshold(float reloadThreshold) {
 }
 
 void PeakDetector::fallbackTolerance(float fallbackTolerance) {
-  _fallbackTolerance = clamp(fallbackTolerance, 0.0f, 1.0f);
+  _fallbackTolerance = helpers::clamp(fallbackTolerance, 0.0f, 1.0f);
 }
 
 void PeakDetector::mode(uint8_t mode) {
@@ -72,7 +72,7 @@ void PeakDetector::mode(uint8_t mode) {
   bool wasInverted = modeInverted();
 
   // Change mode.
-  _mode = clamp(mode, (uint8_t)PEAK_RISING, (uint8_t)PEAK_MIN);
+  _mode = helpers::clamp(mode, (uint8_t)PEAK_RISING, (uint8_t)PEAK_MIN);
 
   // If mode inversion was changed, adjust triggerThresholds.
   if (modeInverted() != wasInverted) {
@@ -136,7 +136,7 @@ float PeakDetector::put(float value) {
       // Fallback detected after crossing and falling below maximum and either:
       // (1) drops by % tolerance between peak and triggerThreshold OR
       // (2) falls below triggerThreshold (!high)
-      else if ((map(value, _peakValue, _triggerThreshold,0,1) >= _fallbackTolerance &&
+      else if ((helpers::map(value, _peakValue, _triggerThreshold,0,1) >= _fallbackTolerance &&
                           _peakValue != _triggerThreshold) // deal with special case where mapTo01(...) would return 0.5 by default
                   || !high) {
 
