@@ -1,10 +1,11 @@
 #pragma once
+#include "3rdparty/BioData/src/Heart.h"
+#include "3rdparty/BioData/src/SkinConductance.h"
+
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
 #include <puara/gestures.h>
-#include "3rdparty/BioData/src/Heart.h"
-#include "3rdparty/BioData/src/SkinConductance.h"
 
 namespace puara_gestures::objects
 {

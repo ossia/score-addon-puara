@@ -1,4 +1,5 @@
 #include "GestureRecognizer.hpp"
+
 #include <iostream>
 
 namespace puara_gestures::objects

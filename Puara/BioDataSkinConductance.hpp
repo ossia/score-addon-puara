@@ -1,12 +1,13 @@
 #pragma once
 
+#include "3rdparty/BioData/src/SkinConductance.h"
+
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
 #include <puara/gestures.h>
-#include "3rdparty/BioData/src/SkinConductance.h"
 
-namespace puara_gestures::objects 
+namespace puara_gestures::objects
 {
 class BioData_Skin_Conductance
 {
@@ -16,7 +17,8 @@ public:
   halp_meta(c_name, "BioData_Skin_Conductance")
   halp_meta(
       author,
-      "BioData authors, Erin Gee, Martin Peach, Thomas Ouellet Fredericks, Sofian Audry, Luana Belinsky")
+      "BioData authors, Erin Gee, Martin Peach, Thomas Ouellet Fredericks, Sofian "
+      "Audry, Luana Belinsky")
   halp_meta(manual_url, "https://github.com/eringee/BioData")
   halp_meta(uuid, "e0cc62f9-eb49-4ff1-b11c-0233d4ed94cf")
 
@@ -41,4 +43,3 @@ public:
   SkinConductance sc;
 };
 }
-

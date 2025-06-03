@@ -1,12 +1,13 @@
 #pragma once
 
+#include "3rdparty/BioData/src/Heart.h"
+
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
 #include <puara/gestures.h>
-#include "3rdparty/BioData/src/Heart.h"
 
-namespace puara_gestures::objects 
+namespace puara_gestures::objects
 {
 class BioData_Heart
 {
@@ -16,7 +17,8 @@ public:
   halp_meta(c_name, "BioData_Heart")
   halp_meta(
       author,
-      "BioData authors, Erin Gee, Martin Peach, Thomas Ouellet Fredericks, Sofian Audry, Luana Belinsky")
+      "BioData authors, Erin Gee, Martin Peach, Thomas Ouellet Fredericks, Sofian "
+      "Audry, Luana Belinsky")
   halp_meta(manual_url, "https://github.com/eringee/BioData")
   halp_meta(uuid, "53b50cf0-4f0f-499c-91e9-a5fb34ec8a15")
 
@@ -44,4 +46,3 @@ public:
   Heart heart;
 };
 }
-
