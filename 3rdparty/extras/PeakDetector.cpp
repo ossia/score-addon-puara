@@ -21,7 +21,12 @@
  */
 
 #include "PeakDetector.h"
+
 #include "helpers.h"
+
+#include <cmath>
+
+#include <algorithm>
 
 PeakDetector::PeakDetector(float triggerThreshold_, uint8_t mode_)
   : 
@@ -55,7 +60,7 @@ void PeakDetector::triggerThreshold(float triggerThreshold) {
 
 void PeakDetector::reloadThreshold(float reloadThreshold) {
   if (modeInverted()) reloadThreshold = -reloadThreshold;
-  reloadThreshold = helpers::min(reloadThreshold, _triggerThreshold);
+  reloadThreshold = std::min(reloadThreshold, _triggerThreshold);
 
   if (_reloadThreshold != reloadThreshold) {
     _reloadThreshold = reloadThreshold;
@@ -64,7 +69,7 @@ void PeakDetector::reloadThreshold(float reloadThreshold) {
 }
 
 void PeakDetector::fallbackTolerance(float fallbackTolerance) {
-  _fallbackTolerance = helpers::clamp(fallbackTolerance, 0.0f, 1.0f);
+  _fallbackTolerance = std::clamp(fallbackTolerance, 0.0f, 1.0f);
 }
 
 void PeakDetector::mode(uint8_t mode) {
@@ -72,7 +77,7 @@ void PeakDetector::mode(uint8_t mode) {
   bool wasInverted = modeInverted();
 
   // Change mode.
-  _mode = helpers::clamp(mode, (uint8_t)PEAK_RISING, (uint8_t)PEAK_MIN);
+  _mode = std::clamp(mode, (uint8_t)PEAK_RISING, (uint8_t)PEAK_MIN);
 
   // If mode inversion was changed, adjust triggerThresholds.
   if (modeInverted() != wasInverted) {

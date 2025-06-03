@@ -76,46 +76,46 @@ avnd_score_plugin_add(
   MAIN_CLASS PeakDetection
   NAMESPACE puara_gestures::objects
 )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Roll.hpp
-#     Puara/Roll.cpp
-#   TARGET puara_roll
-#   MAIN_CLASS Roll
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Tilt.hpp
-#     Puara/Tilt.cpp
-#   TARGET puara_tilt
-#   MAIN_CLASS Tilt
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Jab.hpp
-#     Puara/Jab.cpp
-#   TARGET puara_jab
-#   MAIN_CLASS Jab
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Shake.hpp
-#     Puara/Shake.cpp
-#   TARGET puara_shake
-#   MAIN_CLASS Shake
-#   NAMESPACE puara_gestures::objects
-# )
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Roll.hpp
+    Puara/Roll.cpp
+  TARGET puara_roll
+  MAIN_CLASS Roll
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Tilt.hpp
+    Puara/Tilt.cpp
+  TARGET puara_tilt
+  MAIN_CLASS Tilt
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab.hpp
+    Puara/Jab.cpp
+  TARGET puara_jab
+  MAIN_CLASS Jab
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Shake.hpp
+    Puara/Shake.cpp
+  TARGET puara_shake
+  MAIN_CLASS Shake
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_finalize(
   BASE_TARGET score_addon_puara

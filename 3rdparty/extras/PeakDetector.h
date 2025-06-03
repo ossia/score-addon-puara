@@ -20,11 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PEAK_H_
-#define PEAK_H_
+#pragma once
 
-#include <stdint.h>
 #include <cfloat>
+#include <cstdint>
 
 /// @brief Peak modes.
 enum {
@@ -123,6 +122,3 @@ protected:
   // Unused extra space.
   uint8_t _data  : 1;
 };
-
-
-#endif
