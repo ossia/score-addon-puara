@@ -15,18 +15,52 @@ set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
 add_subdirectory(3rdparty/BioData SYSTEM)
 add_subdirectory(3rdparty/extras SYSTEM)
-add_subdirectory(3rdparty/puara-gestures)
-add_dependencies(puara_gestures BioData)
-add_dependencies(puara_gestures extras)
-target_link_libraries(puara_gestures PUBLIC BioData)
-target_link_libraries(puara_gestures PUBLIC extras)
-#CHANGED
 
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
 )
 
-target_link_libraries(score_addon_puara PRIVATE puara_gestures)
+target_sources(score_addon_puara
+  PRIVATE
+
+  3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/imu_orientation.h
+  3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/imu_orientation.cpp
+
+  3rdparty/puara-gestures/include/puara/descriptors/button.h
+  3rdparty/puara-gestures/include/puara/descriptors/jab.h
+  3rdparty/puara-gestures/include/puara/descriptors/roll.h
+  3rdparty/puara-gestures/include/puara/descriptors/shake.h
+  3rdparty/puara-gestures/include/puara/descriptors/tilt.h
+  3rdparty/puara-gestures/include/puara/descriptors/touchArrayGestureDetector.h
+
+  3rdparty/puara-gestures/include/puara/utils/blobDetector.h
+  3rdparty/puara-gestures/include/puara/utils/calibration.h
+  3rdparty/puara-gestures/include/puara/utils/circularbuffer.h
+  3rdparty/puara-gestures/include/puara/utils/leakyintegrator.h
+  3rdparty/puara-gestures/include/puara/utils/maprange.h
+  3rdparty/puara-gestures/include/puara/utils/rollingminmax.h
+  3rdparty/puara-gestures/include/puara/utils/smooth.h
+  3rdparty/puara-gestures/include/puara/utils/threshold.h
+  3rdparty/puara-gestures/include/puara/utils/wrap.h
+
+  3rdparty/puara-gestures/include/puara/structs.h
+  3rdparty/puara-gestures/include/puara/gestures.h
+  3rdparty/puara-gestures/include/puara/utils.h
+
+  3rdparty/puara-gestures/src/puara_gestures.cpp
+
+  3rdparty/extras/PeakDetector.h
+  3rdparty/extras/PeakDetector.cpp
+  3rdparty/extras/helpers.h
+  3rdparty/extras/helpers.cpp
+)
+
+target_include_directories(score_addon_puara
+  PRIVATE
+  3rdparty/puara-gestures/include/
+  3rdparty/puara-gestures/3rdparty/
+)
+target_link_libraries(score_addon_puara PUBLIC BioData)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -37,8 +71,7 @@ avnd_score_plugin_add(
   MAIN_CLASS GestureRecognizer
   NAMESPACE puara_gestures::objects
 )
-#
-#
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
