@@ -18,8 +18,10 @@ public:
   struct ins
   {
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
-    halp::val_port<"Gyrosocope", puara_gestures::Coord3D> gyro;
-    halp::val_port<"Magnetometer", puara_gestures::Coord3D> mag;
+    // halp::val_port<"Gyrosocope", puara_gestures::Coord3D> gyro;
+    // halp::val_port<"Magnetometer", puara_gestures::Coord3D> mag;
+
+    halp::val_port<"Integrator Frequency",float>integrator_frequency{10.0f};
   } inputs;
 
   struct
@@ -33,7 +35,7 @@ public:
   using tick = halp::tick;
   void operator()(halp::tick t);
 
-  puara_gestures::Shake impl;
+  puara_gestures::Shake3D impl;
 };
 
 }
