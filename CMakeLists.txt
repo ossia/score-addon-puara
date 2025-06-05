@@ -29,13 +29,12 @@ avnd_score_plugin_add(
   MAIN_CLASS GestureRecognizer
   NAMESPACE puara_gestures::objects
 )
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
     Puara/LeakyIntegratorAvnd.hpp
     Puara/LeakyIntegratorAvnd.cpp
-  TARGET puara
+  TARGET puara_leaky_integrator
   MAIN_CLASS LeakyIntegratorAvnd
   NAMESPACE puara_gestures::objects
 )
