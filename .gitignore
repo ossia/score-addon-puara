@@ -32,7 +32,7 @@ Makefile
 .vs
 
 *.db
-*kde*
+*.kde*
 *.user.*
 .cmake
 .vscode
