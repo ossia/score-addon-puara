@@ -43,15 +43,6 @@ void Roll::operator()(halp::tick t)
   //6. setting the output port
   outputs.output.value = static_cast<float>(current_roll_rad);
 
-  //debug
-  printf("Roll In: Acc(%.2f,%.2f,%.2f) Gyro(%.2f,%.2f,%.2f) Mag(%.2f,%.2f,%.2f) Period: %.4f | Unwrap:%d Smooth:%d Wrap:%d | Out: %.2f rad\n",
-         current_accel.x, current_accel.y, current_accel.z,
-         current_gyro.x, current_gyro.y, current_gyro.z,
-         current_mag.x, current_mag.y, current_mag.z,
-         period_s,
-         unwrap_enabled, smooth_enabled, wrap_enabled,
-         outputs.output.value);
 
-  // outputs.output = impl.roll(inputs.accel, inputs.gyro, inputs.mag, 0.1);
 }
 }
