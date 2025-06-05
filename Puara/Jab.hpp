@@ -24,7 +24,7 @@ public:
 
   struct
   {
-    halp::val_port<"Output", float> output;
+    halp::val_port<"Output", puara_gestures::Coord3D> output;
   } outputs;
 
   halp::setup setup;
@@ -33,7 +33,6 @@ public:
   using tick = halp::tick;
   void operator()(halp::tick t);
 
-  // puara_gestures::Jab impl;
   puara_gestures::Jab3D impl;
 };
 
