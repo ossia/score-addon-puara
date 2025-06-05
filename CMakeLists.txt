@@ -18,6 +18,11 @@ avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
 )
 
+target_sources(score_addon_puara
+  PRIVATE
+    Puara/LeakyIntegratorAvnd.cpp
+)
+
 target_link_libraries(score_addon_puara PRIVATE puara_gestures)
 
 avnd_score_plugin_add(
@@ -29,56 +34,57 @@ avnd_score_plugin_add(
   MAIN_CLASS GestureRecognizer
   NAMESPACE puara_gestures::objects
 )
-#
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/LeakyIntegrator.hpp
-#   TARGET puara
-#   MAIN_CLASS LeakyIntegrator
-#   NAMESPACE Puara
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Roll.hpp
-#     Puara/Roll.cpp
-#   TARGET puara_roll
-#   MAIN_CLASS Roll
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Tilt.hpp
-#     Puara/Tilt.cpp
-#   TARGET puara_tilt
-#   MAIN_CLASS Tilt
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Jab.hpp
-#     Puara/Jab.cpp
-#   TARGET puara_jab
-#   MAIN_CLASS Jab
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Shake.hpp
-#     Puara/Shake.cpp
-#   TARGET puara_shake
-#   MAIN_CLASS Shake
-#   NAMESPACE puara_gestures::objects
-# )
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/LeakyIntegratorAvnd.hpp
+    Puara/LeakyIntegratorAvnd.cpp
+  TARGET puara
+  MAIN_CLASS LeakyIntegrator
+  NAMESPACE Puara
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Roll.hpp
+    Puara/Roll.cpp
+  TARGET puara_roll
+  MAIN_CLASS Roll
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Tilt.hpp
+    Puara/Tilt.cpp
+  TARGET puara_tilt
+  MAIN_CLASS Tilt
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab.hpp
+    Puara/Jab.cpp
+  TARGET puara_jab
+  MAIN_CLASS Jab
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Shake.hpp
+    Puara/Shake.cpp
+  TARGET puara_shake
+  MAIN_CLASS Shake
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_finalize(
   BASE_TARGET score_addon_puara
