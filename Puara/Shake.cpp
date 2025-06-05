@@ -30,16 +30,7 @@ void Shake::operator()(halp::tick t)
       (shake_vector.z * shake_vector.z));
 
   //6 setting the output port value
-
   outputs.output.value = shake_magnitude;
-  printf("Shake Accel: (%.2f, %.2f, %.2f), Freq: %.2f | PuaraVec: (%.2f, %.2f, %.2f) | Mag: %.2f\n",
-         current_accel.x, current_accel.y, current_accel.z,
-         desired_frequency,
-         shake_vector.x, shake_vector.y, shake_vector.z,
-         shake_magnitude);
 
-
-  // TODO
-  // outputs.output = impl.shake(inputs.accel, inputs.gyro, inputs.mag, 0.1);
 }
 }
