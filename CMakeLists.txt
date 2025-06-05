@@ -29,27 +29,27 @@ avnd_score_plugin_add(
   MAIN_CLASS GestureRecognizer
   NAMESPACE puara_gestures::objects
 )
-#
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/LeakyIntegrator.hpp
-#   TARGET puara
-#   MAIN_CLASS LeakyIntegrator
-#   NAMESPACE Puara
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Roll.hpp
-#     Puara/Roll.cpp
-#   TARGET puara_roll
-#   MAIN_CLASS Roll
-#   NAMESPACE puara_gestures::objects
-# )
-#
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/LeakyIntegratorAvnd.hpp
+    Puara/LeakyIntegratorAvnd.cpp
+  TARGET puara
+  MAIN_CLASS LeakyIntegratorAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Roll.hpp
+    Puara/Roll.cpp
+  TARGET puara_roll
+  MAIN_CLASS Roll
+  NAMESPACE puara_gestures::objects
+)
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -60,25 +60,25 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Jab.hpp
-#     Puara/Jab.cpp
-#   TARGET puara_jab
-#   MAIN_CLASS Jab
-#   NAMESPACE puara_gestures::objects
-# )
-#
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Shake.hpp
-#     Puara/Shake.cpp
-#   TARGET puara_shake
-#   MAIN_CLASS Shake
-#   NAMESPACE puara_gestures::objects
-# )
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab.hpp
+    Puara/Jab.cpp
+  TARGET puara_jab
+  MAIN_CLASS Jab
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Shake.hpp
+    Puara/Shake.cpp
+  TARGET puara_shake
+  MAIN_CLASS Shake
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_finalize(
   BASE_TARGET score_addon_puara
