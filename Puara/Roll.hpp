@@ -20,10 +20,7 @@ public:
   halp_meta(name, "Roll")
   halp_meta(category, "Gestures")
   halp_meta(c_name, "puara_roll")
-  // halp_meta(uuid, "3135b5e0-39a6-4151-8ae4-a657d577eab8") //  issue same as of gesture recognizer leading to application crash
-  halp_meta(uuid, "86216F7C-2516-439E-9D4A-DEDD654DB359")
-
-
+  halp_meta(uuid, "c8060aec-462b-4e3c-bb43-fa8fd1d4cdec")
 
   struct ins
   {
