@@ -50,16 +50,16 @@ avnd_score_plugin_add(
 #   NAMESPACE puara_gestures::objects
 # )
 #
-# avnd_score_plugin_add(
-#   BASE_TARGET score_addon_puara
-#   SOURCES
-#     Puara/Tilt.hpp
-#     Puara/Tilt.cpp
-#   TARGET puara_tilt
-#   MAIN_CLASS Tilt
-#   NAMESPACE puara_gestures::objects
-# )
-#
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Tilt.hpp
+    Puara/Tilt.cpp
+  TARGET puara_tilt
+  MAIN_CLASS Tilt
+  NAMESPACE puara_gestures::objects
+)
+
 # avnd_score_plugin_add(
 #   BASE_TARGET score_addon_puara
 #   SOURCES

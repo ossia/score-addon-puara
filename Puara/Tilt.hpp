@@ -24,6 +24,7 @@ public:
 
   struct
   {
+    //output is a single float value representing pitch  in radians as learned from tilt.h
     halp::val_port<"Output", float> output;
   } outputs;
 
