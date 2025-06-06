@@ -2,9 +2,9 @@
 
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
+#include <halp/mappers.hpp>
 #include <halp/meta.hpp>
 #include <puara/utils/leakyintegrator.h>
-
 
 namespace puara_gestures::objects
 {
@@ -15,6 +15,11 @@ public:
   halp_meta(name, "Leaky Integrator")
   halp_meta(category, "Utilities/Puara")
   halp_meta(c_name, "puara_leaky_integrator_avnd")
+  halp_meta(
+      description,
+      "Applies a leaky integrator to smooth input signals, with real-time control over "
+      "leak amount and update frequency.")
+  halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "ed55a080-b821-4977-89b6-4697cb8178e7")
 
   struct ins
@@ -22,10 +27,12 @@ public:
     halp::val_port<"Input", float> input_value;
     // Leak factor (0.0 = full leak this step, 1.0 = no leak this step)
     halp::knob_f32<"Leak Factor", halp::range{0.0, 1.0, 0.5}> leak_param;
-    // input port for leaking frequency  in hz
-    // range 0 Hz to 200 Hz def 100 Hz
-    // if freq is 0  will bypass timed leaking, using only leak_param per integrate call.
-    halp::knob_f32<"Leak Frequency (Hz)",halp::range{0.0,200.0,100.0}>leak_freqency;
+
+    struct LeakFrequencyParam
+        : halp::knob_f32<"Leak Frequency (Hz)", halp::range{0.0, 200.0, 100.0f}>
+    {
+      using mapper = halp::log_mapper<std::ratio<70, 100>>;
+    } leak_frequency;
   } inputs;
 
   struct outputs
