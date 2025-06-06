@@ -75,6 +75,16 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/LeakyIntegratorAvnd.hpp
+    Puara/LeakyIntegratorAvnd.cpp
+  TARGET puara_leaky_integrator 
+  MAIN_CLASS LeakyIntegratorAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/BioDataHeart.hpp
     Puara/BioDataHeart.cpp
     3rdparty/BioData/src/Heart.cpp
