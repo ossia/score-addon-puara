@@ -48,14 +48,12 @@ void Shake::operator()(halp::tick t)
       (shake_vector.z * shake_vector.z));
 
   //6 setting the output port value
+
   outputs.output.value = shake_magnitude;
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> 7d18dbf (Added support for fast leak slow leak and threshold (incomplete))
 }
 }

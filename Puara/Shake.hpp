@@ -18,9 +18,6 @@ public:
   struct ins
   {
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
-<<<<<<< HEAD
-    halp::val_port<"Integrator Frequency",float>integrator_frequency{10.0f};
-=======
 
     halp::knob_f32<"Integrator Frequency (Hz)",halp::range{0.0,200.0,10.0f}>integrator_frequency;
 
@@ -31,7 +28,6 @@ public:
     halp::knob_f32<"Activation Threshold",halp::range{0.0,1.0,0.1}>activation_threshold_param;
 
 
->>>>>>> 7d18dbf (Added support for fast leak slow leak and threshold (incomplete))
   } inputs;
 
   struct outputs
