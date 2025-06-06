@@ -18,6 +18,19 @@ avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
 )
 
+target_sources(score_addon_puara
+  PRIVATE
+    Puara/ButtonAvnd.hpp Puara/ButtonAvnd.cpp
+)
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/ButtonAvnd.hpp
+    Puara/ButtonAvnd.cpp
+  TARGET puara_button_avnd
+  MAIN_CLASS ButtonAvnd
+  NAMESPACE puara_gestures::objects
+)
 target_link_libraries(score_addon_puara PRIVATE puara_gestures)
 
 avnd_score_plugin_add(
