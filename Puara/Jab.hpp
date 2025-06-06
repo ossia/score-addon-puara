@@ -20,7 +20,7 @@ public:
     halp::val_port<"Acceleration 3D", puara_gestures::Coord3D> accel_3D;
 
     // new inpit port for jab threshold
-    halp::knob_f32<"Threshold",halp::range{0.0,50.0,5.0}>jab_threshold;
+    halp::knob_f32<"Threshold",halp::range{0.0,10.0,5.0}>jab_threshold;
 
 
   } inputs;
