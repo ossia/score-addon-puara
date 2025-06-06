@@ -2,6 +2,7 @@
 
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
+#include <halp/mappers.hpp>
 #include <halp/meta.hpp>
 #include <puara/descriptors/shake.h>
 
@@ -19,14 +20,18 @@ public:
   {
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
 
-    halp::knob_f32<"Integrator Frequency (Hz)",halp::range{0.0,200.0,10.0f}>integrator_frequency;
+    struct IntegratorFrequencyParam
+        : halp::knob_f32<"Integrator Frequency (Hz)", halp::range{0.0, 200.0, 10.0f}>
+    {
+      using mapper = halp::log_mapper<std::ratio<55, 100>>;
+    } integrator_frequency;
 
     //new params
-    halp::knob_f32<"Fast Leak",halp::range{0.0,1.0,0.6}>fast_leak_param;
-    halp::knob_f32<"Slow Leak",halp::range{0.0,1.0,0.3}>slow_leak_param;
+    halp::knob_f32<"Fast Leak", halp::range{0.0, 1.0, 0.6}> fast_leak_param;
+    halp::knob_f32<"Slow Leak", halp::range{0.0, 1.0, 0.3}> slow_leak_param;
     //for threshold
-    halp::knob_f32<"Activation Threshold",halp::range{0.0,1.0,0.1}>activation_threshold_param;
-
+    halp::knob_f32<"Activation Threshold", halp::range{0.0, 1.0, 0.1}>
+        activation_threshold_param;
 
   } inputs;
 
