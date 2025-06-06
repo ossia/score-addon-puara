@@ -12,7 +12,9 @@ project(score_addon_puara LANGUAGES CXX)
 
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
-add_subdirectory(3rdparty/puara-gestures SYSTEM)
+
+add_subdirectory(3rdparty/BioData SYSTEM)
+add_subdirectory(3rdparty/extras SYSTEM)
 
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
@@ -20,8 +22,69 @@ avnd_score_plugin_init(
 
 target_sources(score_addon_puara
   PRIVATE
-    Puara/ButtonAvnd.hpp Puara/ButtonAvnd.cpp
+
+  3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/imu_orientation.h
+  3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/imu_orientation.cpp
+
+  3rdparty/puara-gestures/include/puara/descriptors/button.h
+  3rdparty/puara-gestures/include/puara/descriptors/jab.h
+  3rdparty/puara-gestures/include/puara/descriptors/roll.h
+  3rdparty/puara-gestures/include/puara/descriptors/shake.h
+  3rdparty/puara-gestures/include/puara/descriptors/tilt.h
+  3rdparty/puara-gestures/include/puara/descriptors/touchArrayGestureDetector.h
+
+  3rdparty/puara-gestures/include/puara/utils/blobDetector.h
+  3rdparty/puara-gestures/include/puara/utils/calibration.h
+  3rdparty/puara-gestures/include/puara/utils/circularbuffer.h
+  3rdparty/puara-gestures/include/puara/utils/leakyintegrator.h
+  3rdparty/puara-gestures/include/puara/utils/maprange.h
+  3rdparty/puara-gestures/include/puara/utils/rollingminmax.h
+  3rdparty/puara-gestures/include/puara/utils/smooth.h
+  3rdparty/puara-gestures/include/puara/utils/threshold.h
+  3rdparty/puara-gestures/include/puara/utils/wrap.h
+
+  3rdparty/puara-gestures/include/puara/structs.h
+  3rdparty/puara-gestures/include/puara/gestures.h
+  3rdparty/puara-gestures/include/puara/utils.h
+
+  3rdparty/puara-gestures/src/puara_gestures.cpp
+
+  3rdparty/extras/PeakDetector.h
+  3rdparty/extras/PeakDetector.cpp
+  3rdparty/extras/helpers.h
+  3rdparty/extras/helpers.cpp
 )
+
+target_include_directories(score_addon_puara
+  PRIVATE
+  3rdparty/puara-gestures/include/
+  3rdparty/puara-gestures/3rdparty/
+)
+target_link_libraries(score_addon_puara PUBLIC BioData)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/GestureRecognizer.hpp
+    Puara/GestureRecognizer.cpp
+  TARGET puara_gesture
+  MAIN_CLASS GestureRecognizer
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/BioDataHeart.hpp
+    Puara/BioDataHeart.cpp
+    3rdparty/BioData/src/Heart.cpp
+    3rdparty/BioData/src/Heart.h
+    3rdparty/BioData/src
+  TARGET puara_heart
+  MAIN_CLASS BioData_Heart
+  NAMESPACE puara_gestures::objects
+)
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -31,24 +94,29 @@ avnd_score_plugin_add(
   MAIN_CLASS ButtonAvnd
   NAMESPACE puara_gestures::objects
 )
-target_link_libraries(score_addon_puara PRIVATE puara_gestures)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/GestureRecognizer.hpp
-    Puara/GestureRecognizer.cpp
-  TARGET puara
-  MAIN_CLASS GestureRecognizer
+    Puara/BioDataSkinConductance.hpp
+    Puara/BioDataSkinConductance.cpp
+    3rdparty/BioData/src/SkinConductance.cpp
+    3rdparty/BioData/src/SkinConductance.h
+    3rdparty/BioData/src
+  TARGET puara_skin_conductance
+  MAIN_CLASS BioData_Skin_Conductance
   NAMESPACE puara_gestures::objects
 )
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/LeakyIntegratorAvnd.hpp
-    Puara/LeakyIntegratorAvnd.cpp
-  TARGET puara_leaky_integrator
-  MAIN_CLASS LeakyIntegratorAvnd
+    Puara/PeakDetection.hpp
+    Puara/PeakDetection.cpp
+    3rdparty/extras/PeakDetector.cpp
+    3rdparty/extras/PeakDetector.h
+  TARGET puara_peak_detection
+  MAIN_CLASS PeakDetection
   NAMESPACE puara_gestures::objects
 )
 
