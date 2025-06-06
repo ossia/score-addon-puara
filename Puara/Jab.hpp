@@ -17,14 +17,17 @@ public:
 
   struct ins
   {
-    halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
-    // halp::val_port<"Gyrosocope", puara_gestures::Coord3D> gyro;
-    // halp::val_port<"Magnetometer", puara_gestures::Coord3D> mag;
+    halp::val_port<"Acceleration 3D", puara_gestures::Coord3D> accel_3D;
+
+    // new inpit port for jab threshold
+    halp::knob_f32<"Threshold",halp::range{0.0,50.0,5.0}>jab_threshold;
+
+
   } inputs;
 
-  struct
+  struct outputs
   {
-    halp::val_port<"Output", puara_gestures::Coord3D> output;
+    halp::val_port<"Output 3D", puara_gestures::Coord3D> output_3d;
   } outputs;
 
   halp::setup setup;
