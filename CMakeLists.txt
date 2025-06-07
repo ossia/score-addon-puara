@@ -104,6 +104,25 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Skin_Conductance
   NAMESPACE puara_gestures::objects
 )
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab1D_Avnd.hpp
+    Puara/Jab1D_Avnd.cpp
+  TARGET puara_jab_1d_avnd
+  MAIN_CLASS Jab1D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab2D_Avnd.hpp
+    Puara/Jab2D_Avnd.cpp
+  TARGET puara_jab_2d_avnd
+  MAIN_CLASS Jab2D_Avnd
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
