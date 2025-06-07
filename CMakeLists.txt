@@ -23,6 +23,11 @@ avnd_score_plugin_init(
 target_sources(score_addon_puara
   PRIVATE
 
+)
+
+target_link_libraries(score_addon_puara PRIVATE puara_gestures)
+
+
   3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/imu_orientation.h
   3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/imu_orientation.cpp
 
@@ -62,6 +67,7 @@ target_include_directories(score_addon_puara
 )
 target_link_libraries(score_addon_puara PUBLIC BioData)
 
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -95,6 +101,25 @@ avnd_score_plugin_add(
     3rdparty/BioData/src
   TARGET puara_skin_conductance
   MAIN_CLASS BioData_Skin_Conductance
+  NAMESPACE puara_gestures::objects
+)
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab1D_Avnd.hpp
+    Puara/Jab1D_Avnd.cpp
+  TARGET puara_jab_1d_avnd
+  MAIN_CLASS Jab1D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab2D_Avnd.hpp
+    Puara/Jab2D_Avnd.cpp
+  TARGET puara_jab_2d_avnd
+  MAIN_CLASS Jab2D_Avnd
   NAMESPACE puara_gestures::objects
 )
 
