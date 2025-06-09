@@ -9,13 +9,17 @@
 
 namespace puara_gestures::objects
 {
-
 class ButtonAvnd
 {
 public:
   halp_meta(name, "Button Processor")
   halp_meta(cateogry, "Utilities/Puara")
   halp_meta(c_name, "puara_button_avnd")
+  halp_meta(
+      description,
+      "Extracts features like press, hold, tap, double-tap, and triple-tap from a "
+      "button input.")
+  halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "e5cbc939-0df0-4256-bcfa-38ec67fb6fcd")
 
   struct ins
@@ -31,8 +35,6 @@ public:
 
   struct outputs
   {
-
-    //extracted features
     halp::val_port<"Is Pressed", bool> is_pressed_output{false};
     halp::val_port<"Tap Event", bool> tap_event_output{false};
     halp::val_port<"Double Tap Event", bool> double_tap_event_output{false};
@@ -42,10 +44,7 @@ public:
   } outputs;
 
   void operator()();
-
   puara_gestures::Button impl;
-
-  ButtonAvnd() = default;
 };
 
 }

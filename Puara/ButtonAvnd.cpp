@@ -5,40 +5,21 @@ namespace puara_gestures::objects
 
 void ButtonAvnd::operator()()
 {
-  // 1. Getting the current button state from the input port
-  const int current_button_state = inputs.button_input.value;
-
-  // 2. Updating configurable parameters of the underlying puara_gestures::Button object
-
-  unsigned int desired_threshold = inputs.threshold_param.value;
-  if(this->impl.threshold != desired_threshold)
-  {
-    this->impl.threshold = desired_threshold;
-  }
-
-  unsigned int desired_count_interval = inputs.count_interval_param.value;
-  if(this->impl.countInterval != desired_count_interval)
-  {
-    this->impl.countInterval = desired_count_interval;
-  }
-
-  unsigned int desired_hold_interval = inputs.hold_interval_param.value;
-  if(this->impl.holdInterval != desired_hold_interval)
-  {
-    this->impl.holdInterval = desired_hold_interval;
-  }
-
-  // 3. Calling the update method of the puara_gestures::Button implementation.
+  //input
+  const int current_button_state = inputs.button_input;
+  //Updating configurable parameters
+  this->impl.threshold = inputs.threshold_param;
+  this->impl.countInterval = inputs.count_interval_param;
+  this->impl.holdInterval = inputs.hold_interval_param;
+  //calling update methords
   this->impl.update(current_button_state);
-
-  // 4. Updating Avendish output ports with the results from the puara_gestures::Button object.
-  outputs.is_pressed_output.value = this->impl.press;
-  outputs.tap_event_output.value = (this->impl.tap == 1);
-  outputs.double_tap_event_output.value = (this->impl.doubleTap == 1);
-  outputs.triple_tap_event_output.value = (this->impl.tripleTap == 1);
-
-  outputs.is_held_output.value = this->impl.hold;
-  outputs.press_duration_output.value = this->impl.pressTime;
+  //updating output ports
+  outputs.is_pressed_output = this->impl.press;
+  outputs.tap_event_output = (this->impl.tap == 1);
+  outputs.double_tap_event_output = (this->impl.doubleTap == 1);
+  outputs.triple_tap_event_output = (this->impl.tripleTap == 1);
+  outputs.is_held_output = this->impl.hold;
+  outputs.press_duration_output = this->impl.pressTime;
 }
 
 }
