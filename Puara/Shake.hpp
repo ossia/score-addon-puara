@@ -14,6 +14,12 @@ public:
   halp_meta(name, "Shake")
   halp_meta(category, "Gestures")
   halp_meta(c_name, "puara_shake")
+  halp_meta(
+      description,
+      "Detects shaking gestures from 3D accelerometer data. Outputs shake magnitude. "
+      "Includes configurable integrator frequency, leak factors, and activation "
+      "threshold.")
+  halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "ecb5dc46-164c-46a0-a01e-90e3c3bd7527")
 
   struct ins
@@ -26,10 +32,8 @@ public:
       using mapper = halp::log_mapper<std::ratio<55, 100>>;
     } integrator_frequency;
 
-    //new params
     halp::knob_f32<"Fast Leak", halp::range{0.0, 1.0, 0.6}> fast_leak_param;
     halp::knob_f32<"Slow Leak", halp::range{0.0, 1.0, 0.3}> slow_leak_param;
-    //for threshold
     halp::knob_f32<"Activation Threshold", halp::range{0.0, 1.0, 0.1}>
         activation_threshold_param;
 
@@ -40,11 +44,7 @@ public:
     halp::val_port<"Output", float> output;
   } outputs;
 
-  halp::setup setup;
-  void prepare(halp::setup info) { setup = info; }
-
-  using tick = halp::tick;
-  void operator()(halp::tick t);
+  void operator()();
 
   puara_gestures::Shake3D impl;
 };

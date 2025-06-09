@@ -1,52 +1,39 @@
 #include "Shake.hpp"
+
+#include <cmath>
+
 namespace puara_gestures::objects
 {
-void Shake::operator()(halp::tick t)
+
+void Shake::operator()()
 {
 
-  // getting input data
+  const puara_gestures::Coord3D& current_accel = inputs.accel;
+  const float desired_frequency_hz = inputs.integrator_frequency;
+  const float desired_fast_leak = inputs.fast_leak_param;
+  const float desired_slow_leak = inputs.slow_leak_param;
 
-  const puara_gestures::Coord3D& current_accel = inputs.accel.value;
-  const float desired_frequency_hz = inputs.integrator_frequency.value;
-  const float desired_fast_leak = inputs.fast_leak_param.value;
-  const float desired_slow_leak = inputs.slow_leak_param.value;
-  const float desired_activation_threshold = inputs.activation_threshold_param.value;
-
-  // updating puara parameters
-
-  //checking if the desired frequency for the integrator has changed
-  int desired_frequency_int = static_cast<int>(desired_frequency_hz);
-
-  //updating freq for all axes
+  const int desired_frequency_int = desired_frequency_hz;
   if(impl.x.integrator.frequency != desired_frequency_int)
   {
-    impl.frequency(static_cast<double>(desired_frequency_int));
+    impl.frequency(desired_frequency_int);
   }
 
-  //updating leak params for each axis
-  impl.x.fast_leak = static_cast<double>(desired_fast_leak);
-  impl.x.slow_leak = static_cast<double>(desired_slow_leak);
+  impl.x.fast_leak = desired_fast_leak;
+  impl.x.slow_leak = desired_slow_leak;
+  impl.y.fast_leak = desired_fast_leak;
+  impl.y.slow_leak = desired_slow_leak;
+  impl.z.fast_leak = desired_fast_leak;
+  impl.z.slow_leak = desired_slow_leak;
 
-  impl.y.fast_leak = static_cast<double>(desired_fast_leak);
-  impl.y.slow_leak = static_cast<double>(desired_slow_leak);
-
-  impl.z.fast_leak = static_cast<double>(desired_fast_leak);
-  impl.z.slow_leak = static_cast<double>(desired_slow_leak);
-
-  //3.updating the puara gestures implementation
   impl.update(current_accel.x, current_accel.y, current_accel.z);
 
-  //4.getting processed value from puara
-  puara_gestures::Coord3D shake_vector = impl.current_value();
+  const auto shake_vector = impl.current_value();
 
-  //5. calculating the desired float value
+  const float shake_magnitude
+      = std::hypot(shake_vector.x, shake_vector.y, shake_vector.z);
 
-  float shake_magnitude = std::sqrt(
-      (shake_vector.x * shake_vector.x) + (shake_vector.y * shake_vector.y)
-      + (shake_vector.z * shake_vector.z));
-
-  //6 setting the output port value
-
-  outputs.output.value = shake_magnitude;
+  outputs.output = shake_magnitude;
 }
+
 }
