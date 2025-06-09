@@ -2,32 +2,26 @@
 
 namespace puara_gestures::objects
 {
-void Jab::operator()(halp::tick t)
+
+void Jab::operator()()
 {
-  // 1. input values
-  const puara_gestures::Coord3D& current_accel = inputs.accel_3D.value;
-  const float desired_threshold_float = inputs.jab_threshold.value;
-  int desired_threshold_int = static_cast<int>(desired_threshold_float);
+  // 1. Get input values
+  const puara_gestures::Coord3D& current_accel = inputs.accel_3D;
+  const float desired_threshold_float = inputs.jab_threshold;
 
-  // 2. Updateing parameters of the underlying puara_gestures::Jab objects
+  // 2. Update parameters of the underlying puara_gestures::Jab objects
+  const int threshold_to_set = desired_threshold_float;
+  impl.x.threshold = threshold_to_set;
+  impl.y.threshold = threshold_to_set;
+  impl.z.threshold = threshold_to_set;
 
-  if (impl.x.threshold != desired_threshold_int) {
-    impl.x.threshold = desired_threshold_int;
-  }
-  if (impl.y.threshold != desired_threshold_int) {
-    impl.y.threshold = desired_threshold_int;
-  }
-  if (impl.z.threshold != desired_threshold_int) {
-    impl.z.threshold = desired_threshold_int;
-  }
-
-  // 3. calling  Jab3D impl.update()
   impl.update(current_accel.x, current_accel.y, current_accel.z);
 
-  // 4. getting  the calculated 3D jab vector
-  puara_gestures::Coord3D calculated_jab_vector = impl.current_value();
+  // 4. Getting the calculated 3D jab vec ...
+  const auto calculated_jab_vector = impl.current_value();
 
   // 5. Setting the 3D output port
-  outputs.output_3d.value = calculated_jab_vector;
+  outputs.output_3d = calculated_jab_vector;
 }
+
 }

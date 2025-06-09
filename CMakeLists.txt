@@ -62,12 +62,6 @@ target_include_directories(score_addon_puara
 )
 target_link_libraries(score_addon_puara PUBLIC BioData)
 
-    Puara/LeakyIntegratorAvnd.cpp
-)
-
-target_link_libraries(score_addon_puara PRIVATE puara_gestures)
-
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -77,7 +71,6 @@ avnd_score_plugin_add(
   MAIN_CLASS GestureRecognizer
   NAMESPACE puara_gestures::objects
 )
-
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -104,25 +97,6 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Skin_Conductance
   NAMESPACE puara_gestures::objects
 )
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/Jab1D_Avnd.hpp
-    Puara/Jab1D_Avnd.cpp
-  TARGET puara_jab_1d_avnd
-  MAIN_CLASS Jab1D_Avnd
-  NAMESPACE puara_gestures::objects
-)
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/Jab2D_Avnd.hpp
-    Puara/Jab2D_Avnd.cpp
-  TARGET puara_jab_2d_avnd
-  MAIN_CLASS Jab2D_Avnd
-  NAMESPACE puara_gestures::objects
-)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -134,16 +108,6 @@ avnd_score_plugin_add(
   TARGET puara_peak_detection
   MAIN_CLASS PeakDetection
   NAMESPACE puara_gestures::objects
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/LeakyIntegratorAvnd.hpp
-    Puara/LeakyIntegratorAvnd.cpp
-  TARGET puara
-  MAIN_CLASS LeakyIntegrator
-  NAMESPACE Puara
-
 )
 
 avnd_score_plugin_add(
@@ -165,17 +129,37 @@ avnd_score_plugin_add(
   MAIN_CLASS Tilt
   NAMESPACE puara_gestures::objects
 )
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
     Puara/Jab.hpp
     Puara/Jab.cpp
-  TARGET puara_jab
+  TARGET puara_jab_3d
   MAIN_CLASS Jab
   NAMESPACE puara_gestures::objects
 )
 
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab1D_Avnd.hpp
+    Puara/Jab1D_Avnd.cpp
+  TARGET puara_jab_1d_avnd
+  MAIN_CLASS Jab1D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab2D_Avnd.hpp
+    Puara/Jab2D_Avnd.cpp
+  TARGET puara_jab_2d_avnd
+  MAIN_CLASS Jab2D_Avnd
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
