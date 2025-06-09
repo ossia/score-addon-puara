@@ -13,6 +13,11 @@ public:
   halp_meta(name, "Tilt")
   halp_meta(category, "Gestures")
   halp_meta(c_name, "puara_tilt")
+  halp_meta(
+      description,
+      "Detects the tilt angle of a device using accelerometer, gyroscope, and "
+      "magnetometer data.")
+  halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "13fd4da6-3ebb-48dd-ac81-3de0aced5d32")
 
   struct ins
