@@ -5,12 +5,6 @@
 #include <halp/meta.hpp>
 #include <puara/descriptors/roll.h>
 
-#include <cmath>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 namespace puara_gestures::objects
 {
 class Roll
@@ -31,18 +25,14 @@ public:
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
     halp::val_port<"Gyroscope", puara_gestures::Coord3D> gyro;
     halp::val_port<"Magnetometer", puara_gestures::Coord3D> mag;
-
-    //changes --  defneing boolean toggles for post processing
-
     halp::toggle<"Enable Unwrap", halp::toggle_setup{.init = true}> enable_unwrap;
     halp::toggle<"Enable Smooth", halp::toggle_setup{.init = true}> enable_smooth;
     halp::toggle<"Enable Wrap", halp::toggle_setup{.init = false}> enable_wrap;
 
   } inputs;
 
-  struct
+  struct outputs
   {
-    // output:: single float value representing roll angle in radians
     halp::val_port<"Output", float> output;
   } outputs;
 
