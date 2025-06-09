@@ -31,7 +31,7 @@ public:
     struct LeakFrequencyParam
         : halp::knob_f32<"Leak Frequency (Hz)", halp::range{0.0, 200.0, 100.0f}>
     {
-      using mapper = halp::log_mapper<std::ratio<70, 100>>;
+      using mapper = halp::log_mapper<std::ratio<85, 100>>;
     } leak_frequency;
   } inputs;
 
@@ -40,9 +40,7 @@ public:
     halp::val_port<"Output", float> output_value;
   } outputs;
 
-  using tick = halp::tick;
-  void operator()(halp::tick t);
-
+  void operator()();
   // initializing impl with default values  inc  a def freq
   puara_gestures::utils::LeakyIntegrator impl{
       0.0, // initial currentValue
@@ -51,8 +49,6 @@ public:
       100, // initial frequency in Hz --> (will be overridden by --> leak_frequency port)
       0    // initial timerValue
   };
-
-  LeakyIntegratorAvnd() = default;
 };
 
 }
