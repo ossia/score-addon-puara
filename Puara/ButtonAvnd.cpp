@@ -21,8 +21,7 @@ void ButtonAvnd::operator()()
 
   outputs.is_held_output = this->impl.hold;
   outputs.press_duration_output = this->impl.pressTime;
-  outputs.internal_tap_count_output
-      = static_cast<int>(this->impl.count); // count could be larger, so cast is safer
+  outputs.internal_tap_count_output = this->impl.count;
 }
 
 }
