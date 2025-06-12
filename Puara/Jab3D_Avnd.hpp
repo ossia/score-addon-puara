@@ -10,7 +10,7 @@ namespace puara_gestures::objects
 class Jab
 {
 public:
-  halp_meta(name, "Jab")
+  halp_meta(name, "Jab 3D")
   halp_meta(category, "Gestures")
   halp_meta(c_name, "puara_jab_3d")
   halp_meta(

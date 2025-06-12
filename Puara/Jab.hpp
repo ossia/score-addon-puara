@@ -10,7 +10,7 @@ namespace puara_gestures::objects
 class Jab1D_Avnd
 {
 public:
-  halp_meta(name, "Jab 1D")
+  halp_meta(name, "Jab")
   halp_meta(category, "Gestures")
   halp_meta(c_name, "puara_jab_1d_avnd")
   halp_meta(description, "Detects jab gestures from a single axis of acceleration data.")

@@ -134,7 +134,7 @@ avnd_score_plugin_add(
   SOURCES
     Puara/Jab.hpp
     Puara/Jab.cpp
-  TARGET puara_jab_3d
+  TARGET puara_jab_1d
   MAIN_CLASS Jab
   NAMESPACE puara_gestures::objects
 )
@@ -145,7 +145,7 @@ avnd_score_plugin_add(
   SOURCES
     Puara/Jab3D_Avnd.hpp
     Puara/Jab3D_Avnd.cpp
-  TARGET puara_jab_1d_avnd
+  TARGET puara_jab_3d_avnd
   MAIN_CLASS Jab1D_Avnd
   NAMESPACE puara_gestures::objects
 )
