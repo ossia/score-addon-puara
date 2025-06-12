@@ -35,8 +35,6 @@ public:
   void operator()();
 
   puara_gestures::Jab2D impl;
-
-  Jab2D_Avnd() = default;
 };
 
 }

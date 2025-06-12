@@ -143,8 +143,8 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/Jab1D_Avnd.hpp
-    Puara/Jab1D_Avnd.cpp
+    Puara/Jab3D_Avnd.hpp
+    Puara/Jab3D_Avnd.cpp
   TARGET puara_jab_1d_avnd
   MAIN_CLASS Jab1D_Avnd
   NAMESPACE puara_gestures::objects
