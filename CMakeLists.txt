@@ -98,6 +98,16 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/ButtonAvnd.hpp
+    Puara/ButtonAvnd.cpp
+  TARGET puara_button_avnd
+  MAIN_CLASS ButtonAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/BioDataSkinConductance.hpp
     Puara/BioDataSkinConductance.cpp
     3rdparty/BioData/src/SkinConductance.cpp
@@ -139,13 +149,12 @@ avnd_score_plugin_add(
   MAIN_CLASS Tilt
   NAMESPACE puara_gestures::objects
 )
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
     Puara/Jab.hpp
     Puara/Jab.cpp
-  TARGET puara_jab
+  TARGET puara_jab_1d
   MAIN_CLASS Jab
   NAMESPACE puara_gestures::objects
 )
@@ -154,10 +163,30 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+
     Puara/TouchArrayAvnd.hpp
     Puara/TouchArrayAvnd.hpp
   TARGET puara_touch_avnd
   MAIN_CLASS TouchArrayAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+    Puara/Jab3D_Avnd.hpp
+    Puara/Jab3D_Avnd.cpp
+  TARGET puara_jab_3d_avnd
+  MAIN_CLASS Jab1D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab2D_Avnd.hpp
+    Puara/Jab2D_Avnd.cpp
+  TARGET puara_jab_2d_avnd
+  MAIN_CLASS Jab2D_Avnd
   NAMESPACE puara_gestures::objects
 )
 
