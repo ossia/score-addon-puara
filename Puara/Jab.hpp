@@ -1,37 +1,35 @@
 #pragma once
 
-#include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
 #include <puara/descriptors/jab.h>
 
 namespace puara_gestures::objects
 {
-class Jab
+
+class Jab1D_Avnd
 {
 public:
   halp_meta(name, "Jab")
   halp_meta(category, "Gestures")
-  halp_meta(c_name, "puara_jab")
-  halp_meta(uuid, "70cf4250-d66e-4a78-824f-4b51fb3d0075")
+  halp_meta(c_name, "puara_jab_1d_avnd")
+  halp_meta(description, "Detects jab gestures from a single axis of acceleration data.")
+  halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
+  halp_meta(uuid, "9444c79a-3e32-4c76-a755-019096fc4476")
 
   struct ins
   {
-    halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
-    halp::val_port<"Gyrosocope", puara_gestures::Coord3D> gyro;
-    halp::val_port<"Magnetometer", puara_gestures::Coord3D> mag;
+    halp::val_port<"Acceleration 1D", float> acceleration_1d{0.0f};
+
+    halp::knob_f32<"Threshold", halp::range{0.0, 50.0, 5.0}> threshold_param;
   } inputs;
 
-  struct
+  struct outputs
   {
-    halp::val_port<"Output", float> output;
+    halp::val_port<"Output 1D", float> output_1d{0.0f};
   } outputs;
 
-  halp::setup setup;
-  void prepare(halp::setup info) { setup = info; }
-
-  using tick = halp::tick;
-  void operator()(halp::tick t);
+  void operator()();
 
   puara_gestures::Jab impl;
 };

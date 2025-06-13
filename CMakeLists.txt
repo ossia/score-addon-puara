@@ -149,17 +149,37 @@ avnd_score_plugin_add(
   MAIN_CLASS Tilt
   NAMESPACE puara_gestures::objects
 )
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
     Puara/Jab.hpp
     Puara/Jab.cpp
-  TARGET puara_jab
+  TARGET puara_jab_1d
   MAIN_CLASS Jab
   NAMESPACE puara_gestures::objects
 )
 
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab3D_Avnd.hpp
+    Puara/Jab3D_Avnd.cpp
+  TARGET puara_jab_3d_avnd
+  MAIN_CLASS Jab1D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Jab2D_Avnd.hpp
+    Puara/Jab2D_Avnd.cpp
+  TARGET puara_jab_2d_avnd
+  MAIN_CLASS Jab2D_Avnd
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
