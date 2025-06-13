@@ -98,6 +98,16 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/ButtonAvnd.hpp
+    Puara/ButtonAvnd.cpp
+  TARGET puara_button_avnd
+  MAIN_CLASS ButtonAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/BioDataSkinConductance.hpp
     Puara/BioDataSkinConductance.cpp
     3rdparty/BioData/src/SkinConductance.cpp
