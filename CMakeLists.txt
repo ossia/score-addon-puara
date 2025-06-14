@@ -87,9 +87,6 @@ avnd_score_plugin_add(
   SOURCES
     Puara/BioDataHeart.hpp
     Puara/BioDataHeart.cpp
-    3rdparty/BioData/src/Heart.cpp
-    3rdparty/BioData/src/Heart.h
-    3rdparty/BioData/src
   TARGET puara_heart
   MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
@@ -110,9 +107,6 @@ avnd_score_plugin_add(
   SOURCES
     Puara/BioDataSkinConductance.hpp
     Puara/BioDataSkinConductance.cpp
-    3rdparty/BioData/src/SkinConductance.cpp
-    3rdparty/BioData/src/SkinConductance.h
-    3rdparty/BioData/src
   TARGET puara_skin_conductance
   MAIN_CLASS BioData_Skin_Conductance
   NAMESPACE puara_gestures::objects

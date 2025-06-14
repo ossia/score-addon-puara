@@ -13,7 +13,7 @@ class BioData_Skin_Conductance
 {
 public:
   halp_meta(name, "Skin conductance")
-  halp_meta(category, "BioData")
+  halp_meta(category, "Gestures/Biodata")
   halp_meta(c_name, "BioData_Skin_Conductance")
   halp_meta(
       author,
