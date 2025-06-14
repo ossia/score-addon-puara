@@ -77,7 +77,7 @@ avnd_score_plugin_add(
   SOURCES
     Puara/LeakyIntegratorAvnd.hpp
     Puara/LeakyIntegratorAvnd.cpp
-  TARGET puara_leaky_integrator 
+  TARGET puara_leaky_integrator
   MAIN_CLASS LeakyIntegratorAvnd
   NAMESPACE puara_gestures::objects
 )
@@ -155,7 +155,7 @@ avnd_score_plugin_add(
     Puara/Jab.hpp
     Puara/Jab.cpp
   TARGET puara_jab_1d
-  MAIN_CLASS Jab
+  MAIN_CLASS Jab1D_Avnd
   NAMESPACE puara_gestures::objects
 )
 
@@ -166,7 +166,7 @@ avnd_score_plugin_add(
     Puara/Jab3D_Avnd.hpp
     Puara/Jab3D_Avnd.cpp
   TARGET puara_jab_3d_avnd
-  MAIN_CLASS Jab1D_Avnd
+  MAIN_CLASS Jab3D_Avnd
   NAMESPACE puara_gestures::objects
 )
 

@@ -7,7 +7,7 @@
 
 namespace puara_gestures::objects
 {
-class Jab
+class Jab3D_Avnd
 {
 public:
   halp_meta(name, "Jab 3D")

@@ -3,7 +3,7 @@
 namespace puara_gestures::objects
 {
 
-void Jab::operator()()
+void Jab3D_Avnd::operator()()
 {
   // 1. Get input values
   const puara_gestures::Coord3D& current_accel = inputs.accel_3D;
