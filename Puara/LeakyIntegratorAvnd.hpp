@@ -22,7 +22,7 @@ public:
   halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "ed55a080-b821-4977-89b6-4697cb8178e7")
 
-  struct ins
+  struct
   {
     halp::val_port<"Input", float> input_value;
     // Leak factor (0.0 = full leak this step, 1.0 = no leak this step)
@@ -35,7 +35,7 @@ public:
     } leak_frequency;
   } inputs;
 
-  struct outputs
+  struct
   {
     halp::val_port<"Output", float> output_value;
   } outputs;
