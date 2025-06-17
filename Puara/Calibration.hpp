@@ -18,7 +18,7 @@ public:
   halp_meta(c_name, "puara_calibration")
   halp_meta(description, "Calibrates a raw magnetometer stream to correct for hard and soft-iron distortions.")
   halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
-  halp_meta(uuid, "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") // NOTE: Generate a new UUID for the final version
+  halp_meta(uuid, "0b46699b-5e17-4742-a585-e7d7ad9b22ca")
 
   struct ins
   {
