@@ -10,6 +10,8 @@ endif()
 
 project(score_addon_puara LANGUAGES CXX)
 
+find_package(Eigen3 REQUIRED)
+
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
@@ -60,7 +62,9 @@ target_include_directories(score_addon_puara
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
-target_link_libraries(score_addon_puara PUBLIC BioData)
+
+### 2. Link the main addon target against both BioData and Eigen3::Eigen
+target_link_libraries(score_addon_puara PUBLIC BioData Eigen3::Eigen)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -91,6 +95,16 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
 )
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Calibration.hpp
+    Puara/Calibration.cpp
+  TARGET puara_calibration
+  MAIN_CLASS Calibration
+  NAMESPACE puara_gestures::objects
+)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
