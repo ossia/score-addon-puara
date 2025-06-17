@@ -22,7 +22,7 @@ public:
   halp_meta(manual_url, "https://github.com/eringee/BioData")
   halp_meta(uuid, "e0cc62f9-eb49-4ff1-b11c-0233d4ed94cf")
 
-  struct ins
+  struct
   {
     halp::val_port<"Skin_conductance_signal", float> sc_signal;
   } inputs;

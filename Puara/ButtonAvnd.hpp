@@ -19,7 +19,7 @@ public:
   halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "e5cbc939-0df0-4256-bcfa-38ec67fb6fcd")
 
-  struct ins
+  struct
   {
     halp::val_port<"Input", int> button_input{0};
     halp::knob_f32<"Threshold", halp::range{0.0, 10.0, 1.0}> threshold_param;
@@ -29,7 +29,7 @@ public:
         hold_interval_param;
   } inputs;
 
-  struct outputs
+  struct
   {
     halp::val_port<"Is Pressed", bool> is_pressed_output{false};
     halp::val_port<"Tap Event", int> tap_event_output{0};

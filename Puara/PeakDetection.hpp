@@ -20,7 +20,7 @@ public:
   halp_meta(author, "Luana Belinsky")
   halp_meta(uuid, "031bc209-5097-44ac-99c1-ade065a0c02d")
 
-  struct ins
+  struct
   {
     halp::val_port<"Peak_detection_signal", float> peakDetection_signal;
     struct peak_mode

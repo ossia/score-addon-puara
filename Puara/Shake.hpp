@@ -22,7 +22,7 @@ public:
   halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "ecb5dc46-164c-46a0-a01e-90e3c3bd7527")
 
-  struct ins
+  struct
   {
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
 
@@ -39,7 +39,7 @@ public:
 
   } inputs;
 
-  struct outputs
+  struct
   {
     halp::val_port<"Output", float> output;
   } outputs;

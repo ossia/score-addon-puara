@@ -22,7 +22,7 @@ public:
   halp_meta(manual_url, "https://ossia.io/score-docs/processes/gestures.html")
   halp_meta(uuid, "3135b5e0-39a6-4151-8ae4-a657d577eab8")
 
-  struct ins
+  struct
   {
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
     halp::val_port<"Gyrosocope", puara_gestures::Coord3D> gyro;

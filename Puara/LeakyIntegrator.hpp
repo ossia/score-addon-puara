@@ -16,7 +16,7 @@ public:
   halp_meta(c_name, "puara_leaky_integrator")
   halp_meta(uuid, "ed55a080-b821-4977-89b6-4697cb8178e7")
 
-  struct ins
+  struct
   {
     halp::val_port<"Input", float> input;
     halp::knob_f32<"Leak", halp::range{0.0, 1.0, 0.5}> leak;

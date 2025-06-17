@@ -20,7 +20,7 @@ public:
   halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "13fd4da6-3ebb-48dd-ac81-3de0aced5d32")
 
-  struct ins
+  struct
   {
     halp::val_port<"Acceleration", puara_gestures::Coord3D> accel;
     halp::val_port<"Gyrosocope", puara_gestures::Coord3D> gyro;

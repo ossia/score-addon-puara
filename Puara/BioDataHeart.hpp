@@ -22,7 +22,7 @@ public:
   halp_meta(manual_url, "https://github.com/eringee/BioData")
   halp_meta(uuid, "53b50cf0-4f0f-499c-91e9-a5fb34ec8a15")
 
-  struct ins
+  struct
   {
     halp::val_port<"Heart_signal", float> heart_signal;
   } inputs;

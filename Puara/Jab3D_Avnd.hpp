@@ -20,15 +20,13 @@ public:
   halp_meta(manual_url, "https://github.com/Puara/puara-gestures/")
   halp_meta(uuid, "70cf4250-d66e-4a78-824f-4b51fb3d0075")
 
-  struct ins
+  struct
   {
     halp::val_port<"Acceleration 3D", puara_gestures::Coord3D> accel_3D;
-
     halp::knob_f32<"Threshold", halp::range{0.0, 10.0, 5.0}> jab_threshold;
-
   } inputs;
 
-  struct outputs
+  struct
   {
     halp::val_port<"Output 3D", puara_gestures::Coord3D> output_3d;
   } outputs;
