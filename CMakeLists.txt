@@ -185,7 +185,15 @@ avnd_score_plugin_add(
   MAIN_CLASS Shake
   NAMESPACE puara_gestures::objects
 )
-
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/PowerBandEEGAvnd.hpp
+    Puara/PowerBandEEGAvnd.cpp
+  TARGET puara_powerband_eeg
+  MAIN_CLASS PowerBandEEGAvnd
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_finalize(
   BASE_TARGET score_addon_puara
   PLUGIN_VERSION 1
