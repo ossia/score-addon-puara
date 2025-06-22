@@ -1,4 +1,5 @@
 #include "Binarizer.hpp"
+
 #include <xtensor.hpp>
 
 namespace puara_gestures::objects
@@ -7,7 +8,7 @@ namespace puara_gestures::objects
 void Binarizer::operator()()
 {
   const auto& in_vec = inputs.input_array.value;
-  if (in_vec.empty())
+  if(in_vec.empty())
   {
     outputs.output_array.value.clear();
     return;
@@ -19,7 +20,7 @@ void Binarizer::operator()()
   auto in_arr = xt::adapt(in_vec.data(), in_vec.size(), xt::no_ownership(), shape);
 
   xt::xarray<double> binarized_arr;
-  switch (thresh_type)
+  switch(thresh_type)
   {
     case ThresholdType::Above:
       binarized_arr = xt::where(in_arr > thresh, 1.0, 0.0);

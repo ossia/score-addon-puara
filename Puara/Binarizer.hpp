@@ -2,6 +2,7 @@
 
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
+
 #include <vector>
 
 namespace puara_gestures::objects
@@ -17,8 +18,12 @@ public:
   halp_meta(manual_url, "https://github.com/dav0dea/goofi-pipe")
   halp_meta(uuid, "84931c47-894b-45bb-addc-3163ae3593da")
 
-
-  enum class ThresholdType { Both, Above, Below };
+  enum class ThresholdType
+  {
+    Both,
+    Above,
+    Below
+  };
 
   struct
   {
