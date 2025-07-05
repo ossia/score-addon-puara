@@ -3,5 +3,5 @@
 	url = https://github.com/puara/puara-gestures
 [submodule "3rdparty/BioData"]
 	path = 3rdparty/BioData
-	url = https://github.com/eringee/BioData
+	url = https://github.com/jcelerier/BioData
 	branch = Ossia

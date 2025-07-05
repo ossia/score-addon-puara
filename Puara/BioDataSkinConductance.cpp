@@ -2,11 +2,9 @@
 
 namespace puara_gestures::objects
 {
-void BioData_Skin_Conductance::operator()(halp::tick t)
+void BioData_Skin_Conductance::operator()(halp::tick_musical t)
 {
-  const double period = t.frames / setup.rate;
-
-  sc.update(inputs.sc_signal);
+  sc.update(inputs.sc_signal, 1e6 * t.position_in_frames / double(this->setup.rate));
 
   outputs.sc_raw = sc.getRaw();
   outputs.sc_scr = sc.getSCR();
