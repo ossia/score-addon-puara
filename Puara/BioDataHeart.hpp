@@ -40,8 +40,8 @@ public:
   halp::setup setup;
   void prepare(halp::setup info) { setup = info; }
 
-  using tick = halp::tick;
-  void operator()(halp::tick t);
+  using tick = halp::tick_musical;
+  void operator()(halp::tick_musical t);
 
   Heart heart;
 };
