@@ -2,11 +2,10 @@
 
 namespace puara_gestures::objects
 {
-void BioData_Heart::operator()(halp::tick t)
+void BioData_Heart::operator()(halp::tick_musical t)
 {
-  const double period = t.frames / setup.rate;
-
-  heart.update(inputs.heart_signal);
+  heart.update(
+      inputs.heart_signal, 1e6 * t.position_in_frames / double(this->setup.rate));
 
   outputs.heart_raw = heart.getRaw();
   outputs.heart_normalized = heart.getNormalized();
