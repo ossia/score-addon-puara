@@ -21,13 +21,11 @@ public:
   {
     halp::val_port<"Angle (degrees)", double> angle;
     halp::val_port<"Velocity", double> velocity;
-
     halp::val_port<"On Water", bool> on_water;
   } inputs;
 
   struct outs
   {
-
     halp::val_port<"Latitude", double> latitude;
     halp::val_port<"Longitude", double> longitude;
   } outputs;
@@ -47,7 +45,6 @@ public:
 
 private:
   void reset_position();
-
   double m_current_latitude{0.0};
   double m_current_longitude{0.0};
 };
