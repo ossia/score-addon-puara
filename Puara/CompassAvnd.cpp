@@ -1,10 +1,11 @@
 #include "CompassAvnd.hpp"
 
-#include <xtensor/containers/xadapt.hpp>
-#include <xtensor/containers/xarray.hpp>
+#include <xtensor/xadapt.hpp>
+#include <xtensor/xarray.hpp>
 
 #include <cmath>
 
+#include <numbers>
 namespace puara_gestures::objects
 {
 
@@ -28,19 +29,14 @@ void CompassAvnd::operator()()
 
   if(vector_diff.size() < 2)
   {
-
     return;
   }
-
   for(size_t i = 0; i < vector_diff.size() - 1; ++i)
   {
     const double x = vector_diff(i);
     const double y = vector_diff(i + 1);
-
     const double angle_rad = std::atan2(y, x);
-
-    const double angle_deg = angle_rad * 180.0 / ossia::pi;
-
+    const double angle_deg = angle_rad * 180.0 / std::numbers::pi;
     double normalized_deg = std::fmod(angle_deg, 360.0);
     if(normalized_deg < 0)
     {
