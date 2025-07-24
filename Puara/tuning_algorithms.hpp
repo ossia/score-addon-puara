@@ -1,6 +1,6 @@
 #pragma once
 
-#include <xtensor/containers/xarray.hpp>
+#include <xtensor/xarray.hpp>
 
 #include <functional>
 #include <numeric>
@@ -70,7 +70,6 @@ inline TuningMatrixResult compute_tuning_matrix(
     result.metric_per_step(i) = metric_fn(tuning(i));
   }
   result.metric_total = xt::sum(result.metric_per_step)();
-
   result.matrix = xt::zeros<double>({n, n});
   for(size_t i = 0; i < n; ++i)
   {
@@ -102,7 +101,6 @@ inline std::vector<double> reduce_tuning(
     std::sort(sorted_tuning.begin(), sorted_tuning.end());
     return sorted_tuning;
   }
-
   std::vector<std::pair<double, double>> scored_ratios;
   for(double ratio : tuning)
   {
@@ -121,7 +119,6 @@ inline std::vector<double> reduce_tuning(
   {
     reduced_mode.push_back(pair.second);
   }
-
   std::sort(reduced_mode.begin(), reduced_mode.end());
 
   return reduced_mode;

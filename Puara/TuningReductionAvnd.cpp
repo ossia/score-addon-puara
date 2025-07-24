@@ -15,7 +15,6 @@ void TuningReductionAvnd::operator()()
   }
 
   int n_steps = params.n_steps.value;
-
   std::function<double(double)> metric_fn;
   bool higher_is_better = true;
 

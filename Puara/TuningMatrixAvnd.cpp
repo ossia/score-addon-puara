@@ -2,8 +2,8 @@
 
 #include "tuning_algorithms.hpp"
 
-#include <xtensor/containers/xadapt.hpp>
-#include <xtensor/core/xmath.hpp>
+#include <xtensor/xadapt.hpp>
+#include <xtensor/xmath.hpp>
 
 namespace puara_gestures::objects
 {
@@ -18,8 +18,6 @@ void TuningMatrixAvnd::operator()()
     outputs.metric.value = 0.0;
     return;
   }
-
-  // Select the metric function based on the parameter
   std::function<double(double)> metric_fn;
   switch(params.function.value)
   {
@@ -35,10 +33,8 @@ void TuningMatrixAvnd::operator()()
       break;
   }
 
-  // Run the main computation
   auto results = algorithms::compute_tuning_matrix(xt::adapt(tuning_vec), metric_fn);
 
-  // Scale the matrix to [0, 1] range for output
   auto min_val = xt::amin(results.matrix)();
   auto max_val = xt::amax(results.matrix)();
   double range = max_val - min_val;
