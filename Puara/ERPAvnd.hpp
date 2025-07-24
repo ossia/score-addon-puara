@@ -3,7 +3,7 @@
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-#include <xtensor/containers/xarray.hpp>
+#include <xtensor/xarray.hpp>
 
 #include <optional>
 #include <vector>
@@ -29,18 +29,19 @@ public:
     Mean
   };
 
-  struct
+  struct ins
   {
     halp::val_port<"Signal", std::vector<double>> signal;
     halp::val_port<"Trigger", std::optional<bool>> trigger;
 
+    // --- Parameters ---
     halp::knob_f32<"Duration (s)", halp::range{0.0, 3.0, 1.0}> duration;
     halp::enum_t<BaselineCorrection, "Baseline"> baseline{BaselineCorrection::Mean};
     halp::impulse_button<"Reset"> reset;
     halp::toggle<"Delay Retrigger"> delay_retrigger{true};
   } inputs;
 
-  struct
+  struct outs
   {
     halp::val_port<"ERP", std::vector<double>> erp;
   } outputs;
@@ -51,6 +52,7 @@ public:
 private:
   void reset_state();
 
+  // --- State Variables ---
   double m_sampling_rate{1000.0};
   bool m_is_collecting{false};
   int m_erp_count{0};
