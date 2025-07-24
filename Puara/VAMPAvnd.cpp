@@ -10,7 +10,6 @@ VAMPAvnd::VAMPAvnd()
 
 void VAMPAvnd::operator()()
 {
-
   if(!params.reset.value.has_value())
   {
     reset_state();
@@ -27,7 +26,6 @@ void VAMPAvnd::operator()()
     outputs.comps.value.clear();
     return;
   }
-
   size_t n_samples = input_vec.size() / n_channels;
   auto input_arr = xt::adapt(
       input_vec.data(), input_vec.size(), xt::no_ownership(),
@@ -47,13 +45,12 @@ void VAMPAvnd::operator()()
     const int target_epoch_size = params.epoch_size.value + params.time_lag.value;
     if(m_current_epoch.shape()[0] >= target_epoch_size)
     {
-      model m_buffer.push_back(m_current_epoch);
+      m_buffer.push_back(m_current_epoch);
       m_model->partial_fit(m_current_epoch);
       m_model->solve();
       m_current_epoch.resize({0, (size_t)n_channels});
     }
   }
-
   if(m_model->is_fitted())
   {
     auto comps_arr = m_model->transform(input_arr);

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <xtensor/containers/xadapt.hpp>
-#include <xtensor/containers/xarray.hpp>
-#include <xtensor/views/xview.hpp>
+#include <xtensor/xadapt.hpp>
+#include <xtensor/xarray.hpp>
+#include <xtensor/xview.hpp>
 
 #include <vector>
 
@@ -29,14 +29,12 @@ public:
     size_t n_features = data.shape()[1];
     if(m_data_count == 0)
     {
-
       m_C00 = Eigen::MatrixXd::Zero(n_features, n_features);
       m_C0t = Eigen::MatrixXd::Zero(n_features, n_features);
     }
 
     auto x_t = xt::view(data, xt::range(0, data.shape()[0] - m_lag), xt::all());
     auto x_tau = xt::view(data, xt::range(m_lag, data.shape()[0]), xt::all());
-
     Eigen::Map<
         const Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>>
         mat_t(x_t.data(), x_t.shape()[0], x_t.shape()[1]);
@@ -53,14 +51,10 @@ public:
   {
     if(m_data_count < m_dims)
       return false;
-
     Eigen::MatrixXd c00 = m_C00 / m_data_count;
     Eigen::MatrixXd c0t = m_C0t / m_data_count;
-
     Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> ges(c0t, c00);
-
     m_transform = ges.eigenvectors().real();
-
     if(m_transform.cols() < m_dims)
       return false;
     m_transform = m_transform.leftCols(m_dims);
@@ -107,4 +101,6 @@ private:
   Eigen::MatrixXd m_C00;
   Eigen::MatrixXd m_C0t;
   Eigen::MatrixXd m_transform;
+};
+
 }
