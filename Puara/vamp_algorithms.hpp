@@ -3,9 +3,7 @@
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xview.hpp>
-
 #include <vector>
-
 #include <Eigen/Dense>
 
 namespace puara_gestures::algorithms

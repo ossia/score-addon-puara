@@ -1,10 +1,7 @@
 #pragma once
-
 #include "vamp_algorithms.hpp"
-
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-
 #include <vector>
 
 namespace puara_gestures::objects
