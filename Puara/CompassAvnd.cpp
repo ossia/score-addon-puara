@@ -1,11 +1,9 @@
 #include "CompassAvnd.hpp"
-
 #include <xtensor/xadapt.hpp>
 #include <xtensor/xarray.hpp>
-
 #include <cmath>
-
 #include <numbers>
+
 namespace puara_gestures::objects
 {
 
