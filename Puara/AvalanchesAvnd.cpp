@@ -7,7 +7,6 @@ void AvalanchesAvnd::operator()()
 {
   const auto& in_vec = inputs.input_array.value;
   const double time_bin_sec = inputs.time_bin;
-
   outputs.size.value.clear();
   outputs.duration.value.clear();
 
@@ -15,7 +14,6 @@ void AvalanchesAvnd::operator()()
   {
     return;
   }
-
   std::vector<int> event_indices;
   for(int i = 0; i < in_vec.size(); ++i)
   {
@@ -43,24 +41,20 @@ void AvalanchesAvnd::operator()()
 
     if(delta_samples <= max_iei_samples)
     {
-
       current_avalanche_size++;
     }
     else
     {
-
       const int avalanche_end_index = prev_event_index;
       const double duration_samples = avalanche_end_index - avalanche_start_index;
       const double duration_sec = duration_samples / m_sampling_rate;
 
       outputs.size.value.push_back(current_avalanche_size);
       outputs.duration.value.push_back(duration_sec);
-
       avalanche_start_index = current_event_index;
       current_avalanche_size = 1;
     }
   }
-
   const int final_avalanche_end_index = event_indices.back();
   const double final_duration_samples
       = final_avalanche_end_index - avalanche_start_index;

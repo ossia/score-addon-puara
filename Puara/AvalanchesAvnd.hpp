@@ -19,20 +19,16 @@ public:
   halp_meta(manual_url, "https://github.com/dav0dea/goofi-pipe")
   halp_meta(uuid, "268579f9-0848-4d31-9937-4904445fcf2e")
 
-  struct
+  struct ins
   {
-
     halp::val_port<"Input", std::vector<double>> input_array;
-
     halp::knob_f32<"Time Bin (s)", halp::range{0.0, 0.05, 0.008}> time_bin;
   } inputs;
 
-  struct
+  struct outs
   {
-
     halp_meta(name, "Size")
     halp::val_port<"Size", std::vector<double>> size;
-
     halp::val_port<"Duration (s)", std::vector<double>> duration;
   } outputs;
 
