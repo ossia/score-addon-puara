@@ -14,7 +14,9 @@ set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
 add_subdirectory(3rdparty/BioData SYSTEM)
+target_compile_features(BioData PRIVATE cxx_std_23)
 add_subdirectory(3rdparty/extras SYSTEM)
+target_compile_features(extras PRIVATE cxx_std_23)
 
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
