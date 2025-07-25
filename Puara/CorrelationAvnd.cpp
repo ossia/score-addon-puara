@@ -1,6 +1,8 @@
 #include "CorrelationAvnd.hpp"
+
 #include "statistics_algorithms.hpp"
-#include <xtensor/xadapt.hpp>
+
+#include <xtensor/containers/xadapt.hpp>
 
 namespace puara_gestures::objects
 {

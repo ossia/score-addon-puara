@@ -1,9 +1,9 @@
 #pragma once
 #include <boost/math/distributions/students_t.hpp>
 
-#include <xtensor/xarray.hpp>
-#include <xtensor/xmath.hpp>
-#include <xtensor/xview.hpp>
+#include <xtensor/containers/xarray.hpp>
+#include <xtensor/core/xmath.hpp>
+#include <xtensor/views/xview.hpp>
 
 #include <utility>
 #include <vector>
