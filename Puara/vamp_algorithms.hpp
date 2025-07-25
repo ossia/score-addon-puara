@@ -1,8 +1,8 @@
 #pragma once
 
-#include <xtensor/xadapt.hpp>
-#include <xtensor/xarray.hpp>
-#include <xtensor/xview.hpp>
+#include <xtensor/containers/xadapt.hpp>
+#include <xtensor/containers/xarray.hpp>
+#include <xtensor/views/xview.hpp>
 #include <vector>
 #include <Eigen/Dense>
 
