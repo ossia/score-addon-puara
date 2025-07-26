@@ -10,6 +10,8 @@ endif()
 
 project(score_addon_puara LANGUAGES CXX)
 
+find_package(Eigen3 REQUIRED)
+
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
@@ -65,12 +67,11 @@ target_include_directories(score_addon_puara
 )
 
 target_link_libraries(score_addon_puara
-  PRIVATE
+  PUBLIC
   BioData
   Eigen3::Eigen
   xtensor
 )
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
