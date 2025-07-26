@@ -61,7 +61,7 @@ target_sources(score_addon_puara
 target_link_libraries(score_addon_puara
   PUBLIC
   BioData
-  Eigen3::Eigen
+  Eigen
   xtensor
 )
 target_include_directories(score_addon_puara
