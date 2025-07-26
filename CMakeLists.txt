@@ -10,7 +10,6 @@ endif()
 
 project(score_addon_puara LANGUAGES CXX)
 
-find_package(Eigen3 REQUIRED)
 
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
