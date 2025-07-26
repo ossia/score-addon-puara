@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-include(FetchContent)
-FetchContent_Declare(xtl GIT_REPOSITORY https://github.com/xtensor-stack/xtl.git GIT_TAG 0.8.0)
-FetchContent_Declare(xsimd GIT_REPOSITORY https://github.com/xtensor-stack/xsimd.git GIT_TAG 13.2.0)
-FetchContent_Declare(xtensor GIT_REPOSITORY https://github.com/xtensor-stack/xtensor.git GIT_TAG 0.27.0)
-FetchContent_MakeAvailable(xtl xsimd xtensor)
-
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -63,13 +57,18 @@ target_sources(score_addon_puara
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
 )
-
+target_link_libraries(score_addon_puara
+  PUBLIC
+  BioData
+  Eigen3::Eigen
+  xtensor
+)
 target_include_directories(score_addon_puara
   PRIVATE
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
-target_link_libraries(score_addon_puara PUBLIC BioData xtensor)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
