@@ -10,11 +10,15 @@ endif()
 
 project(score_addon_puara LANGUAGES CXX)
 
+
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
 add_subdirectory(3rdparty/BioData SYSTEM)
+target_compile_features(BioData PRIVATE cxx_std_23)
 add_subdirectory(3rdparty/extras SYSTEM)
+target_compile_features(extras PRIVATE cxx_std_23)
+
 
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
@@ -60,8 +64,12 @@ target_include_directories(score_addon_puara
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
-target_link_libraries(score_addon_puara PUBLIC BioData)
 
+target_link_libraries(score_addon_puara
+  PUBLIC
+  BioData
+  Eigen3::Eigen
+)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -81,6 +89,16 @@ avnd_score_plugin_add(
   MAIN_CLASS LeakyIntegratorAvnd
   NAMESPACE puara_gestures::objects
 )
+
+
+avnd_score_plugin_add(BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/VAMPAvnd.hpp
+    Puara/VAMPAvnd.cpp
+  TARGET puara_vamp
+  MAIN_CLASS VAMPAvnd
+  NAMESPACE puara_gestures::objects)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
