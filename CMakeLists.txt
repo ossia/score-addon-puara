@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-project(score_addon_puara LANGUAGES CXX)
-
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -10,6 +8,7 @@ if(NOT TARGET score_plugin_avnd)
   return()
 endif()
 
+project(score_addon_puara LANGUAGES CXX)
 
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
@@ -58,19 +57,19 @@ target_sources(score_addon_puara
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
 )
-target_link_libraries(score_addon_puara
-  PUBLIC
-  BioData
-  Eigen
-  xtensor
-)
+
 target_include_directories(score_addon_puara
   PRIVATE
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
 
-
+target_link_libraries(score_addon_puara
+  PRIVATE
+  BioData
+  Eigen3::Eigen
+  xtensor
+)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
