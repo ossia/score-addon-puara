@@ -69,7 +69,6 @@ target_link_libraries(score_addon_puara
   PUBLIC
   BioData
   Eigen3::Eigen
-  xtensor
 )
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
