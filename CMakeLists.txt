@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
+
+include(FetchContent)
+
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -62,7 +65,7 @@ target_include_directories(score_addon_puara
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
-target_link_libraries(score_addon_puara PUBLIC BioData)
+target_link_libraries(score_addon_puara PUBLIC BioData xtensor)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -185,7 +188,15 @@ avnd_score_plugin_add(
   MAIN_CLASS Shake
   NAMESPACE puara_gestures::objects
 )
-
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/PowerBandEEGAvnd.hpp
+    Puara/PowerBandEEGAvnd.cpp
+  TARGET puara_powerband_eeg
+  MAIN_CLASS PowerBandEEGAvnd
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_finalize(
   BASE_TARGET score_addon_puara
   PLUGIN_VERSION 1
