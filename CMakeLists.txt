@@ -64,7 +64,7 @@ target_include_directories(score_addon_puara
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
-target_link_libraries(score_addon_puara PUBLIC BioData xtensor)
+target_link_libraries(score_addon_puara PUBLIC BioData)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
