@@ -2,11 +2,6 @@ cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 
 include(FetchContent)
-FetchContent_Declare(xtl GIT_REPOSITORY https://github.com/xtensor-stack/xtl.git GIT_TAG 0.7.5)
-FetchContent_Declare(xsimd GIT_REPOSITORY https://github.com/xtensor-stack/xsimd.git GIT_TAG 9.0.1)
-FetchContent_Declare(xtensor GIT_REPOSITORY https://github.com/xtensor-stack/xtensor.git GIT_TAG 0.24.6)
-FetchContent_MakeAvailable(xtl xsimd xtensor)
-
 
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
