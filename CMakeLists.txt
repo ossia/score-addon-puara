@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
+include(FetchContent)
+
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -93,6 +95,17 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
 )
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/PowerBandAvnd.hpp
+    Puara/PowerBandAvnd.cpp
+  TARGET puara_powerband
+  MAIN_CLASS PowerBandAvnd
+  NAMESPACE puara_gestures::objects
+)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
