@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 include(FetchContent)
-
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -64,7 +63,7 @@ target_include_directories(score_addon_puara
   3rdparty/puara-gestures/include/
   3rdparty/puara-gestures/3rdparty/
 )
-target_link_libraries(score_addon_puara PUBLIC BioData)
+target_link_libraries(score_addon_puara PUBLIC BioData )
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -89,23 +88,23 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/CorrelationAvnd.hpp
+    Puara/CorrelationAvnd.cpp
+  TARGET puara_correlation_avnd
+  MAIN_CLASS CorrelationAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/BioDataHeart.hpp
     Puara/BioDataHeart.cpp
   TARGET puara_heart
   MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
 )
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/PowerBandAvnd.hpp
-    Puara/PowerBandAvnd.cpp
-  TARGET puara_powerband
-  MAIN_CLASS PowerBandAvnd
-  NAMESPACE puara_gestures::objects
-)
-
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
