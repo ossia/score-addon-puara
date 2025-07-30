@@ -152,6 +152,16 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/AvalanchesAvnd.hpp
+    Puara/AvalanchesAvnd.cpp
+  TARGET avalanches_avnd
+  MAIN_CLASS AvalanchesAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/Roll.hpp
     Puara/Roll.cpp
   TARGET puara_roll
