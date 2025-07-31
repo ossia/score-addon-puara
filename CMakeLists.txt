@@ -86,14 +86,17 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
-
-avnd_score_plugin_add(BASE_TARGET score_addon_puara
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
   SOURCES
-    Puara/VAMPAvnd.hpp
-    Puara/VAMPAvnd.cpp
-  TARGET puara_vamp
-  MAIN_CLASS VAMPAvnd
-  NAMESPACE puara_gestures::objects)
+    Puara/WalkerAvnd.hpp
+    Puara/WalkerAvnd.cpp
+  TARGET puara_walker_avnd
+  MAIN_CLASS WalkerAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+
 
 
 avnd_score_plugin_add(
@@ -105,17 +108,6 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
 )
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/PowerBandAvnd.hpp
-    Puara/PowerBandAvnd.cpp
-  TARGET puara_powerband
-  MAIN_CLASS PowerBandAvnd
-  NAMESPACE puara_gestures::objects
-)
-
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -146,16 +138,6 @@ avnd_score_plugin_add(
     3rdparty/extras/PeakDetector.h
   TARGET puara_peak_detection
   MAIN_CLASS PeakDetection
-  NAMESPACE puara_gestures::objects
-)
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/AvalanchesAvnd.hpp
-    Puara/AvalanchesAvnd.cpp
-  TARGET avalanches_avnd
-  MAIN_CLASS AvalanchesAvnd
   NAMESPACE puara_gestures::objects
 )
 
