@@ -1,5 +1,7 @@
 #include "TuningMatrixAvnd.hpp"
+
 #include "tuning_algorithms.hpp"
+
 #include <xtensor/containers/xadapt.hpp>
 #include <xtensor/core/xmath.hpp>
 
