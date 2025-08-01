@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-include(FetchContent)
-
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -16,9 +14,7 @@ set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
 add_subdirectory(3rdparty/BioData SYSTEM)
-target_compile_features(BioData PRIVATE cxx_std_23)
 add_subdirectory(3rdparty/extras SYSTEM)
-target_compile_features(extras PRIVATE cxx_std_23)
 
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
@@ -57,8 +53,8 @@ target_sources(score_addon_puara
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
+  Puara/vamp_algorithms.hpp
 )
-
 target_include_directories(score_addon_puara
   PRIVATE
   3rdparty/puara-gestures/include/
@@ -75,6 +71,25 @@ avnd_score_plugin_add(
   MAIN_CLASS GestureRecognizer
   NAMESPACE puara_gestures::objects
 )
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/PowerBandAvnd.hpp
+    Puara/PowerBandAvnd.cpp
+  TARGET puara_powerband
+  MAIN_CLASS PowerBandAvnd
+  NAMESPACE puara_gestures::objects
+)
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/CorrelationAvnd.hpp
+    Puara/CorrelationAvnd.cpp
+  TARGET puara_correlation_avnd
+  MAIN_CLASS CorrelationAvnd
+  NAMESPACE puara_gestures::objects
+)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -85,17 +100,6 @@ avnd_score_plugin_add(
   MAIN_CLASS LeakyIntegratorAvnd
   NAMESPACE puara_gestures::objects
 )
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/WalkerAvnd.hpp
-    Puara/WalkerAvnd.cpp
-  TARGET puara_walker_avnd
-  MAIN_CLASS WalkerAvnd
-  NAMESPACE puara_gestures::objects
-)
-
 
 
 
@@ -126,6 +130,16 @@ avnd_score_plugin_add(
     Puara/BioDataSkinConductance.cpp
   TARGET puara_skin_conductance
   MAIN_CLASS BioData_Skin_Conductance
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/VAMPAvnd.hpp
+    Puara/VAMPAvnd.cpp
+  TARGET vamp_avnd
+  MAIN_CLASS VAMPAvnd
   NAMESPACE puara_gestures::objects
 )
 
@@ -181,6 +195,15 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/PCAAvnd.hpp
+    Puara/PCAAvnd.cpp
+  TARGET pca_avnd
+  MAIN_CLASS PCAAvnd
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
