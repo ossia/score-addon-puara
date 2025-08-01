@@ -89,12 +89,13 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/BioDataHeart.hpp
-    Puara/BioDataHeart.cpp
-  TARGET puara_heart
-  MAIN_CLASS BioData_Heart
+    Puara/WalkerAvnd.hpp
+    Puara/WalkerAvnd.cpp
+  TARGET puara_walker_avnd
+  MAIN_CLASS WalkerAvnd
   NAMESPACE puara_gestures::objects
 )
+
 
 
 avnd_score_plugin_add(
@@ -104,9 +105,18 @@ avnd_score_plugin_add(
     Puara/CorrelationAvnd.cpp
   TARGET puara_correlation_avnd
   MAIN_CLASS CorrelationAvnd
+
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/BioDataHeart.hpp
+    Puara/BioDataHeart.cpp
+  TARGET puara_heart
+  MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
 )
-
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
