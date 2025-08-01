@@ -89,6 +89,18 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/WalkerAvnd.hpp
+    Puara/WalkerAvnd.cpp
+  TARGET puara_walker_avnd
+  MAIN_CLASS WalkerAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/Binarizer.hpp
     Puara/Binarizer.cpp
   TARGET puara_binarizer
@@ -135,16 +147,6 @@ avnd_score_plugin_add(
     3rdparty/extras/PeakDetector.h
   TARGET puara_peak_detection
   MAIN_CLASS PeakDetection
-  NAMESPACE puara_gestures::objects
-)
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/AvalanchesAvnd.hpp
-    Puara/AvalanchesAvnd.cpp
-  TARGET avalanches_avnd
-  MAIN_CLASS AvalanchesAvnd
   NAMESPACE puara_gestures::objects
 )
 
