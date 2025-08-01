@@ -89,12 +89,23 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+
     Puara/ERPAvnd.hpp
     Puara/ERPAvnd.cpp
   TARGET puara_erp_avnd
   MAIN_CLASS ERPAvnd
   NAMESPACE puara_gestures::objects
 )
+
+=======
+    Puara/WalkerAvnd.hpp
+    Puara/WalkerAvnd.cpp
+  TARGET puara_walker_avnd
+  MAIN_CLASS WalkerAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+
 
 
 
