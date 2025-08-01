@@ -97,18 +97,6 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
-=======
-    Puara/WalkerAvnd.hpp
-    Puara/WalkerAvnd.cpp
-  TARGET puara_walker_avnd
-  MAIN_CLASS WalkerAvnd
-  NAMESPACE puara_gestures::objects
-)
-
-
-
-
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
