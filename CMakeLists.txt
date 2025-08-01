@@ -93,16 +93,15 @@ avnd_score_plugin_add(
   MAIN_CLASS AvalanchesAvnd
   NAMESPACE puara_gestures::objects
 )
-avnd_score_plugin_add(BASE_TARGET score_addon_puara
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
   SOURCES
-    Puara/VAMPAvnd.hpp
-    Puara/VAMPAvnd.cpp
-  TARGET puara_vamp
-  MAIN_CLASS VAMPAvnd
-  NAMESPACE puara_gestures::objects)
-
-
-
+    Puara/WalkerAvnd.hpp
+    Puara/WalkerAvnd.cpp
+  TARGET puara_walker_avnd
+  MAIN_CLASS WalkerAvnd
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
