@@ -57,6 +57,7 @@ target_sources(score_addon_puara
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
+  Puara/tuning_algorithms.hpp
 )
 
 target_include_directories(score_addon_puara
@@ -86,19 +87,24 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
+
+avnd_score_plugin_add(BASE_TARGET score_addon_puara
   SOURCES
-    Puara/WalkerAvnd.hpp
-    Puara/WalkerAvnd.cpp
-  TARGET puara_walker_avnd
-  MAIN_CLASS WalkerAvnd
-  NAMESPACE puara_gestures::objects
-)
+    Puara/TuningReductionAvnd.hpp
+    Puara/TuningReductionAvnd.cpp
+  TARGET puara_tuningreduction
+  MAIN_CLASS TuningReductionAvnd
+  NAMESPACE puara_gestures::objects)
 
 
 
-
+avnd_score_plugin_add(BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/TuningMatrixAvnd.hpp
+    Puara/TuningMatrixAvnd.cpp
+  TARGET puara_tuningmatrix
+  MAIN_CLASS TuningMatrixAvnd
+  NAMESPACE puara_gestures::objects)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
