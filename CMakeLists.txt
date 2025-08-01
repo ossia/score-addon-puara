@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 include(FetchContent)
-
 if(NOT TARGET score_lib_base)
   include(ScoreExternalAddon)
 endif()
@@ -79,13 +78,21 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/LeakyIntegratorAvnd.hpp
-    Puara/LeakyIntegratorAvnd.cpp
-  TARGET puara_leaky_integrator
-  MAIN_CLASS LeakyIntegratorAvnd
+    Puara/PowerBandAvnd.hpp
+    Puara/PowerBandAvnd.cpp
+  TARGET puara_powerband
+  MAIN_CLASS PowerBandAvnd
   NAMESPACE puara_gestures::objects
 )
-
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/AvalanchesAvnd.hpp
+    Puara/AvalanchesAvnd.cpp
+  TARGET avalanches_avnd
+  MAIN_CLASS AvalanchesAvnd
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -96,8 +103,25 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/LeakyIntegratorAvnd.hpp
+    Puara/LeakyIntegratorAvnd.cpp
+  TARGET puara_leaky_integrator
+  MAIN_CLASS LeakyIntegratorAvnd
+  NAMESPACE puara_gestures::objects
+)
 
-
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/CompassAvnd.hpp
+    Puara/CompassAvnd.cpp
+  TARGET puara_compass_avnd
+  MAIN_CLASS CompassAvnd
+  NAMESPACE puara_gestures::objects
+)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
