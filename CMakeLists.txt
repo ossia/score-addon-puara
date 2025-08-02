@@ -116,6 +116,17 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/WalkerAvnd.hpp
+    Puara/WalkerAvnd.cpp
+  TARGET walker_avnd
+  MAIN_CLASS WalkerAvnd
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/BioDataSkinConductance.hpp
     Puara/BioDataSkinConductance.cpp
   TARGET puara_skin_conductance
