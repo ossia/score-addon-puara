@@ -24,6 +24,7 @@ avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
 )
 
+
 target_sources(score_addon_puara
   PRIVATE
 
