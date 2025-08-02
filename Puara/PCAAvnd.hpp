@@ -2,7 +2,10 @@
 
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
+
 #include <vector>
+
+#include <Eigen/Dense>
 
 namespace puara_gestures::objects
 {
@@ -34,6 +37,14 @@ public:
 private:
   std::vector<double> m_principal_components;
   bool m_is_computed{false};
+
+  mutable Eigen::MatrixXd m_data_matrix;
+  mutable Eigen::MatrixXd m_centered_data;
+  mutable Eigen::MatrixXd m_covariance;
+  mutable Eigen::MatrixXd m_components;
+  mutable Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> m_eigen_solver;
+  mutable int m_cached_n_samples{0};
+  mutable int m_cached_n_features{0};
 };
 
 }
