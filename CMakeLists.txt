@@ -24,6 +24,7 @@ avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
 )
 
+
 target_sources(score_addon_puara
   PRIVATE
 
@@ -97,6 +98,16 @@ avnd_score_plugin_add(
 )
 
 
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/CorrelationAvnd.hpp
+    Puara/CorrelationAvnd.cpp
+  TARGET puara_correlation_avnd
+  MAIN_CLASS CorrelationAvnd
+  NAMESPACE puara_gestures::objects
+)
 
 
 avnd_score_plugin_add(
