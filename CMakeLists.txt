@@ -106,7 +106,8 @@ avnd_score_plugin_add(
     Puara/CorrelationAvnd.cpp
   TARGET puara_correlation_avnd
   MAIN_CLASS CorrelationAvnd
-
+  NAMESPACE puara_gestures::objects
+)
 
 
 avnd_score_plugin_add(
