@@ -133,7 +133,15 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Skin_Conductance
   NAMESPACE puara_gestures::objects
 )
-
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/ClusteringAvnd.hpp
+    Puara/ClusteringAvnd.cpp
+  TARGET ClusteringAvnd
+  MAIN_CLASS ClusteringAvnd
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
