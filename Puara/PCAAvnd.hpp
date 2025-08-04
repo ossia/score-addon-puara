@@ -14,7 +14,7 @@ class PCAAvnd
 {
 public:
   halp_meta(name, "PCA")
-  halp_meta(category, "ML/Puara")
+  halp_meta(category, "AI/Data processing")
   halp_meta(c_name, "puara_pca_avnd")
   halp_meta(description, "Performs Principal Component Analysis on a dataset.")
   halp_meta(uuid, "0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d")

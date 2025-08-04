@@ -12,7 +12,7 @@ class LeakyIntegrator
 {
 public:
   halp_meta(name, "Leaky Integrator")
-  halp_meta(category, "Gestures")
+  halp_meta(category, "Mappings/Filtering")
   halp_meta(c_name, "puara_leaky_integrator")
   halp_meta(uuid, "ed55a080-b821-4977-89b6-4697cb8178e7")
 

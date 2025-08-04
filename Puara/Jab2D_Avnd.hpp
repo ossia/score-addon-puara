@@ -12,7 +12,7 @@ class Jab2D_Avnd
 {
 public:
   halp_meta(name, "Jab 2D")
-  halp_meta(category, "Gestures")
+  halp_meta(category, "Analysis/Gestures")
   halp_meta(c_name, "puara_jab_2d_avnd")
   halp_meta(
       description, "Detects jab gestures from two axes of acceleration data (X and Y).")

@@ -15,7 +15,7 @@ class ERPAvnd
 {
 public:
   halp_meta(name, "ERP")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Biodata")
   halp_meta(c_name, "puara_erp_avnd")
   halp_meta(
       description,

@@ -13,7 +13,7 @@ class BioData_Heart
 {
 public:
   halp_meta(name, "Heart")
-  halp_meta(category, "Gestures/Biodata")
+  halp_meta(category, "Analysis/Biodata")
   halp_meta(c_name, "BioData_Heart")
   halp_meta(
       author,

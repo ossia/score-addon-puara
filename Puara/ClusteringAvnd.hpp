@@ -12,7 +12,7 @@ class ClusteringAvnd
 {
 public:
   halp_meta(name, "Clustering")
-  halp_meta(category, "ML/Puara")
+  halp_meta(category, "AI/Data processing")
   halp_meta(c_name, "puara_clustering_avnd")
   halp_meta(description, "Performs KMeans or Agglomerative clustering on input data.")
   halp_meta(uuid, "8fa7709c-4232-47b8-82be-4889ae08656d")

@@ -13,7 +13,7 @@ class VAMPAvnd
 {
 public:
   halp_meta(name, "VAMP")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "puara_vamp_avnd")
   halp_meta(description, "Finds slowest components in a time-series using VAMP.")
   halp_meta(uuid, "3ebf910a-330f-43d8-8958-287b6f191c22")
