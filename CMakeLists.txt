@@ -84,15 +84,12 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/LeakyIntegratorAvnd.hpp
-    Puara/LeakyIntegratorAvnd.cpp
-  TARGET puara_leaky_integrator
-  MAIN_CLASS LeakyIntegratorAvnd
+    Puara/ERPAvnd.hpp
+    Puara/ERPAvnd.cpp
+  TARGET puara_erp_avnd
+  MAIN_CLASS ERPAvnd
   NAMESPACE puara_gestures::objects
 )
-
-
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
