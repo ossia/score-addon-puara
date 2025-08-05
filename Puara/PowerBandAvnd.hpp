@@ -11,7 +11,7 @@ class PowerBandAvnd
 {
 public:
   halp_meta(name, "Power Band")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Data processing")
   halp_meta(c_name, "puara_powerband_avnd")
   halp_meta(description, "Computes the power within a specific frequency band from a PSD.")
   halp_meta(manual_url, "https://github.com/dav0dea/goofi-pipe")

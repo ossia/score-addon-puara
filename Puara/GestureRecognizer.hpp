@@ -13,7 +13,7 @@ class GestureRecognizer
 {
 public:
   halp_meta(name, "Gesture recognizer")
-  halp_meta(category, "Control/Gestures")
+  halp_meta(category, "Analysis/Gestures")
   halp_meta(c_name, "puara_gestures")
   halp_meta(
       author,

@@ -13,7 +13,7 @@ class LeakyIntegratorAvnd
 {
 public:
   halp_meta(name, "Leaky Integrator")
-  halp_meta(category, "Utilities/Puara")
+  halp_meta(category, "Mappings/Filtering")
   halp_meta(c_name, "puara_leaky_integrator_avnd")
   halp_meta(
       description,

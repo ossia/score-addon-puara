@@ -13,7 +13,7 @@ class AvalanchesAvnd
 {
 public:
   halp_meta(name, "Avalanches")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "puara_avalanches_avnd")
   halp_meta(description, "Detects avalanches in a stream of binarized events.")
   halp_meta(manual_url, "https://github.com/dav0dea/goofi-pipe")

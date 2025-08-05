@@ -11,7 +11,7 @@ class Jab3D_Avnd
 {
 public:
   halp_meta(name, "Jab 3D")
-  halp_meta(category, "Gestures")
+  halp_meta(category, "Analysis/Gestures")
   halp_meta(c_name, "puara_jab_3d")
   halp_meta(
       description,
