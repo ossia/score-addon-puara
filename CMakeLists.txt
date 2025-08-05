@@ -14,7 +14,10 @@ set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
 add_subdirectory(3rdparty/BioData SYSTEM)
+target_compile_features(BioData PRIVATE cxx_std_23)
 add_subdirectory(3rdparty/extras SYSTEM)
+target_compile_features(extras PRIVATE cxx_std_23)
+
 
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
@@ -42,10 +45,13 @@ target_sources(score_addon_puara
   3rdparty/puara-gestures/include/puara/utils/smooth.h
   3rdparty/puara-gestures/include/puara/utils/threshold.h
   3rdparty/puara-gestures/include/puara/utils/wrap.h
+
   3rdparty/puara-gestures/include/puara/structs.h
   3rdparty/puara-gestures/include/puara/gestures.h
   3rdparty/puara-gestures/include/puara/utils.h
+
   3rdparty/puara-gestures/src/puara_gestures.cpp
+
   3rdparty/extras/PeakDetector.h
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/helpers.h
@@ -191,22 +197,20 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/CompassAvnd.hpp
-    Puara/CompassAvnd.cpp
-  TARGET puara_compass_avnd
-  MAIN_CLASS CompassAvnd
-  NAMESPACE puara_gestures::objects
-)
-
-
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
     Puara/Jab3D_Avnd.hpp
     Puara/Jab3D_Avnd.cpp
   TARGET puara_jab_3d_avnd
   MAIN_CLASS Jab3D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/CompassAvnd.hpp
+    Puara/CompassAvnd.cpp
+  TARGET puara_compass_avnd
+  MAIN_CLASS CompassAvnd
   NAMESPACE puara_gestures::objects
 )
 
