@@ -12,7 +12,7 @@ class Shake
 {
 public:
   halp_meta(name, "Shake")
-  halp_meta(category, "Gestures")
+  halp_meta(category, "Analysis/Gestures")
   halp_meta(c_name, "puara_shake")
   halp_meta(
       description,

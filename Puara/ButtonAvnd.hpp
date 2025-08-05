@@ -10,7 +10,7 @@ class ButtonAvnd
 {
 public:
   halp_meta(name, "Button Processor")
-  halp_meta(category, "Gestures")
+  halp_meta(category, "Analysis/Gestures")
   halp_meta(c_name, "puara_button_avnd")
   halp_meta(
       description,

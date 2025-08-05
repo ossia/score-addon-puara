@@ -11,7 +11,7 @@ class Tilt
 {
 public:
   halp_meta(name, "Tilt")
-  halp_meta(category, "Gestures")
+  halp_meta(category, "Analysis/Gestures")
   halp_meta(c_name, "puara_tilt")
   halp_meta(
       description,

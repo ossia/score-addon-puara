@@ -15,7 +15,7 @@ class PeakDetection
 {
 public:
   halp_meta(name, "Peak detection")
-  halp_meta(category, "Data analysis")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "Peak_detection")
   halp_meta(author, "Luana Belinsky")
   halp_meta(uuid, "031bc209-5097-44ac-99c1-ade065a0c02d")
