@@ -51,13 +51,10 @@ target_sources(score_addon_puara
   3rdparty/puara-gestures/include/puara/utils/smooth.h
   3rdparty/puara-gestures/include/puara/utils/threshold.h
   3rdparty/puara-gestures/include/puara/utils/wrap.h
-
   3rdparty/puara-gestures/include/puara/structs.h
   3rdparty/puara-gestures/include/puara/gestures.h
   3rdparty/puara-gestures/include/puara/utils.h
-
   3rdparty/puara-gestures/src/puara_gestures.cpp
-
   3rdparty/extras/PeakDetector.h
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/helpers.h
