@@ -16,6 +16,7 @@ set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 add_subdirectory(3rdparty/BioData SYSTEM)
 add_subdirectory(3rdparty/extras SYSTEM)
 
+
 avnd_score_plugin_init(
   BASE_TARGET score_addon_puara
 )
@@ -198,6 +199,16 @@ avnd_score_plugin_add(
     Puara/Jab3D_Avnd.cpp
   TARGET puara_jab_3d_avnd
   MAIN_CLASS Jab3D_Avnd
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/CompassAvnd.hpp
+    Puara/CompassAvnd.cpp
+  TARGET puara_compass_avnd
+  MAIN_CLASS CompassAvnd
   NAMESPACE puara_gestures::objects
 )
 
