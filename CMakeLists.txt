@@ -192,6 +192,16 @@ avnd_score_plugin_add(
 )
 
 
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Binarizer.hpp
+    Puara/Binarizer.cpp
+  TARGET puara_binarizer
+  MAIN_CLASS Binarizer
+  NAMESPACE puara_gestures::objects
+)
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
