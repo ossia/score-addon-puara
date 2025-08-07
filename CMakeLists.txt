@@ -56,6 +56,7 @@ target_sources(score_addon_puara
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
   Puara/vamp_algorithms.hpp
+  Puara/tuning_algorithms.hpp
 )
 target_include_directories(score_addon_puara
   PRIVATE
@@ -83,15 +84,17 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
+
+avnd_score_plugin_add(BASE_TARGET score_addon_puara
   SOURCES
+
     Puara/ERPAvnd.hpp
     Puara/ERPAvnd.cpp
   TARGET puara_erp_avnd
   MAIN_CLASS ERPAvnd
   NAMESPACE puara_gestures::objects
 )
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -101,6 +104,26 @@ avnd_score_plugin_add(
   MAIN_CLASS CorrelationAvnd
   NAMESPACE puara_gestures::objects
 )
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/TuningReductionAvnd.hpp
+    Puara/TuningReductionAvnd.cpp
+  TARGET puara_tuningreduction
+  MAIN_CLASS TuningReductionAvnd
+  NAMESPACE puara_gestures::objects)
+
+
+
+
+avnd_score_plugin_add(BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/TuningMatrixAvnd.hpp
+    Puara/TuningMatrixAvnd.cpp
+  TARGET puara_tuningmatrix
+  MAIN_CLASS TuningMatrixAvnd
+  NAMESPACE puara_gestures::objects)
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
@@ -131,7 +154,6 @@ avnd_score_plugin_add(
   MAIN_CLASS WalkerAvnd
   NAMESPACE puara_gestures::objects
 )
-
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
