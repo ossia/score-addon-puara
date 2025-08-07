@@ -56,6 +56,7 @@ target_sources(score_addon_puara
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
   Puara/vamp_algorithms.hpp
+  Puara/statistics_algorithms.hpp
 )
 target_include_directories(score_addon_puara
   PRIVATE
