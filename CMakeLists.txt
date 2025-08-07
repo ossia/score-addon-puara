@@ -222,7 +222,6 @@ avnd_score_plugin_add(
   MAIN_CLASS Jab3D_Avnd
   NAMESPACE puara_gestures::objects
 )
-
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
@@ -240,6 +239,15 @@ avnd_score_plugin_add(
     Puara/PCAAvnd.cpp
   TARGET pca_avnd
   MAIN_CLASS PCAAvnd
+  NAMESPACE puara_gestures::objects
+)
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/PowerBandEEGAvnd.hpp
+    Puara/PowerBandEEGAvnd.cpp
+  TARGET puara_powerband_eeg
+  MAIN_CLASS PowerBandEEGAvnd
   NAMESPACE puara_gestures::objects
 )
 
