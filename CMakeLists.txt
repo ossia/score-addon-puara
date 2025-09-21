@@ -13,6 +13,10 @@ project(score_addon_puara LANGUAGES CXX)
 set(PUARA_GESTURES_ENABLE_TESTING OFF)
 set(PUARA_GESTURES_ENABLE_STANDALONE OFF)
 
+if(EXISTS 3rdparty/puara-gestures/3rdparty/boost)
+  file(REMOVE_RECURSE 3rdparty/puara-gestures/3rdparty/boost)
+endif()
+
 add_subdirectory(3rdparty/BioData SYSTEM)
 add_subdirectory(3rdparty/extras SYSTEM)
 
