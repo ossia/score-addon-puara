@@ -64,9 +64,11 @@ target_sources(score_addon_puara
 )
 target_include_directories(score_addon_puara
   PRIVATE
-  3rdparty/puara-gestures/include/
-  3rdparty/puara-gestures/3rdparty/
+    3rdparty/puara-gestures/include/
+    3rdparty/puara-gestures/3rdparty/
+    "${3RDPARTY_FOLDER}/eigen"
 )
+
 target_link_libraries(score_addon_puara PUBLIC BioData)
 
 avnd_score_plugin_add(
@@ -116,6 +118,16 @@ avnd_score_plugin_add(
   MAIN_CLASS BioData_Heart
   NAMESPACE puara_gestures::objects
 )
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Calibration.hpp
+    Puara/Calibration.cpp
+  TARGET puara_calibration
+  MAIN_CLASS Calibration
+  NAMESPACE puara_gestures::objects
+)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
