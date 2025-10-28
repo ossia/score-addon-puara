@@ -3,32 +3,53 @@
 namespace puara_gestures::objects
 {
 
-PeakDetector detector(0.5, PEAK_MAX);
+void PeakDetection::update_params(float trig, float reload, float fallback)
+{
+  for (auto& d : det)
+  {
+    d.triggerThreshold(trig);
+    d.reloadThreshold(reload);
+    d.fallbackTolerance(fallback);
+  }
+}
 
 void PeakDetection::prepare(halp::setup info)
 {
-  detector.reloadThreshold(0.2);
-  detector.fallbackTolerance(0.1);
   setup = info;
-};
 
-void PeakDetection::operator()(halp::tick t)
+  // Initialize watchers to current UI state
+  trig_watch.last     = inputs.trig_thresh;  trig_watch.first = false;
+  reload_watch.last   = inputs.reload_thresh;reload_watch.first = false;
+  fallback_watch.last = inputs.fallback_tol; fallback_watch.first = false;
+
+  update_params(inputs.trig_thresh, inputs.reload_thresh, inputs.fallback_tol);
+}
+
+void PeakDetection::operator()(halp::tick /*t*/)
 {
-  const double period = t.frames / setup.rate;
-  // time since last called
-  //TODO: works with toggle but otherwise loses some peaks
-  //(keep value until next ossia sampling?) is it the value display?
+  // Update params when changed 
+  bool params_changed = false;
 
-  detector.mode(inputs.mode.value);
+  if (trig_watch.changed(inputs.trig_thresh))   params_changed = true;
+  if (reload_watch.changed(inputs.reload_thresh)) params_changed = true;
+  if (fallback_watch.changed(inputs.fallback_tol)) params_changed = true;
 
-  float value = inputs.peakDetection_signal;
-  bool peakDetected = detector.put(value);
+  if (params_changed)
+    update_params(inputs.trig_thresh, inputs.reload_thresh, inputs.fallback_tol);
 
-  if(peakDetected)
-  {
-    toggle = !toggle;
-  }
+  const float v = inputs.peakDetection_signal;
 
-  outputs.peak = toggle;
+  // Compute each detector’s output
+  const bool rising  = det[PEAK_RISING ].put(v);
+  const bool falling = det[PEAK_FALLING].put(v);
+  const bool pmax    = det[PEAK_MAX    ].put(v);
+  const bool pmin    = det[PEAK_MIN    ].put(v);
+
+  // Output
+  outputs.peak_rising  = rising;
+  outputs.peak_falling = falling;
+  outputs.peak_max     = pmax;
+  outputs.peak_min     = pmin;
 }
-}
+
+} // namespace
