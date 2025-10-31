@@ -6,36 +6,11 @@
 #include <halp/audio.hpp>
 #include <halp/controls.hpp>
 #include <halp/meta.hpp>
-#include <halp/controls.enums.hpp>
 #include <puara/gestures.h>
-
-// data_port struct to include descriptions
-namespace halp {
-template <static_string lit, static_string desc, typename T>
-struct data_port : val_port<lit, T>
-{
-  using base_t = val_port<lit, T>;
-  using base_t::operator=;   
-
-  static clang_buggy_consteval auto description() { return std::string_view{desc.value}; }
-};
-} // namespace halp
+#include "halp_utils.hpp"
 
 namespace puara_gestures::objects
 {
-
-// parameter watcher to trigger when a parameter is changed
-template<typename T> 
-struct ParameterWatcher { 
-  T last{}; 
-  bool first = true; 
-  bool changed(const T& current) { 
-    if (first || current != last) { 
-      last = current; first = false; return true; 
-    } return false; 
-  } 
-};
-
 // peak detector
 class PeakDetection
 {
@@ -121,9 +96,9 @@ private:
 
   void update_params(float trig, float reload, float fallback);
 
-  ParameterWatcher<float> trig_watch;
-  ParameterWatcher<float> reload_watch;
-  ParameterWatcher<float> fallback_watch;
+  halp::ParameterWatcher<float> trig_watch;
+  halp::ParameterWatcher<float> reload_watch;
+  halp::ParameterWatcher<float> fallback_watch;
 
   
 };

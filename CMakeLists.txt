@@ -55,6 +55,7 @@ target_sources(score_addon_puara
 
   3rdparty/puara-gestures/src/puara_gestures.cpp
 
+  Puara/halp_utils.hpp
   3rdparty/extras/PeakDetector.h
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/helpers.h
