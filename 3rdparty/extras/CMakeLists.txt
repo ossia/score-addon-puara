@@ -8,5 +8,7 @@ add_library(extras
   PeakDetector.h
   helpers.cpp
   helpers.h
+  Normalizer.cpp
+  Normalizer.h
   EMA.h
 )
