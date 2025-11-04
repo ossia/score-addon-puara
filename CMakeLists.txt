@@ -60,8 +60,6 @@ target_sources(score_addon_puara
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/Normalizer.h
   3rdparty/extras/Normalizer.cpp
-  3rdparty/extras/Normalizer.h
-  3rdparty/extras/Normalizer.cpp
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
   3rdparty/extras/EMA.h
@@ -132,17 +130,6 @@ avnd_score_plugin_add(
   MAIN_CLASS Normalization
   NAMESPACE puara_gestures::objects
 )
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
-    Puara/Smoother.hpp
-    Puara/Smoother.cpp
-  TARGET smoother
-  MAIN_CLASS Smoother
-  NAMESPACE puara_gestures::objects
-)
-
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
