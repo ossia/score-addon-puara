@@ -60,6 +60,8 @@ target_sources(score_addon_puara
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/Normalizer.h
   3rdparty/extras/Normalizer.cpp
+  3rdparty/extras/Normalizer.h
+  3rdparty/extras/Normalizer.cpp
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
   3rdparty/extras/EMA.h
