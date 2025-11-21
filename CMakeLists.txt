@@ -208,6 +208,17 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/RateOfChange.hpp
+    Puara/RateOfChange.cpp
+  TARGET puara_rate_of_change
+  MAIN_CLASS RateOfChange
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/Roll.hpp
     Puara/Roll.cpp
   TARGET puara_roll
