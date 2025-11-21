@@ -11,4 +11,8 @@ add_library(extras
   Normalizer.cpp
   Normalizer.h
   EMA.h
+  MinMaxScaler.cpp
+  MinMaxScaler.h
+  QuantileScaler.cpp
+  QuantileScaler.h
 )
