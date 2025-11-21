@@ -120,6 +120,17 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/Smoother.hpp
+    Puara/Smoother.cpp
+  TARGET smoother
+  MAIN_CLASS Smoother
+  NAMESPACE puara_gestures::objects
+)
+
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/ButtonAvnd.hpp
     Puara/ButtonAvnd.cpp
   TARGET puara_button_avnd
