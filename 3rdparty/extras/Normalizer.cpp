@@ -1,11 +1,11 @@
 /*
  * Normalizer.cpp
  *
- * Adapté de : 
+ * Adapté de :
  * Plaquette (c) 2022 Sofian Audry        :: info(@)sofianaudry(.)com
  *
  * Adaptation par Luana Belinsky 2025
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,87 +21,111 @@
  */
 
 #include "Normalizer.h"
+#include "EMA.h"
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
-// ---- Constructors -----//
+// ---- Constructors ----- //
 
 Normalizer::Normalizer(float targetMean, float targetStd)
   : _infinite(true)
   , _tau_s(1.0)
   , _targetMean(targetMean)
-  , _targetStd (std::fabs(targetStd))
-  , _reseed(true)  // start infinite mode seeded by first sample
+  , _targetStd(std::fabs(targetStd))
+  , _doClamp(false)
+  , _clampNSig(0.0f)
+  , _m1(0.0f)
+  , _m2(0.0f)
+  , _y(targetMean)
+  , _n(0)
 {
   init_states();
   clamp(kDefaultClampNSigmas);
 }
 
-Normalizer::Normalizer(double timeWindowSeconds, float targetMean, float targetStd)
+Normalizer::Normalizer(double timeWindowSeconds,
+                       float targetMean,
+                       float targetStd)
   : _infinite(timeWindowSeconds <= 0.0)
   , _tau_s(_infinite ? 1.0 : timeWindowSeconds)
   , _targetMean(targetMean)
-  , _targetStd (std::fabs(targetStd))
-  , _reseed(_infinite)  // reseed from first sample if infinite
+  , _targetStd(std::fabs(targetStd))
+  , _doClamp(false)
+  , _clampNSig(0.0f)
+  , _m1(0.0f)
+  , _m2(0.0f)
+  , _y(targetMean)
+  , _n(0)
 {
   init_states();
   clamp(kDefaultClampNSigmas);
 }
 
-// ---- Time window / decay control ------//
+// ---- Time window / decay control ------ //
 
 void Normalizer::timeWindow(double seconds)
 {
   const bool was_infinite = _infinite;
+
   _infinite = (seconds <= 0.0);
   _tau_s    = _infinite ? 1.0 : seconds;
 
-  // EMA → infinite: forget prior mass and reseed from the next sample
+  // Switching from finite -> infinite:
+  // forget previous EMA state and reseed from next sample.
   if (!was_infinite && _infinite) {
-    _n      = 0;
-    _reseed = true;
+    _n = 0;
+    init_states();
   }
 }
 
 double Normalizer::timeWindow() const { return _infinite ? 0.0 : _tau_s; }
 bool   Normalizer::timeWindowIsInfinite() const { return _infinite; }
 
-// ---- Reset -----//
+// ---- Reset ----- //
 
 void Normalizer::reset()
 {
-  // reset moments; for infinite, reseed from first sample
-  _n      = 0;
-  _reseed = _infinite;
+  _n = 0;
   init_states();
 }
 
-// ---- Targets ------//
+// ---- Targets ------ //
 
 void  Normalizer::targetMean(float m)   { _targetMean = m; }
-float Normalizer::targetMean()    const { return _targetMean; }
+float Normalizer::targetMean() const   { return _targetMean; }
 
 void  Normalizer::targetStdDev(float s) { _targetStd = std::fabs(s); }
-float Normalizer::targetStdDev()  const { return _targetStd; }
+float Normalizer::targetStdDev() const { return _targetStd; }
 
-// ---- Inspectors -----//
+// ---- Inspectors ----- //
 
-float Normalizer::mean()     const { return _m1; }
+float Normalizer::mean() const { return _m1; }
+
 float Normalizer::variance() const
 {
   const float v = _m2 - _m1 * _m1;
   return (v > 0.0f) ? v : 0.0f;
 }
-float Normalizer::stddev()   const { return std::sqrt(variance()); }
-float Normalizer::value()    const { return _y; }
 
-// thresholds around target distribution
-float Normalizer::lowOutlierThreshold (float nStdDev) const
-{ return _targetMean - std::fabs(nStdDev) * _targetStd; }
+float Normalizer::stddev() const
+{
+  const float v = variance();
+  return (v > 0.0f) ? std::sqrt(v) : 0.0f;
+}
+
+float Normalizer::value() const { return _y; }
+
+float Normalizer::lowOutlierThreshold(float nStdDev) const
+{
+  return _targetMean - std::fabs(nStdDev) * _targetStd;
+}
 
 float Normalizer::highOutlierThreshold(float nStdDev) const
-{ return _targetMean + std::fabs(nStdDev) * _targetStd; }
+{
+  return _targetMean + std::fabs(nStdDev) * _targetStd;
+}
 
 bool Normalizer::isOutlier(float value, float nStdDev) const
 {
@@ -109,82 +133,67 @@ bool Normalizer::isOutlier(float value, float nStdDev) const
          (value > highOutlierThreshold(nStdDev));
 }
 
-// ---- Main entry ------//
+// ---- Main entry ------ //
 
 float Normalizer::put(float x, double dt_seconds)
 {
-  // EMA coefficient from (tau, dt). Ignored in infinite mode.
-  const float a = _infinite ? 0.0f : alpha_from_tau_dt(_tau_s, dt_seconds);
-
-  update_stats(x, a);   // update E[x], E[x^2]
-  return finalize(x);   // z-score --> retarget --> clamp
+  update_stats(x, dt_seconds);
+  return finalize(x);
 }
 
 // ---- Helpers ----------------------------------------------------------------
-
-// Convert (tau, dt) to EMA alpha: y <-- y + a*(x - y)
-// a = 1 - exp(-dt/tau).  tau --> infinite or dt --> 0 --> a≈0 (slow); small tau → larger a (fast).
-float Normalizer::alpha_from_tau_dt(double tau_s, double dt)
-{
-  if (tau_s <= 0.0 || dt <= 0.0) return 1.0f; // immediate (no smoothing)
-  const double x = -dt / tau_s;
-  return static_cast<float>(1.0 - std::exp(x));
-}
 
 // Initialize the internal state
 void Normalizer::init_states()
 {
   if (_infinite) {
-    // cumulative mode --> start from data (first sample reseeds)
+    // Infinite mode: stats seeded from first sample.
     _m1 = 0.0f;
     _m2 = 0.0f;
   } else {
-    // EMA mode --> start from target prior
+    // Finite mode: start from target prior.
     _m1 = _targetMean;
-    _m2 = _targetMean * _targetMean + _targetStd * _targetStd; // mean^2 + stddev^2
+    _m2 = _targetMean * _targetMean + _targetStd * _targetStd;
   }
-  _y = _targetMean; // keep output centered initially
+  _y = _targetMean;
 }
 
 // Update running mean + second moment
-void Normalizer::update_stats(float x, float a)
+void Normalizer::update_stats(float x, double dt_seconds)
 {
-  if (_infinite) {
-    // cumulative (no decay)
-    if (_reseed || _n == 0) {
+  // First sample after reset / reseed.
+  if (_n == 0) {
+    if (_infinite) {
+      // In infinite mode, seed directly from data.
       _m1 = x;
       _m2 = x * x;
-      _n  = 1;
-      _reseed = false;
-      return;
     }
-    ++_n;
-    const float invN = 1.0f / static_cast<float>(_n);
-    _m1 += (x     - _m1) * invN;   // E[x]
-    _m2 += (x*x   - _m2) * invN;   // E[x^2]
-  } else {
-    // EMA (finite window)
-    a = std::clamp(a, 0.0f, 1.0f);
-    _m1 = (1.0f - a) * _m1 + a * x;        // E[x]
-    _m2 = (1.0f - a) * _m2 + a * (x * x);  // E[x^2]
+    // In finite mode, we keep prior (_m1/_m2 set in init_states()).
+    _n = 1;
+    return;
   }
+
+  const float a  = ema_alpha(_infinite, _tau_s, _n, dt_seconds);
+  const float xx = x * x;
+
+  ema_apply_update(_m1, x,  a);
+  ema_apply_update(_m2, xx, a);
+
+  if (_n < std::numeric_limits<std::uint32_t>::max())
+    ++_n;
 }
 
 // Compute normalized & mapped output
-// 1) z-score with current mean/std, 2) map to target mean/std, 3) optional clamp
 float Normalizer::finalize(float x)
 {
   const float mu  = _m1;
   const float var = std::max(0.0f, _m2 - mu * mu);
-  const float sd  = std::sqrt(var);
+  const float sd  = (var > 0.0f) ? std::sqrt(var) : 0.0f;
 
-  // If sd is ~0 (flat input), treat as zero-variance to avoid blow-ups.
   const float z = (sd > 1e-12f) ? (x - mu) / sd : 0.0f;
 
-  // Retarget to desired output distribution
   float y = _targetMean + z * _targetStd;
 
-  // Optional clamp around target mean
   if (_doClamp)
   {
     const float r  = _clampNSig * _targetStd;
@@ -197,7 +206,7 @@ float Normalizer::finalize(float x)
   return _y;
 }
 
-// ---- Clamp ------//
+// ---- Clamp ------ //
 
 void Normalizer::clamp(float nStdDev)
 {

@@ -1,13 +1,11 @@
-#pragma once
-
 /*
  * Normalizer.h
  *
- * Adapté de : 
+ * Adapté de :
  * Plaquette (c) 2022 Sofian Audry        :: info(@)sofianaudry(.)com
  *
  * Adaptation par Luana Belinsky 2025
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,87 +20,111 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef NORMALIZER_H_
+#define NORMALIZER_H_
 
 #include <cstdint>
 
+/*
+ * Adaptive normalizer: normalizes values on-the-run using running
+ * estimates of mean and standard deviation.
+ *
+ * The class supports:
+ *  - Infinite mode (cumulative statistics)
+ *  - Finite time window (EMA-based statistics)
+ *
+ * Workflow:
+ *   1) Estimate mean and variance from incoming stream
+ *   2) Compute z-score
+ *   3) Remap to target mean and std deviation
+ *   4) Optional clamp around target mean
+ */
+
 class Normalizer {
 public:
-  // defaults
-  static constexpr float  kDefaultTargetMean     = 0.0f;
-  static constexpr float  kDefaultTargetStdDev   = 1.0f;
-  static constexpr float  kDefaultClampNSigmas   = 3.0f;
 
-  // constructors
-  explicit Normalizer(float targetMean = kDefaultTargetMean,
-                      float targetStd  = kDefaultTargetStdDev);
+  // Default target distribution (standard normal)
+  static constexpr float kDefaultTargetMean   = 0.0f;
+  static constexpr float kDefaultTargetStdDev = 1.0f;
+
+  // Default clamp range (±3σ)
+  static constexpr float kDefaultClampNSigmas = 3.0f;
+
+  Normalizer(float targetMean = kDefaultTargetMean,
+             float targetStd  = kDefaultTargetStdDev);
+
   Normalizer(double timeWindowSeconds,
-             float  targetMean = kDefaultTargetMean,
-             float  targetStd  = kDefaultTargetStdDev);
+             float targetMean = kDefaultTargetMean,
+             float targetStd  = kDefaultTargetStdDev);
 
-  // time window / decay
-  void   timeWindow(double seconds);   // <=0 --> infinite
-  double timeWindow() const;           // 0 if infinite
-  bool   timeWindowIsInfinite() const;
+  virtual ~Normalizer() {}
 
-  // reset
-  void   reset();
+  // ---- Time window control ---- //
 
-  // main entry: feed one sample with known dt (seconds)
-  float  put(float x, double dt_seconds);
+  // seconds <= 0.0 -> infinite mode
+  virtual void   timeWindow(double seconds);
+  virtual double timeWindow() const;
+  virtual bool   timeWindowIsInfinite() const;
 
-  // targets
-  void   targetMean(float m);
-  float  targetMean() const;
+  // ---- Reset ---- //
 
-  void   targetStdDev(float s);
-  float  targetStdDev() const;
+  // Reset internal statistics; next sample will reseed state.
+  virtual void reset();
 
-  // stats
-  float  mean() const;
-  float  variance() const;
-  float  stddev() const;
+  // ---- Target distribution ---- //
 
-  // last output
-  float  value() const;
+  void  targetMean(float m);
+  float targetMean() const;
 
-  // clamp
-  void   clamp(float nStdDev = kDefaultClampNSigmas);
-  void   noClamp();
-  bool   isClamped() const;
+  void  targetStdDev(float s);
+  float targetStdDev() const;
 
-  // outliers relative to target distribution
-  float  lowOutlierThreshold (float nStdDev) const;
-  float  highOutlierThreshold(float nStdDev) const;
-  bool   isOutlier(float value, float nStdDev) const;
+  // ---- Inspectors ---- //
 
-private:
-  // helpers
-  static float alpha_from_tau_dt(double tau_s, double dt);
-  void   init_states();                // initialize internal stats/output
-  void   update_stats(float x, float a);
-  float  finalize(float x);            // z-score --> retarget --> clamp
+  float mean() const;
+  float variance() const;
+  float stddev() const;
+  float value() const;
 
-private:
-  // config / targets
-  float   _targetMean = kDefaultTargetMean;
-  float   _targetStd  = kDefaultTargetStdDev;
+  float lowOutlierThreshold(float nStdDev = 1.5f) const;
+  float highOutlierThreshold(float nStdDev = 1.5f) const;
 
-  // decay control
-  bool    _infinite = true;            // true --> cumulative (no decay)
-  double  _tau_s    = 1.0;             // EMA time constant (s) when finite
+  bool isOutlier(float value, float nStdDev = 1.5f) const;
 
-  // cumulative-mode helpers
-  uint64_t _n      = 0;                // sample count in infinite mode
-  bool     _reseed = true;             // reseed from first sample after toggle
+  // ---- Clamp ---- //
 
-  // running stats (moments)
-  float   _m1 = 0.0f;                  // E[x]
-  float   _m2 = 0.0f;                  // E[x^2]
+  void clamp(float nStdDev = kDefaultClampNSigmas);
+  void noClamp();
+  bool isClamped() const;
 
-  // clamp
-  bool    _doClamp   = true;
-  float   _clampNSig = kDefaultClampNSigmas;
+  // ---- Main interface ---- //
 
-  // last output
-  float   _y = 0.0f;
+  // dt_seconds is the elapsed time since the previous sample (seconds).
+  virtual float put(float value, double dt_seconds);
+
+protected:
+
+  void  init_states();
+  void  update_stats(float x, double dt_seconds);
+  float finalize(float x);
+
+  // Window config
+  bool   _infinite;
+  double _tau_s;
+
+  // Target distribution
+  float _targetMean;
+  float _targetStd;
+
+  // Clamp
+  bool  _doClamp;
+  float _clampNSig;
+
+  // Internal statistics
+  float         _m1;
+  float         _m2;
+  float         _y;
+  std::uint32_t _n;
 };
+
+#endif // NORMALIZER_H_
