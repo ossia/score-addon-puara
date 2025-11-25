@@ -2,17 +2,6 @@
 
 namespace puara_gestures::objects
 {
-
-void PeakDetection::update_params(float trig, float reload, float fallback)
-{
-  for (auto& d : det)
-  {
-    d.triggerThreshold(trig);
-    d.reloadThreshold(reload);
-    d.fallbackTolerance(fallback);
-  }
-}
-
 void PeakDetection::prepare(halp::setup info)
 {
   setup = info;
@@ -21,22 +10,29 @@ void PeakDetection::prepare(halp::setup info)
   trig_watch.last     = inputs.trig_thresh;  trig_watch.first = false;
   reload_watch.last   = inputs.reload_thresh;reload_watch.first = false;
   fallback_watch.last = inputs.fallback_tol; fallback_watch.first = false;
-
-  update_params(inputs.trig_thresh, inputs.reload_thresh, inputs.fallback_tol);
 }
 
 void PeakDetection::operator()(halp::tick /*t*/)
 {
-  // Update params when changed 
-  bool params_changed = false;
+  const bool trig_changed     = trig_watch.changed(inputs.trig_thresh);
+  const bool reload_changed   = reload_watch.changed(inputs.reload_thresh);
+  const bool fallback_changed = fallback_watch.changed(inputs.fallback_tol);
 
-  if (trig_watch.changed(inputs.trig_thresh))   params_changed = true;
-  if (reload_watch.changed(inputs.reload_thresh)) params_changed = true;
-  if (fallback_watch.changed(inputs.fallback_tol)) params_changed = true;
+  if (trig_changed || reload_changed || fallback_changed)
+  {
+    // Update only what actually changed, across all detectors
+    for (auto& d : det)
+    {
+      if (trig_changed)
+        d.triggerThreshold(inputs.trig_thresh);
 
-  if (params_changed)
-    update_params(inputs.trig_thresh, inputs.reload_thresh, inputs.fallback_tol);
+      if (reload_changed)
+        d.reloadThreshold(inputs.reload_thresh);
 
+      if (fallback_changed)
+        d.fallbackTolerance(inputs.fallback_tol);
+    }
+  }
   const float v = inputs.peakDetection_signal;
 
   // Compute each detector’s output

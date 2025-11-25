@@ -21,10 +21,11 @@ public:
   halp_meta(author, "Luana Belinsky (adapted from Sofian Audry’s Plaquette)")
   halp_meta(
       description,
-      "Detects peaks (maxima or minima) in an incoming normalized signal. "
+      "Detects peaks in an incoming normalized signal. "
       "Four detectors analyze the input to output triggers for rising, falling, "
       "maximum, and minimum peaks. \n"
-      "Tip: Normalize (0 to 1) and smooth your signal before feeding it to the peak detector. \n"
+      "Input is expected in the range [0, 1]. \n"
+      "Use normalization / scaling objects upstream if needed."
   )
   halp_meta(manual_url, "https://plaquette.org/PeakDetector.html")
   halp_meta(uuid, "031bc209-5097-44ac-99c1-ade065a0c02d")
@@ -33,23 +34,23 @@ public:
   {
     halp::data_port<
         "Peak detection signal",
-        "Input signal (float, ideally normalized 0 to 1).",
+        "Input signal. Float between 0 and 1",
         float>
         peakDetection_signal;
 
     halp::knob_f32<
         "Trigger threshold",
-        halp::range{0.0, 1.0, 0.5}>
+        halp::range{0.0f, 1.0f, 0.5f}>
         trig_thresh; // Level that starts detection
 
     halp::knob_f32<
         "Reload threshold",
-        halp::range{0.0, 1.0, 0.35}>
+        halp::range{0.0f, 1.0f, 0.35f}>
         reload_thresh; // Level below which the detector resets
 
     halp::knob_f32<
         "Fallback tolerance",
-        halp::range{0.0, 1.0, 0.10}>
+        halp::range{0.0, 1.0, 0.10f}>
         fallback_tol; // Drop percentage between trigger and apex
   } inputs;
 
@@ -94,13 +95,9 @@ private:
       PeakDetector{0.5f, PEAK_RISING},
       PeakDetector{0.5f, PEAK_FALLING}};
 
-  void update_params(float trig, float reload, float fallback);
-
   halp::ParameterWatcher<float> trig_watch;
   halp::ParameterWatcher<float> reload_watch;
   halp::ParameterWatcher<float> fallback_watch;
-
-  
 };
 
 } // namespace puara_gestures::objects
