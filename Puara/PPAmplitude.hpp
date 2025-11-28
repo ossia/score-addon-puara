@@ -98,7 +98,7 @@ private:
   bool  prev_min_gate_   = false;
   bool  prev_max_gate_   = false;
 
-  // Watch mode changes so we can reset cycle state cleanly.
+  // Parameter watcher
   halp::ParameterWatcher<Mode> mode_watcher;
 };
 

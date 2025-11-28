@@ -17,7 +17,7 @@ void PeakAmplitude::prepare(halp::setup info)
   prev_min_gate_  = false;
   prev_max_gate_  = false;
 
-  // Prime mode watcher so the first tick doesn't treat it as a spurious change.
+  // Initialize mode watcher 
   mode_watcher.changed(inputs.mode.value);
 }
 
