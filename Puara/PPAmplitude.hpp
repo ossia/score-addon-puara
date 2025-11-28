@@ -43,7 +43,7 @@ public:
   {
     halp::data_port<
         "Raw signal",
-        "Original, non-normalized signal whose peak-to-peak amplitude will be measured.",
+        "Original signal whose peak-to-peak amplitude will be measured.",
         float>
         raw_signal;
 
