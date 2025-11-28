@@ -117,20 +117,14 @@ float Normalizer::stddev() const
 
 float Normalizer::value() const { return _y; }
 
-float Normalizer::lowOutlierThreshold(float nStdDev) const
-{
-  return _targetMean - std::fabs(nStdDev) * _targetStd;
-}
-
-float Normalizer::highOutlierThreshold(float nStdDev) const
-{
-  return _targetMean + std::fabs(nStdDev) * _targetStd;
-}
-
 bool Normalizer::isOutlier(float value, float nStdDev) const
 {
-  return (value < lowOutlierThreshold(nStdDev)) ||
-         (value > highOutlierThreshold(nStdDev));
+  const float sd = stddev();
+  if (!(sd > 0.0f))
+    return false;
+
+  const float z = (value - _m1) / sd;
+  return std::fabs(z) >= std::fabs(nStdDev);
 }
 
 // ---- Main entry ------ //
@@ -146,16 +140,9 @@ float Normalizer::put(float x, double dt_seconds)
 // Initialize the internal state
 void Normalizer::init_states()
 {
-  if (_infinite) {
-    // Infinite mode: stats seeded from first sample.
-    _m1 = 0.0f;
-    _m2 = 0.0f;
-  } else {
-    // Finite mode: start from target prior.
-    _m1 = _targetMean;
-    _m2 = _targetMean * _targetMean + _targetStd * _targetStd;
-  }
-  _y = _targetMean;
+  _m1 = 0.0f;
+  _m2 = 0.0f;
+  _y  = _targetMean;
 }
 
 // Update running mean + second moment

@@ -85,10 +85,7 @@ public:
   float variance() const;
   float stddev() const;
   float value() const;
-
-  float lowOutlierThreshold(float nStdDev = 1.5f) const;
-  float highOutlierThreshold(float nStdDev = 1.5f) const;
-
+  
   bool isOutlier(float value, float nStdDev = 1.5f) const;
 
   // ---- Clamp ---- //
