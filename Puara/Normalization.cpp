@@ -8,7 +8,7 @@ namespace puara_gestures::objects
 {
 // CV: stddev / mean
 // NOTE: Only valid for strictly positive signals.
-float Normalization::cv(float mu, float sd, float eps = 1e-6f)
+float Normalization::cv(float mu, float sd, float eps)
 {
   if(!(sd > 0.0f))
     return 0.0f;
