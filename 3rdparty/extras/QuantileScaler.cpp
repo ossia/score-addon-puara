@@ -20,19 +20,19 @@
  */
 
 #include "QuantileScaler.h"
-#include "EMA.h"
-#include "helpers.h"  
 
-#include <algorithm>
+#include "EMA.h"
+#include "helpers.h"
+
 #include <cmath>
+#include <algorithm>
 #include <limits>
 
-// Minimum quantile level to avoid ill-defined zero quantile.
-static constexpr float kMinimumQuantileLevel = 1e-4f;
-static constexpr float kMaximumQuantileLevel = 0.5f;
-
-// Number of standard deviations to cover the full range.
-static constexpr float kStddevToRange = 6.0f;
+// Configuration constants
+static constexpr float kMinimumQuantileLevel = 1e-4f;  // Avoid zero quantile
+static constexpr float kMaximumQuantileLevel = 0.5f;   // Symmetric limit
+static constexpr float kStddevToRange = 6.0f;          // ±3σ covers full range
+static constexpr float kMinimumEta = 1e-6f;            // Prevent freezing
 
 // ---- Span / quantile mapping helpers ------------------------------------ //
 
@@ -40,7 +40,7 @@ float QuantileScaler::lowQuantileLevelToSpan(float level)
 {
   // Clamp level into allowed range.
   level = std::clamp(level, kMinimumQuantileLevel, kMaximumQuantileLevel);
-  // For symmetric coverage, span ≈ 1 - 2*lowLevel.
+  // For symmetric coverage, span = 1 - 2*lowLevel.
   float span = 1.0f - 2.0f * level;
   return std::clamp(span, 0.0f, 1.0f);
 }
@@ -49,56 +49,56 @@ float QuantileScaler::spanToLowQuantileLevel(float span)
 {
   // Clamp span into [0, 1].
   span = std::clamp(span, 0.0f, 1.0f);
-  // Inverse of span ≈ 1 - 2*lowLevel -> lowLevel ≈ (1 - span)/2.
+  // Inverse of span = 1 - 2*lowLevel → lowLevel = (1 - span)/2.
   float level = 0.5f * (1.0f - span);
   // Clamp into [kMinimumQuantileLevel, kMaximumQuantileLevel].
   return std::clamp(level, kMinimumQuantileLevel, kMaximumQuantileLevel);
 }
 
-// ---- Constructors -------------------------------------------------------- //
+// ---- Constructors ----- //
 
 QuantileScaler::QuantileScaler()
-  : _infinite(true)
-  , _tau_s(1.0)
-  , _lowQuantileLevel(spanToLowQuantileLevel(kDefaultSpan))
-  , _lowQuantile(0.0f)
-  , _highQuantile(0.0f)
-  , _stddev(0.0f)
-  , _value(0.5f)
-  , _n(0)
+    : _infinite(true)
+    , _tau_s(1.0)
+    , _lowQuantileLevel(spanToLowQuantileLevel(kDefaultSpan))
+    , _lowQuantile(0.0f)
+    , _highQuantile(0.0f)
+    , _stddev(0.0f)
+    , _value(0.5f)
+    , _n(0)
 {
   init_states();
 }
 
 QuantileScaler::QuantileScaler(double timeWindowSeconds, float span)
-  : _infinite(timeWindowSeconds <= 0.0)
-  , _tau_s(_infinite ? 1.0 : timeWindowSeconds)
-  , _lowQuantileLevel(spanToLowQuantileLevel(span))
-  , _lowQuantile(0.0f)
-  , _highQuantile(0.0f)
-  , _stddev(0.0f)
-  , _value(0.5f)
-  , _n(0)
+    : _infinite(timeWindowSeconds <= 0.0)
+    , _tau_s(_infinite ? 1.0 : timeWindowSeconds)
+    , _lowQuantileLevel(spanToLowQuantileLevel(span))
+    , _lowQuantile(0.0f)
+    , _highQuantile(0.0f)
+    , _stddev(0.0f)
+    , _value(0.5f)
+    , _n(0)
 {
   init_states();
 }
 
-// ---- Time window control ------------------------------------------------- //
+// ---- Time window / decay control ------ //
 
 void QuantileScaler::timeWindow(double seconds)
 {
   bool was_infinite = _infinite;
 
   _infinite = (seconds <= 0.0);
-  _tau_s    = _infinite ? 1.0 : seconds;
+  _tau_s = _infinite ? 1.0 : seconds;
 
   // Switching from finite -> infinite: drop old EMA state and reseed on next sample.
-  if (!was_infinite && _infinite) {
+  if(!was_infinite && _infinite)
+  {
     _n = 0;
     init_states();
   }
 }
-
 
 double QuantileScaler::timeWindow() const
 {
@@ -110,7 +110,7 @@ bool QuantileScaler::timeWindowIsInfinite() const
   return _infinite;
 }
 
-// ---- Reset / init -------------------------------------------------------- //
+// ---- Reset ----- //
 
 void QuantileScaler::reset()
 {
@@ -118,15 +118,7 @@ void QuantileScaler::reset()
   init_states();
 }
 
-void QuantileScaler::init_states()
-{
-  _lowQuantile  =  std::numeric_limits<float>::max();
-  _highQuantile = -std::numeric_limits<float>::max();
-  _stddev       = 0.0f;
-  _value        = 0.5f;
-}
-
-// ---- Span / quantiles API ------------------------------------------------ //
+// ---- Span / quantiles ------ //
 
 void QuantileScaler::span(float span)
 {
@@ -150,16 +142,17 @@ void QuantileScaler::highQuantileLevel(float level)
   lowQuantileLevel(1.0f - level);
 }
 
-// ---- Main entry ---------------------------------------------------------- //
+// ---- Main entry ------ //
 
 float QuantileScaler::put(float x, double dt_seconds)
 {
-  // First sample: initialize quantiles and stddev.
-  if (_n == 0) {
-    _lowQuantile  = x;
+  // First sample after reset or uninitialized.
+  if(_n == 0)
+  {
+    _lowQuantile = x;
     _highQuantile = x;
-    _stddev       = 0.0f;
-    _value        = 0.5f;
+    _stddev = 0.0f;
+    _value = 0.5f;
     _n = 1;
     return _value;
   }
@@ -169,63 +162,89 @@ float QuantileScaler::put(float x, double dt_seconds)
 
   // Mid-quantile and deviation for stddev estimate.
   const float midQuantile = 0.5f * (_lowQuantile + _highQuantile);
-  const float deviation   = std::fabs(x - midQuantile);
+  const float deviation = std::fabs(x - midQuantile);
 
-  if (_n == 1 && _stddev == 0.0f) {
+  // Update running stddev estimate.
+  if(_n == 1 && _stddev == 0.0f)
+  {
     _stddev = deviation;
-  } else {
+  }
+  else
+  {
     ema_apply_update(_stddev, deviation, alpha);
   }
 
-  // Compute Robbins–Monro step size scaled by stddev.
+  // Compute Robbins–Monro step size scaled by stddev, with minimum eta.
   float eta = alpha * kStddevToRange * _stddev;
-  if (eta < 0.0f) eta = 0.0f;
+  if(eta < kMinimumEta)
+    eta = kMinimumEta;
 
   const float etaLevel = eta * _lowQuantileLevel;
 
   // Update quantiles depending on where x lies.
-  if (x <= _lowQuantile) {
+  if(x <= _lowQuantile)
+  {
     // Smaller than both quantiles.
-    _lowQuantile  -= eta - etaLevel; // decrease
-    _highQuantile -= etaLevel;       // decrease
-    // Prevent overshooting.
-    _lowQuantile  = std::max(_lowQuantile,  x);
+    _lowQuantile -= eta - etaLevel; // decrease
+    _highQuantile -= etaLevel;      // decrease
+    
+    // Prevent overshooting beyond actual data.
+    _lowQuantile = std::max(_lowQuantile, x);
     _highQuantile = std::max(_highQuantile, x);
   }
-  else if (x <= _highQuantile) {
+  else if(x <= _highQuantile)
+  {
     // Between low and high.
-    _lowQuantile  += etaLevel;       // increase
-    _highQuantile -= etaLevel;       // decrease
+    _lowQuantile += etaLevel;  // increase
+    _highQuantile -= etaLevel; // decrease
+    
     // Prevent overshooting.
-    _lowQuantile  = std::min(_lowQuantile,  x);
+    _lowQuantile = std::min(_lowQuantile, x);
     _highQuantile = std::max(_highQuantile, x);
   }
-  else {
+  else
+  {
     // Larger than both quantiles.
-    _lowQuantile  += etaLevel;        // increase
-    _highQuantile += eta - etaLevel;  // increase
+    _lowQuantile += etaLevel;        // increase
+    _highQuantile += eta - etaLevel; // increase
+    
     // Prevent overshooting.
-    _lowQuantile  = std::min(_lowQuantile,  x);
+    _lowQuantile = std::min(_lowQuantile, x);
     _highQuantile = std::min(_highQuantile, x);
   }
 
   // Optional decay of quantiles toward their mid-point in finite-window mode.
-  if (!_infinite) {
-    ema_apply_update(_lowQuantile,  midQuantile, alpha);
+  if(!_infinite)
+  {
+    ema_apply_update(_lowQuantile, midQuantile, alpha);
     ema_apply_update(_highQuantile, midQuantile, alpha);
   }
 
   // Clamp quantiles to avoid inversions.
-  if (_lowQuantile > _highQuantile) {
+  if(_lowQuantile > _highQuantile)
+  {
     const float mid = 0.5f * (_lowQuantile + _highQuantile);
-    _lowQuantile  = mid;
+    _lowQuantile = mid;
     _highQuantile = mid;
   }
 
-  if (_n < std::numeric_limits<std::uint32_t>::max())
+  // Increment sample counter (saturating).
+  if(_n < std::numeric_limits<std::uint32_t>::max())
     ++_n;
 
   // Compute rescaled value using shared map helper into [0, 1].
   _value = helpers::map(x, _lowQuantile, _highQuantile, 0.0f, 1.0f);
   return _value;
+}
+
+// ---- Helpers ----------------------------------------------------------------
+
+// Initialize the internal state
+void QuantileScaler::init_states()
+{
+  // Start with extreme values; first sample will overwrite.
+  _lowQuantile = std::numeric_limits<float>::max();
+  _highQuantile = -std::numeric_limits<float>::max();
+  _stddev = 0.0f;
+  _value = 0.5f;
 }

@@ -28,7 +28,7 @@
 #include <cmath>
 #include <limits>
 
-// ---- Constructors -------------------------------------------------------- //
+// ---- Constructors ----- //
 
 MinMaxScaler::MinMaxScaler()
   : _infinite(true)
@@ -56,7 +56,7 @@ MinMaxScaler::MinMaxScaler(double timeWindowSeconds)
   init_states();
 }
 
-// ---- Time window control ------------------------------------------------- //
+// ---- Time window / decay control ------ //
 
 void MinMaxScaler::timeWindow(double seconds)
 {
@@ -72,7 +72,6 @@ void MinMaxScaler::timeWindow(double seconds)
   }
 }
 
-
 double MinMaxScaler::timeWindow() const
 {
   return _infinite ? 0.0 : _tau_s;
@@ -83,7 +82,7 @@ bool MinMaxScaler::timeWindowIsInfinite() const
   return _infinite;
 }
 
-// ---- Reset --------------------------------------------------------------- //
+// ---- Reset ----- //
 
 void MinMaxScaler::reset()
 {
@@ -91,19 +90,7 @@ void MinMaxScaler::reset()
   init_states();
 }
 
-// ---- Internal state init ------------------------------------------------- //
-
-void MinMaxScaler::init_states()
-{
-  // Start with no valid min/max; they will be initialized on first sample.
-  _minValue         =  std::numeric_limits<float>::max();
-  _maxValue         = -std::numeric_limits<float>::max();
-  _smoothedMinValue = 0.5f;
-  _smoothedMaxValue = 0.5f;
-  _value            = 0.5f;
-}
-
-// ---- Main entry ---------------------------------------------------------- //
+// ---- Main entry ------ //
 
 float MinMaxScaler::put(float x, double dt_seconds)
 {
@@ -153,4 +140,17 @@ float MinMaxScaler::put(float x, double dt_seconds)
   }
 
   return _value;
+}
+
+// ---- Helpers ----------------------------------------------------------------
+
+// Initialize the internal state
+void MinMaxScaler::init_states()
+{
+  // Start with no valid min/max; they will be initialized on first sample.
+  _minValue         =  std::numeric_limits<float>::max();
+  _maxValue         = -std::numeric_limits<float>::max();
+  _smoothedMinValue = 0.5f;
+  _smoothedMaxValue = 0.5f;
+  _value            = 0.5f;
 }

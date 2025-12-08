@@ -40,9 +40,9 @@
 
 class MinMaxScaler {
 public:
-  /**
-   * Construct a scaler with infinite time window (no decay).
-   */
+  // ---- Constructors ----- //
+
+  /// Construct a scaler with infinite time window (no decay).
   MinMaxScaler();
 
   /**
@@ -53,7 +53,7 @@ public:
 
   virtual ~MinMaxScaler() {}
 
-  // ---- Time window control ---- //
+  // ---- Time window / decay control ------ //
 
   /// Sets the time window (seconds). <= 0.0 => infinite mode.
   virtual void timeWindow(double seconds);
@@ -64,29 +64,17 @@ public:
   /// Returns true if the time window is infinite (no decay).
   virtual bool timeWindowIsInfinite() const;
 
-  // ---- Reset ---- //
+  // ---- Reset ----- //
 
   /// Resets internal statistics and state.
   virtual void reset();
 
-  // ---- Inspectors ---- //
-
-  /// Returns the current (possibly decayed) minimum value.
-  float minValue() const { return _minValue; }
-
-  /// Returns the current (possibly decayed) maximum value.
-  float maxValue() const { return _maxValue; }
-
-  /// Returns the smoothed minimum value.
-  float smoothedMinValue() const { return _smoothedMinValue; }
-
-  /// Returns the smoothed maximum value.
-  float smoothedMaxValue() const { return _smoothedMaxValue; }
+  // ---- Inspectors ----- //
 
   /// Returns the last scaled output in [0, 1].
   float value() const { return _value; }
 
-  // ---- Main interface ---- //
+  // ---- Main entry ------ //
 
   /**
    * Pushes a new value and returns the scaled output in [0, 1].
@@ -98,7 +86,8 @@ public:
    */
   virtual float put(float x, double dt_seconds);
 
-protected:
+private:
+  /// Initialize the internal state
   void init_states();
 
   // Window configuration

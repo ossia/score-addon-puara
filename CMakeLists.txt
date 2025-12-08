@@ -129,16 +129,6 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/Normalization.hpp
-    Puara/Normalization.cpp
-  TARGET puara_normalization
-  MAIN_CLASS Normalization
-  NAMESPACE puara_gestures::objects
-)
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
     Puara/Scaler.hpp
     Puara/Scaler.cpp
   TARGET puara_scaler

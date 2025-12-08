@@ -41,56 +41,66 @@ void Scaler::prepare(halp::setup info)
 
 void Scaler::operator()(halp::tick t)
 {
-  // --- compute dt (seconds) from tick ---
-  float dt = 0.0f;
-  if (setup.rate > 0.0f) {
-    const float maybe_dt =
-        static_cast<float>(t.frames) / static_cast<float>(setup.rate);
-    if (maybe_dt > 0.0f && maybe_dt < 0.1f)  // guard: 0 < dt < 100 ms
-      dt = maybe_dt;
-  }
-
-  // --- handle live parameter changes with watchers ---
-
-  // Mode change (enum_t -> Mode).
+  // --- live param updates (only when changed) ---
   Mode mode_value = static_cast<Mode>(inputs.mode);
-  if (mode_watcher.changed(mode_value)) {
-    if (mode_value != current_mode) {
-      current_mode = mode_value;
+  const bool mode_changed = mode_watcher.changed(mode_value);
 
-      // Reset the newly activated scaler so it does not inherit stale stats.
-      if (current_mode == Mode::Min_max)
-        minmax.reset();
-      else
-        quantile.reset();
-    }
-  }
-
-  // Time window & infinite flag: shared between both scalers.
   const bool  infinite = inputs.infinite_time_window;
   const float tw       = inputs.time_window;
+  const bool  infinite_changed = infinite_watcher.changed(infinite);
+  const bool  time_changed = time_window_watcher.changed(tw);
 
-  if (infinite_watcher.changed(infinite) || time_window_watcher.changed(tw)) {
+  const float span = inputs.span;
+  const bool  span_changed = span_watcher.changed(span);
+
+  // --- handle mode change ---
+  if(mode_changed && mode_value != current_mode)
+  {
+    current_mode = mode_value;
+
+    // Reset the newly activated scaler so it does not inherit stale stats.
+    if(current_mode == Mode::Min_max)
+      minmax.reset();
+    else
+      quantile.reset();
+  }
+
+  // --- handle time window changes (shared between both scalers) ---
+  if(infinite_changed || time_changed)
+  {
     const double tw_seconds = infinite ? 0.0
                                        : static_cast<double>(tw);
     minmax.timeWindow(tw_seconds);
     quantile.timeWindow(tw_seconds);
   }
 
-  // Quantile span: only affects quantile scaler, but we can watch it here.
-  const float span = inputs.span;
-  if (span_watcher.changed(span)) {
+  // --- handle quantile span change ---
+  if(span_changed)
+  {
     quantile.span(span);
   }
 
-  // --- process current sample ---
+  // --- compute dt (seconds) from tick ---
+  float dt = 0.0f;
+  if(setup.rate > 0.0)
+  {
+    const float maybe_dt =
+        static_cast<float>(t.frames) / static_cast<float>(setup.rate);
+    if(maybe_dt > 0.f)
+      dt = maybe_dt;
+  }
+
   const float x = inputs.scaling_signal;
 
+  // --- process ---
   float scaled01 = 0.0f;
 
-  if (current_mode == Mode::Min_max) {
+  if(current_mode == Mode::Min_max)
+  {
     scaled01 = minmax.put(x, static_cast<double>(dt));      // expected ∈ [0, 1]
-  } else {
+  }
+  else
+  {
     scaled01 = quantile.put(x, static_cast<double>(dt));    // expected ∈ [0, 1]
   }
 

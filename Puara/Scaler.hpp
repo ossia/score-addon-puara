@@ -23,9 +23,10 @@ public:
   halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "Scaler")
   halp_meta(author, "Luana Belinsky (adapted from Sofian Audry’s Plaquette)")
-  halp_meta(description,
-    "Adaptive scaler with min-max or quantile-based modes. "
-    "Maps input into a chosen output range using a time window.")
+  halp_meta(
+      description,
+      "Adaptive scaler with min-max or quantile-based modes. "
+      "Maps input into a chosen output range using a time window.")
   halp_meta(manual_url, "https://plaquette.org/MinMaxScaler.html")
   halp_meta(uuid, "0c1f93f9-de5b-4535-8f70-c646c05dcb08")
 
@@ -45,31 +46,37 @@ public:
 
     halp::enum_t<Mode, "Mode"> mode{Mode::Min_max};
 
-    halp::spinbox_f32<"Time window (s)",
-                      halp::range{0.01, 360.0, 1.0}>
+    halp::spinbox_f32<
+        "Time window (s)",
+        halp::range{0.01, 360.0, 1.0}>
         time_window;
 
-    halp::toggle<"Infinite time window">
+    halp::toggle<
+        "Infinite time window">
         infinite_time_window{false};
 
-    halp::spinbox_f32<"Output low",
-                      halp::range{-5.0, 5.0, 0.0}>
+    halp::spinbox_f32<
+        "Output low",
+        halp::range{-5.0, 5.0, 0.0}>
         out_low;
 
-    halp::spinbox_f32<"Output high",
-                      halp::range{-5.0, 5.0, 1.0}>
+    halp::spinbox_f32<
+        "Output high",
+        halp::range{-5.0, 5.0, 1.0}>
         out_high;
 
-    halp::knob_f32<"Span",
-                   halp::range{0.50, 1.00, 0.99}>
+    halp::knob_f32<
+        "Span",
+        halp::range{0.50, 1.00, 0.99}>
         span;
   } inputs;
 
   struct
   {
-    halp::data_port<"Scaled",
-                    "Signal scaled into the chosen output range.",
-                    float>
+    halp::data_port<
+        "Scaled",
+        "Signal scaled into the chosen output range.",
+        float>
         out;
   } outputs;
 

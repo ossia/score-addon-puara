@@ -25,83 +25,75 @@
 #include <cstdint>
 
 /*
- * Regularizes a signal into [0, 1] using adaptive quantile tracking.
- *
- * The scaler tracks low and high quantiles of the input distribution
- * using Robbins–Monro stochastic updates, and maps the input into [0, 1]
- * based on those quantiles. This makes it robust to outliers compared
- * to a simple min–max scaler.
+ * Adaptive quantile scaler: rescales a stream of values into [0, 1]
+ * using running estimates of low and high quantiles.
  *
  * The class supports:
- *  - Infinite mode (no decay of quantiles)
+ *  - Infinite mode (no decay)
  *  - Finite time window (EMA-based decay)
+ *  - Symmetric quantile tracking (span from center)
+ *
+ * Implementation based on Robbins–Monro stochastic approximation.
  */
 
 class QuantileScaler {
 public:
-  // Default span (corresponds to percentage coverage of values in [0, 1]).
+  // Default span covering 99% of distribution (0.5% tails on each side)
   static constexpr float kDefaultSpan = 0.99f;
 
+  // ---- Constructors ----- //
+
+  /// Construct a scaler with infinite time window and default span.
   QuantileScaler();
+
+  /**
+   * Construct a scaler with a given time window (seconds) and span.
+   * A time window <= 0.0 selects infinite mode.
+   * Span ∈ [0, 1] controls coverage (1.0 = full min-max).
+   */
   QuantileScaler(double timeWindowSeconds, float span = kDefaultSpan);
 
   virtual ~QuantileScaler() {}
 
-  // ---- Time window control ---- //
+  // ---- Time window / decay control ------ //
 
-  /// Sets the adaptation time window (in seconds). <= 0.0 => infinite mode.
-  virtual void   timeWindow(double seconds);
+  /// Sets the time window (seconds). <= 0.0 => infinite mode.
+  virtual void timeWindow(double seconds);
 
-  /// Returns the current time window (in seconds). 0.0 => infinite mode.
+  /// Returns the time window (seconds). 0.0 => infinite mode.
   virtual double timeWindow() const;
 
-  /// Returns true if time window is infinite.
-  virtual bool   timeWindowIsInfinite() const;
+  /// Returns true if the time window is infinite (no decay).
+  virtual bool timeWindowIsInfinite() const;
 
-  // ---- Reset ---- //
+  // ---- Reset ----- //
 
-  /// Resets the filter state.
+  /// Resets to initial uninitialized state (waits for first sample).
   virtual void reset();
 
-  // ---- Span / quantiles ---- //
+  // ---- Span / quantiles API ------ //
 
-  /// Sets the span (in [0, 1]) of the central mass to be covered.
-  /// For example, span = 0.99 covers approximately 99% of values.
+  /// Sets the span (coverage) ∈ [0, 1]. 1.0 = full min-max.
   virtual void span(float span);
 
   /// Returns the current span.
   virtual float span() const;
 
-  /// Sets the low quantile level (in [0, 0.5]).
+  /// Sets low quantile level directly (e.g., 0.01 for 1st percentile).
   virtual void lowQuantileLevel(float level);
 
-  /// Returns the current low quantile level.
-  virtual float lowQuantileLevel() const { return _lowQuantileLevel; }
-
-  /// Sets the high quantile level (in [0.5, 1]).
+  /// Sets high quantile level directly (e.g., 0.99 for 99th percentile).
   virtual void highQuantileLevel(float level);
 
-  /// Returns the current high quantile level.
-  virtual float highQuantileLevel() const { return (1.0f - _lowQuantileLevel); }
-
-  // ---- Inspectors ---- //
-
-  /// Returns the current low quantile estimate.
-  float lowQuantile()  const { return _lowQuantile; }
-
-  /// Returns the current high quantile estimate.
-  float highQuantile() const { return _highQuantile; }
-
-  /// Returns the current stddev proxy used to scale the quantile step size.
-  float stddev() const { return _stddev; }
+  // ---- Inspectors ----- //
 
   /// Returns the last scaled output in [0, 1].
   float value() const { return _value; }
 
-  // ---- Main interface ---- //
+  // ---- Main entry ------ //
 
   /**
-   * Pushes a new value and returns the scaled output.
+   * Pushes a new value and returns the scaled output in [0, 1].
    *
    * @param x          input value
    * @param dt_seconds elapsed time since the previous sample (seconds).
@@ -110,32 +102,30 @@ public:
    */
   virtual float put(float x, double dt_seconds);
 
-protected:
-  void  init_states();
+private:
+  // ---- Helpers ----- //
 
-  // Mapping between span (central mass) and low quantile level.
+  /// Initialize the internal state (uninitialized).
+  void init_states();
+
+  /// Static helpers for span ↔ quantile level conversion.
   static float lowQuantileLevelToSpan(float level);
   static float spanToLowQuantileLevel(float span);
 
-protected:
-  // Time window (in seconds).
+  // Window configuration
   bool   _infinite;
   double _tau_s;
 
-  // Low quantile level (in [0, 0.5]).
-  float _lowQuantileLevel;
+  // Quantile configuration
+  float _lowQuantileLevel;  // τ (e.g., 0.01 for 1st percentile)
 
-  // Quantile estimators.
-  float _lowQuantile;   // q_low
-  float _highQuantile;  // q_high
+  // State variables
+  float _lowQuantile;
+  float _highQuantile;
+  float _stddev;            // Running estimate of deviation
+  float _value;             // Last output ∈ [0, 1]
 
-  // Stddev estimator (based on deviation from mid-quantile).
-  float _stddev;
-
-  // Last scaled value in [0, 1].
-  float _value;
-
-  // Number of samples since last reset.
+  // Sample counter
   std::uint32_t _n;
 };
 
