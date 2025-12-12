@@ -60,11 +60,14 @@ target_sources(score_addon_puara
   3rdparty/extras/PeakDetector.cpp
   3rdparty/extras/Normalizer.h
   3rdparty/extras/Normalizer.cpp
-  3rdparty/extras/Normalizer.h
-  3rdparty/extras/Normalizer.cpp
   3rdparty/extras/helpers.h
   3rdparty/extras/helpers.cpp
   3rdparty/extras/EMA.h
+  3rdparty/extras/MinMaxScaler.h
+  3rdparty/extras/MinMaxScaler.cpp
+  3rdparty/extras/QuantileScaler.h
+  3rdparty/extras/QuantileScaler.cpp
+ 
   Puara/vamp_algorithms.hpp
   Puara/statistics_algorithms.hpp
 )
@@ -120,6 +123,16 @@ avnd_score_plugin_add(
     Puara/BioDataHeart.cpp
   TARGET puara_heart
   MAIN_CLASS BioData_Heart
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Scaler.hpp
+    Puara/Scaler.cpp
+  TARGET puara_scaler
+  MAIN_CLASS Scaler
   NAMESPACE puara_gestures::objects
 )
 
