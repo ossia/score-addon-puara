@@ -1,4 +1,4 @@
- /*
+/*
  * EMA.h
  *
  * Small helpers for exponential moving averages with a time window
