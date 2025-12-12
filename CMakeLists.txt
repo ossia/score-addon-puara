@@ -67,7 +67,7 @@ target_sources(score_addon_puara
   3rdparty/extras/MinMaxScaler.cpp
   3rdparty/extras/QuantileScaler.h
   3rdparty/extras/QuantileScaler.cpp
-
+ 
   Puara/vamp_algorithms.hpp
   Puara/statistics_algorithms.hpp
 )
@@ -135,6 +135,27 @@ avnd_score_plugin_add(
   MAIN_CLASS Scaler
   NAMESPACE puara_gestures::objects
 )
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Normalization.hpp
+    Puara/Normalization.cpp
+  TARGET puara_normalization
+  MAIN_CLASS Normalization
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
+    Puara/Smoother.hpp
+    Puara/Smoother.cpp
+  TARGET smoother
+  MAIN_CLASS Smoother
+  NAMESPACE puara_gestures::objects
+)
+
 
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
