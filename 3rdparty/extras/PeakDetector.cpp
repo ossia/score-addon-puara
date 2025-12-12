@@ -77,7 +77,7 @@ void PeakDetector::mode(uint8_t mode) {
   bool wasInverted = modeInverted();
 
   // Change mode.
-  _mode = std::clamp(mode, (uint8_t)PEAK_RISING, (uint8_t)PEAK_MIN);
+  _mode = std::clamp(mode, (uint8_t)PEAK_MAX, (uint8_t)PEAK_FALLING);
 
   // If mode inversion was changed, adjust triggerThresholds.
   if (modeInverted() != wasInverted) {

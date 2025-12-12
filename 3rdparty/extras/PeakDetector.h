@@ -27,10 +27,10 @@
 
 /// @brief Peak modes.
 enum {
-  PEAK_RISING,
-  PEAK_FALLING,
   PEAK_MAX,
-  PEAK_MIN
+  PEAK_MIN,
+  PEAK_RISING,
+  PEAK_FALLING
 };
 
 /**
@@ -121,4 +121,8 @@ protected:
 
   // Unused extra space.
   uint8_t _data  : 1;
+
+  // Previous-sample memory to synthesize between-tick events
+  float _prevValue = 0.f;
+  bool  _hasPrev   = false;
 };
