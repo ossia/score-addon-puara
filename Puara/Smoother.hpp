@@ -12,7 +12,7 @@ class Smoother
 {
 public:
   halp_meta(name, "Smoother")
-  halp_meta(category, "Filters/Effects")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "Smoother")
   halp_meta(
       description,
