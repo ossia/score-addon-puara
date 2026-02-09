@@ -66,27 +66,6 @@ float Smoother::cutoff_to_alpha(float fc_hz, float dt)
   return 1.0f - std::exp(exponent);
 }
 
-// Convert time window to cutoff (continuous-time): fc = 1/(2π·τ)
-float Smoother::time_window_to_cutoff(float tau_s)
-{
-  if(tau_s <= 0.0f)
-    return std::numeric_limits<float>::infinity();
-  if(tau_s == std::numeric_limits<float>::infinity())
-    return 0.0f;
-
-  return 1.0f / (2.0f * float(M_PI) * tau_s);
-}
-
-// Convert cutoff to time window (continuous-time): τ = 1/(2π·fc)
-float Smoother::cutoff_to_time_window(float fc_hz)
-{
-  if(fc_hz <= 0.0f)
-    return std::numeric_limits<float>::infinity();
-  if(fc_hz == std::numeric_limits<float>::infinity())
-    return 0.0f;
-
-  return 1.0f / (2.0f * float(M_PI) * fc_hz);
-}
 void Smoother::prepare(halp::setup info)
 {
   setup = info;
@@ -189,10 +168,10 @@ void Smoother::operator()(halp::tick t)
         exact_alpha = time_window_to_alpha(exact_tau, dt);
         break;
       case Parameter::Cutoff:
-        // User modified cutoff - calculate alpha from cutoff
-        exact_tau = cutoff_to_time_window(cutoff_ui);
         exact_alpha = cutoff_to_alpha(cutoff_ui, dt);
+        exact_tau = alpha_to_time_window(exact_alpha, dt);
         break;
+
       default:
         // Default to alpha
         exact_alpha = std::clamp(alpha_ui, 0.0f, 1.0f);
@@ -227,6 +206,7 @@ void Smoother::operator()(halp::tick t)
 #if ENABLE_PARAMETER_LINKING
     // Show actual alpha in UI
     inputs.alpha.value = alpha;
+    alpha_watcher.last = alpha;
 #endif
   }
   else
@@ -258,37 +238,47 @@ void Smoother::operator()(halp::tick t)
       // Cumulative mode display
       inputs.tau.value = MAX_TAU;
       inputs.cutoff.value = MIN_CUTOFF;
+      tau_watcher.last = MAX_TAU;
+      cutoff_watcher.last = MIN_CUTOFF;
     }
     else
     {
       // Update displays
       inputs.alpha.value = exact_alpha;
+      alpha_watcher.last = exact_alpha;
 
       // Handle tau display
       if(!std::isfinite(exact_tau) || exact_tau < 0.0f)
       {
         inputs.tau.value = MAX_TAU;
-        // Auto-enable cumulative for very small alpha
+        tau_watcher.last = MAX_TAU;
+
         if(exact_alpha <= 0.0001f)
         {
           inputs.cumulative.value = true;
+          cumulative_watcher.last = true;
           sample_count = 0;
         }
       }
       else
       {
         inputs.tau.value = exact_tau;
+        tau_watcher.last = exact_tau;
       }
 
       // Handle cutoff display
-      float cutoff_val = time_window_to_cutoff(exact_tau);
+      float cutoff_val = alpha_to_cutoff(exact_alpha, dt);
+
       if(!std::isfinite(cutoff_val) || cutoff_val < 0.0f)
       {
         inputs.cutoff.value = MIN_CUTOFF;
+        cutoff_watcher.last = MIN_CUTOFF;
       }
       else
       {
-        inputs.cutoff.value = std::clamp(cutoff_val, MIN_CUTOFF, MAX_CUTOFF);
+        cutoff_val = std::clamp(cutoff_val, MIN_CUTOFF, MAX_CUTOFF);
+        inputs.cutoff.value = cutoff_val;
+        cutoff_watcher.last = cutoff_val;
       }
     }
 

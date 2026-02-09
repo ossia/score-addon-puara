@@ -137,8 +137,6 @@ private:
   static float time_window_to_alpha(float tau_s, float dt);
   static float alpha_to_cutoff(float alpha, float dt);
   static float cutoff_to_alpha(float fc_hz, float dt);
-  static float time_window_to_cutoff(float tau_s);
-  static float cutoff_to_time_window(float fc_hz);
 
   // Internal filter state
   float filtered{0.0f};
