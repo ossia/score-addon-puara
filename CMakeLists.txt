@@ -119,6 +119,16 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
+    Puara/EdaRtFeatures.hpp
+    Puara/EdaRtFeatures.cpp
+  TARGET puara_eda
+  MAIN_CLASS EdaRtFeatures
+  NAMESPACE puara_gestures::objects
+)
+
+avnd_score_plugin_add(
+  BASE_TARGET score_addon_puara
+  SOURCES
     Puara/BioDataHeart.hpp
     Puara/BioDataHeart.cpp
   TARGET puara_heart
