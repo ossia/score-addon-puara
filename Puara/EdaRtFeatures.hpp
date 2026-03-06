@@ -12,7 +12,7 @@ namespace puara_gestures::objects
 class EdaRtFeatures
 {
 public:
-  halp_meta(name, "EDA (RT optimized)")
+  halp_meta(name, "EDA")
   halp_meta(category, "Analysis/Biodata")
   halp_meta(c_name, "puara_eda_rt")
   halp_meta(author, "Luana Belinsky")
