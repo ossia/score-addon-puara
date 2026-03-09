@@ -40,7 +40,6 @@ public:
   using tick = halp::tick;
   void operator()(halp::tick t);
 
-private:
   static float onepole_lp(float y, float x, double dt, float fc);
 
   enum class State { Idle = 0, Rising = 1, Recovering = 2 };
