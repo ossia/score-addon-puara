@@ -130,16 +130,6 @@ avnd_score_plugin_add(
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
-    Puara/PPAmplitude.hpp
-    Puara/PPAmplitude.cpp
-  TARGET peak_amplitude
-  MAIN_CLASS PeakAmplitude
-  NAMESPACE puara_gestures::objects
-)
-
-avnd_score_plugin_add(
-  BASE_TARGET score_addon_puara
-  SOURCES
     Puara/Scaler.hpp
     Puara/Scaler.cpp
   TARGET puara_scaler
