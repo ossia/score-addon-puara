@@ -136,6 +136,7 @@ avnd_score_plugin_add(
   NAMESPACE puara_gestures::objects
 )
 
+
 avnd_score_plugin_add(
   BASE_TARGET score_addon_puara
   SOURCES
