@@ -21,6 +21,7 @@ void PeakDetection::prepare(halp::setup info)
   outputs.peak_max = outputs.peak_min = outputs.peak_rising = outputs.peak_falling = false;
 
   outputs.peak_to_peak        = last_p2p_;
+  outputs.raw_peak_to_peak    = last_raw_p2p_;
   outputs.max_above_threshold = last_mat_;
   outputs.min_below_threshold = last_mbt_;
 
@@ -40,12 +41,11 @@ void PeakDetection::prepare(halp::setup info)
   raw_at_max_ = 0.f;
   raw_at_min_ = 0.f;
 
-  in_upper_half_ = false;
-  in_lower_half_ = false;
-  have_upper_max_ = false;
-  upper_raw_max_ = 0.f;
-  lower_raw_min_ = 0.f;
-  last_upper_raw_max_ = 0.f;
+  prev_raw_slope_ = 0;
+  have_raw_max_   = false;
+  have_raw_min_   = false;
+  last_raw_max_   = 0.f;
+  last_raw_min_   = 0.f;
 }
 
 void PeakDetection::operator()(halp::tick)
@@ -66,7 +66,6 @@ void PeakDetection::operator()(halp::tick)
     det->fallbackTolerance(fallback);
   }
 
-  const AmplitudeMode amp_mode = inputs.amplitude_mode;
   const P2PUpdateMode p2p_mode = inputs.p2p_update_mode;
 
   // Events derived from the detection signal.
@@ -92,43 +91,40 @@ void PeakDetection::operator()(halp::tick)
     return;
   }
 
-  // PeakLocked keeps the raw value paired with the strongest detect sample
+  // Keep the raw value paired with the strongest detect sample
   // seen since the relevant trigger crossing. The >= / <= tests keep the
   // latest sample on flat plateaus.
   if (track_max_ && d >= best_detect_max_) { best_detect_max_ = d; raw_at_max_candidate_ = raw; }
   if (track_min_ && d <= best_detect_min_) { best_detect_min_ = d; raw_at_min_candidate_ = raw; }
+
+  // Raw peak-to-peak uses turning points detected directly on the raw signal.
+  const float raw_delta = raw - prev_raw_;
+  const int raw_slope = (raw_delta > 0.f) ? 1 : (raw_delta < 0.f ? -1 : prev_raw_slope_);
+  if (prev_raw_slope_ > 0 && raw_slope < 0)
+  {
+    last_raw_max_ = prev_raw_;
+    have_raw_max_ = true;
+    if (have_raw_min_)
+      last_raw_p2p_ = std::max(0.f, last_raw_max_ - last_raw_min_);
+  }
+  else if (prev_raw_slope_ < 0 && raw_slope > 0)
+  {
+    last_raw_min_ = prev_raw_;
+    have_raw_min_ = true;
+    if (have_raw_max_)
+      last_raw_p2p_ = std::max(0.f, last_raw_max_ - last_raw_min_);
+  }
+  prev_raw_slope_ = raw_slope;
 
   // Rising trigger crossing: latch the raw baseline at the upward trigger crossing.
   if (rising_gate)
   {
     raw_at_rising_ = interp_raw_at(prev_detect_, d, prev_raw_, raw, trig);
 
-    if (amp_mode == AmplitudeMode::CycleExtrema)
-    {
-      // Rising closes the lower half-cycle. This finalizes the negative-side
-      // amplitude and, if the previous upper half-cycle is known, peak-to-peak.
-      if (in_lower_half_)
-      {
-        lower_raw_min_ = std::min(lower_raw_min_, raw_at_rising_);
-        last_mbt_ = std::max(0.f, raw_at_falling_ - lower_raw_min_);
-
-        if (have_upper_max_)
-          last_p2p_ = std::max(0.f, last_upper_raw_max_ - lower_raw_min_);
-      }
-
-      // Start the next upper half-cycle from this rising baseline.
-      in_lower_half_ = false;
-      in_upper_half_ = true;
-      upper_raw_max_ = raw_at_rising_;
-    }
-
-    // PeakLocked: start tracking the raw sample associated with the next detect max.
-    if (amp_mode == AmplitudeMode::PeakLocked)
-    {
-      track_max_ = true;
-      best_detect_max_ = -FLT_MAX;
-      raw_at_max_candidate_ = raw;
-    }
+    // Start tracking the raw sample associated with the next detect max.
+    track_max_ = true;
+    best_detect_max_ = -FLT_MAX;
+    raw_at_max_candidate_ = raw;
   }
 
   // Falling trigger crossing: latch the raw baseline at the downward trigger crossing.
@@ -136,45 +132,13 @@ void PeakDetection::operator()(halp::tick)
   {
     raw_at_falling_ = interp_raw_at(prev_detect_, d, prev_raw_, raw, trig);
 
-    if (amp_mode == AmplitudeMode::CycleExtrema)
-    {
-      // Falling closes the upper half-cycle and finalizes the positive-side amplitude.
-      if (in_upper_half_)
-      {
-        upper_raw_max_ = std::max(upper_raw_max_, raw_at_falling_);
-        last_upper_raw_max_ = upper_raw_max_;
-        have_upper_max_ = true;
-        last_mat_ = std::max(0.f, upper_raw_max_ - raw_at_rising_);
-      }
-
-      // Start the next lower half-cycle from this falling baseline.
-      in_upper_half_ = false;
-      in_lower_half_ = true;
-      lower_raw_min_ = raw_at_falling_;
-    }
-
-    // PeakLocked: start tracking the raw sample associated with the next detect min.
-    if (amp_mode == AmplitudeMode::PeakLocked)
-    {
-      track_min_ = true;
-      best_detect_min_ = +FLT_MAX;
-      raw_at_min_candidate_ = raw;
-    }
-
+    // Start tracking the raw sample associated with the next detect min.
+    track_min_ = true;
+    best_detect_min_ = +FLT_MAX;
+    raw_at_min_candidate_ = raw;
   }
 
-  // CycleExtrema tracks raw extrema inside the active half-cycle.
-  if (amp_mode == AmplitudeMode::CycleExtrema)
-  {
-    if (in_upper_half_)
-      upper_raw_max_ = std::max(upper_raw_max_, raw);
-
-    if (in_lower_half_)
-      lower_raw_min_ = std::min(lower_raw_min_, raw);
-  }
-
-  // PeakLocked amplitudes update only when the detect maxima/minima are confirmed.
-  if (amp_mode == AmplitudeMode::PeakLocked)
+  // Detect-based amplitudes update only when the detect maxima/minima are confirmed.
   {
     if (pmax_gate)
     {
@@ -192,7 +156,7 @@ void PeakDetection::operator()(halp::tick)
       raw_at_min_ = track_min_ ? raw_at_min_candidate_ : raw;
       track_min_  = false;
 
-      // Min-below is measured from the falling trigger baseline down to the detect-locked min.
+      // Min-below is measured from the falling trigger baseline down to the detect min.
       last_mbt_ = std::max(0.f, raw_at_falling_ - raw_at_min_);
 
       if (p2p_mode == P2PUpdateMode::On_min || p2p_mode == P2PUpdateMode::On_both)
@@ -202,6 +166,7 @@ void PeakDetection::operator()(halp::tick)
 
   // Publish held values every tick.
   outputs.peak_to_peak        = last_p2p_;
+  outputs.raw_peak_to_peak    = last_raw_p2p_;
   outputs.max_above_threshold = last_mat_;
   outputs.min_below_threshold = last_mbt_;
 

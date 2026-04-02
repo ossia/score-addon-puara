@@ -25,15 +25,12 @@ public:
   halp_meta(description,
     "Detects trigger crossings and peaks from a normalized detection signal, "
     "and measures amplitude from a separate raw signal. "
-    "PeakLocked uses raw values paired with confirmed detect peaks. "
-    "CycleExtrema measures raw amplitude over two half-cycles: rising to "
-    "falling, then falling to next rising. "
-    "Peak-to-peak, max above threshold, and min below threshold are held "
-    "until the next update.")
+    "Peak-to-peak, max above threshold, and min below threshold use raw "
+    "values paired with confirmed detect peaks. "
+    "Raw peak-to-peak is computed independently from raw turning points.")
   halp_meta(uuid, "031bc209-5097-44ac-99c1-ade065a0c02d")
 
   enum class P2PUpdateMode { On_max, On_min, On_both };
-  enum class AmplitudeMode { PeakLocked, CycleExtrema };
 
   struct
   {
@@ -59,9 +56,6 @@ public:
       "Fallback tolerance",
       halp::range{0.f, 1.f, 0.1f}> fallback_tol;
 
-    halp::enum_t<AmplitudeMode, "Amplitude mode">
-      amplitude_mode{AmplitudeMode::PeakLocked};
-
     halp::enum_t<P2PUpdateMode, "P2P update">
       p2p_update_mode{P2PUpdateMode::On_max};
 
@@ -76,7 +70,8 @@ public:
     halp::data_port<"Peak rising",  "Pulse on upward trigger-threshold crossing",  bool> peak_rising;
     halp::data_port<"Peak falling", "Pulse on downward trigger-threshold crossing", bool> peak_falling;
 
-    halp::data_port<"Peak-to-peak",        "Held peak-to-peak amplitude", float> peak_to_peak;
+    halp::data_port<"Peak-to-peak",        "Held detect-locked peak-to-peak amplitude", float> peak_to_peak;
+    halp::data_port<"Raw peak-to-peak",    "Held raw peak-to-peak amplitude from raw turning points", float> raw_peak_to_peak;
     halp::data_port<"Max above threshold", "Held raw amplitude above the rising trigger baseline", float> max_above_threshold;
     halp::data_port<"Min below threshold", "Held raw amplitude below the falling trigger baseline", float> min_below_threshold;
   } outputs;
@@ -121,7 +116,7 @@ private:
 
 
   // --------------------------------------------------
-  // PeakLocked candidate tracking
+  // Detect-based candidate tracking
   // --------------------------------------------------
 
   bool track_max_ = false;
@@ -137,17 +132,14 @@ private:
   float raw_at_min_ = 0.f;
 
 
-  // --------------------------------------------------
-  // CycleExtrema half-cycle tracking
+  // Raw turning-point tracking for raw peak-to-peak
   // --------------------------------------------------
 
-  bool  in_upper_half_ = false;
-  bool  in_lower_half_ = false;
-  bool  have_upper_max_ = false;
-
-  float upper_raw_max_ = 0.f;
-  float lower_raw_min_ = 0.f;
-  float last_upper_raw_max_ = 0.f;
+  int   prev_raw_slope_ = 0;
+  bool  have_raw_max_   = false;
+  bool  have_raw_min_   = false;
+  float last_raw_max_   = 0.f;
+  float last_raw_min_   = 0.f;
 
 
   // --------------------------------------------------
@@ -155,6 +147,7 @@ private:
   // --------------------------------------------------
 
   float last_p2p_ = 0.f;
+  float last_raw_p2p_ = 0.f;
   float last_mat_ = 0.f;
   float last_mbt_ = 0.f;
 };
