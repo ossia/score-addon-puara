@@ -106,7 +106,16 @@ set_target_properties(BioData extras PROPERTIES
 # the object), so this only affects standalone / portability.
 set(PUARA_STANDALONE_BACKENDS
   dump ossia python pd max standalone wasm
-  touchdesigner:CHOP_MESSAGE godot:NODE)
+  touchdesigner:CHOP_MESSAGE)
+
+# The godot back-end produces a GDExtension. On Emscripten, godot-cpp's web
+# template forces a threaded (--shared-memory) link, but the object TUs aren't
+# built with -matomics/-mbulk-memory, so wasm-ld rejects them. Only emit the
+# godot back-end off-Emscripten; the plain `wasm` back-end still covers the web
+# portability surface.
+if(NOT EMSCRIPTEN)
+  list(APPEND PUARA_STANDALONE_BACKENDS godot:NODE)
+endif()
 
 avnd_addon_init(NAME score_addon_puara)
 
