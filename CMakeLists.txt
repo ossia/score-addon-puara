@@ -76,8 +76,16 @@ if(NOT TARGET xtensor)
   FetchContent_MakeAvailable(xtensor)
 endif()
 
+# BioData / extras call add_library() with no STATIC/SHARED keyword, so their
+# type follows BUILD_SHARED_LIBS. The score SDK build turns that ON, which made
+# them DLLs on Windows -- and their classes have no dllexport, so the final
+# score plugin failed to link (undefined Heart::* / SkinConductance::*). Force
+# them STATIC so their symbols are always available to whatever links them.
+set(_puara_prev_shared "${BUILD_SHARED_LIBS}")
+set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(3rdparty/BioData SYSTEM)
 add_subdirectory(3rdparty/extras SYSTEM)
+set(BUILD_SHARED_LIBS "${_puara_prev_shared}")
 
 # These static libs are linked into shared modules (pd / max / python / ...) in
 # standalone mode, so they must be position-independent. They also use C++17
