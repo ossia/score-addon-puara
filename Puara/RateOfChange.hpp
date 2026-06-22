@@ -58,10 +58,14 @@ public:
     // Time window (seconds) - visible when WindowMode::TimeWindow is selected
     halp::spinbox_f32<"Time window (s)", halp::range{0.001, 3600.0, 1.0}> time_window;
 
-    // Output units using combobox style
+    // Output units selector. Uses halp__enum (a plain string_view[] array of
+    // labels) rather than halp__enum_combobox: the combobox macro builds a
+    // std::pair<std::string_view, enum_type>[] aggregate that MSVC (notably the
+    // arm64 toolchain) rejects with C2440. Same enum values + labels, only the
+    // default widget hint differs.
     struct
     {
-      halp__enum_combobox(
+      halp__enum(
           "Output units",
           PerSecond, // default
           PerMillisecond, PerSecond, PerMinute, PerHour)
