@@ -80,9 +80,14 @@ add_subdirectory(3rdparty/BioData SYSTEM)
 add_subdirectory(3rdparty/extras SYSTEM)
 
 # These static libs are linked into shared modules (pd / max / python / ...) in
-# standalone mode, so they must be position-independent.
-set_target_properties(BioData PROPERTIES POSITION_INDEPENDENT_CODE ON)
-set_target_properties(extras PROPERTIES POSITION_INDEPENDENT_CODE ON)
+# standalone mode, so they must be position-independent. They also use C++17
+# features (std::optional, std::clamp) but declare their own project() with no
+# standard, so they'd otherwise fall back to the compiler default -- which on
+# MSVC is C++14 and breaks the build. Pin them to C++20 like the rest of the addon.
+set_target_properties(BioData extras PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
+  CXX_STANDARD 20
+  CXX_STANDARD_REQUIRED ON)
 
 
 # Standalone back-end set for every object. This is the data-processor preset
