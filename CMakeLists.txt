@@ -6,7 +6,12 @@ project(score_addon_puara LANGUAGES CXX)
 # max-sdk-base requires. Set it for the whole addon -- before Avendish and the
 # object library are created -- so every target shares one runtime; mixing /MT
 # and /MD trips MSVC with LNK2038. (CMP0091 is NEW via cmake_minimum_required.)
-if(MSVC)
+#
+# Only for the standalone build: inside a score build the Max backend is not
+# emitted, and score links the dynamic CRT (/MD). Forcing /MT here would make
+# score_addon_puara.lib mismatch the rest of score (LNK2038: MT_StaticRelease
+# vs MD_DynamicRelease), so defer to score's runtime instead.
+if(MSVC AND NOT TARGET score_lib_base)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
