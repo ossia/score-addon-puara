@@ -1,11 +1,17 @@
-cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 project(score_addon_puara LANGUAGES CXX)
 
 # Max/MSP externals link the static CRT (/MT) on Windows, as the official
 # max-sdk-base requires. Set it for the whole addon -- before Avendish and the
 # object library are created -- so every target shares one runtime; mixing /MT
-# and /MD trips MSVC with LNK2038. (CMP0091 is NEW via cmake_minimum_required.)
+# and /MD trips MSVC with LNK2038.
+#
+# CMAKE_MSVC_RUNTIME_LIBRARY only takes effect when policy CMP0091 is NEW, which
+# is only the default from CMake 3.15 on: under the previous 3.13 minimum the
+# setting was silently ignored and every target -- Max externals included --
+# built /MD, which corrupts Max's heap at load. The 3.25 minimum above makes
+# CMP0091 NEW so the /MT request is honoured.
 #
 # Only for the standalone build: inside a score build the Max backend is not
 # emitted, and score links the dynamic CRT (/MD). Forcing /MT here would make
