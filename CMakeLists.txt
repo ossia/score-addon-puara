@@ -301,6 +301,16 @@ avnd_addon_object(
 Puara/Smoother.hpp
     Puara/Smoother.cpp)
 
+avnd_addon_object(
+  BASE score_addon_puara
+  C_NAME puara_leaky_integrator
+  CLASS LeakyIntegratorAvnd
+  NAMESPACE puara_gestures::objects
+  BACKENDS ${PUARA_STANDALONE_BACKENDS}
+  SOURCES
+Puara/LeakyIntegratorAvnd.hpp
+    Puara/LeakyIntegratorAvnd.cpp)
+
 
 avnd_addon_object(
   BASE score_addon_puara
