@@ -206,11 +206,39 @@ target_sources(score_addon_puara
 target_include_directories(score_addon_puara
   PUBLIC
   3rdparty/puara-gestures/include/
-  # Carries the vendored Boost fallback (3rdparty/.../3rdparty/boost) plus
-  # IMU_Sensor_Fusion. PUBLIC so the objects + back-ends that compile
-  # puara-gestures headers can resolve <boost/...> when no external Boost exists.
-  3rdparty/puara-gestures/3rdparty/
 )
+
+# IMU_Sensor_Fusion is included as <IMU_Sensor_Fusion/imu_orientation.h>, so its
+# parent directory has to be on the include path. That parent also holds a
+# complete vendored Boost, and exposing it means every <boost/...> these targets
+# reach - including the ones they never asked for, pulled in through score's own
+# headers - resolves there rather than to the Boost everything else is built
+# against. Two Boost versions then meet in one link, sharing mangled names
+# without sharing definitions, which is an ODR violation whatever it happens to
+# do at link time. It bit as an undefined
+# boost::asio::detail::winsock_init_base::startup once libossia moved to Boost
+# 1.91 and began versioning Asio's symbols: score's Asio was namespaced, the
+# vendored 1.86 had no such notion.
+#
+# So when an external Boost exists, expose IMU_Sensor_Fusion on its own, through
+# a directory in the build tree that holds nothing else. The vendored tree stays
+# where it is and still covers the case it was meant for - no external Boost at
+# all - where it is the only Boost in the build and cannot shadow anything.
+#
+# Prepending the external Boost instead does not work: it is already on these
+# targets as a SYSTEM directory, inherited from score, and -isystem paths are
+# searched after -I ones, so it loses to the vendored directory no matter where
+# it is declared.
+if(Boost_INCLUDE_DIR)
+  set(PUARA_IMU_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/puara-3rdparty-include")
+  file(COPY
+    "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion"
+    DESTINATION "${PUARA_IMU_INCLUDE_DIR}")
+  target_include_directories(score_addon_puara PUBLIC "${PUARA_IMU_INCLUDE_DIR}")
+else()
+  target_include_directories(score_addon_puara PUBLIC 3rdparty/puara-gestures/3rdparty/)
+endif()
+
 target_link_libraries(score_addon_puara PUBLIC BioData)
 
 avnd_addon_object(
