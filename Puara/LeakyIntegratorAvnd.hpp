@@ -13,7 +13,7 @@ class LeakyIntegratorAvnd
 {
 public:
   halp_meta(name, "Leaky Integrator")
-  halp_meta(category, "Controls/Filtering")
+  halp_meta(category, "Control/Filtering")
   halp_meta(c_name, "puara_leaky_integrator_avnd")
   halp_meta(
       description,
