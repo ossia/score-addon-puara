@@ -454,6 +454,15 @@ Puara/Binarizer.hpp
     Puara/Binarizer.cpp)
 avnd_addon_object(
   BASE score_addon_puara
+  C_NAME puara_avalanches_avnd
+  CLASS AvalanchesAvnd
+  NAMESPACE puara_gestures::objects
+  BACKENDS ${PUARA_STANDALONE_BACKENDS}
+  SOURCES
+Puara/AvalanchesAvnd.hpp
+    Puara/AvalanchesAvnd.cpp)
+avnd_addon_object(
+  BASE score_addon_puara
   C_NAME puara_jab_3d_avnd
   CLASS Jab3D_Avnd
   NAMESPACE puara_gestures::objects
