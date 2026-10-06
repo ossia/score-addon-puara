@@ -12,7 +12,7 @@ class Binarizer
 {
 public:
   halp_meta(name, "Binarize")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "puara_binarize_avnd")
   halp_meta(description, "Binarizes an input array based on a threshold.")
   halp_meta(manual_url, "https://github.com/dav0dea/goofi-pipe")

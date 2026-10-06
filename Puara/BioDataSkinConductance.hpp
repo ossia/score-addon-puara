@@ -14,6 +14,10 @@ class BioData_Skin_Conductance
 public:
   halp_meta(name, "Skin conductance")
   halp_meta(category, "Analysis/Biodata")
+  halp_meta(
+      description,
+      "Analyze a skin-conductance signal into raw, phasic response and tonic level "
+      "outputs.")
   halp_meta(c_name, "BioData_Skin_Conductance")
   halp_meta(
       author,

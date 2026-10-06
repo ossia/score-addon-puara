@@ -12,7 +12,7 @@ class CompassAvnd
 {
 public:
   halp_meta(name, "Compass")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "puara_compass_avnd")
   halp_meta(description, "Calculates angles from two N-dimensional polar arrays.")
   halp_meta(manual_url, "https://github.com/dav0dea/goofi-pipe")

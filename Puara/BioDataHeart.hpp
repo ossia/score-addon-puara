@@ -14,6 +14,10 @@ class BioData_Heart
 public:
   halp_meta(name, "Heart")
   halp_meta(category, "Analysis/Biodata")
+  halp_meta(
+      description,
+      "Analyze a heart-sensor signal to detect beats, estimate BPM and report "
+      "normalized signal changes.")
   halp_meta(c_name, "BioData_Heart")
   halp_meta(
       author,
