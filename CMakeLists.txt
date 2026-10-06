@@ -514,7 +514,7 @@ if(COMMAND score_register_license)
   score_register_license(IMU_Sensor_Fusion FILES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/LICENSE.md")
   score_register_license(BioData URL "https://github.com/eringee/BioData"
     NOTICES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/src/SkinConductance.h"
-    FILES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/LICENSE" "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/LICENSE.txt")
+    FILES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/LICENSE")
   score_register_license("BioData extras" NOTICES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/extras/PeakDetector.h")
 endif()
 
