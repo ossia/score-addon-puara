@@ -509,4 +509,13 @@ avnd_addon_object(
 Puara/Shake.hpp
     Puara/Shake.cpp)
 
+if(COMMAND score_register_license)
+  score_register_license(puara-gestures URL "https://github.com/Puara/puara-gestures" FILES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/puara-gestures/LICENSE")
+  score_register_license(IMU_Sensor_Fusion FILES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/puara-gestures/3rdparty/IMU_Sensor_Fusion/LICENSE.md")
+  score_register_license(BioData URL "https://github.com/eringee/BioData"
+    NOTICES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/src/SkinConductance.h"
+    FILES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/LICENSE" "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/BioData/LICENSE.txt")
+  score_register_license("BioData extras" NOTICES "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/extras/PeakDetector.h")
+endif()
+
 avnd_addon_finalize(NAME score_addon_puara UUID 049a40e0-01d9-4040-9d00-21f6931c3035 VERSION 1)
