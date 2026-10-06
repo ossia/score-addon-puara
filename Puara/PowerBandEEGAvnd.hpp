@@ -14,7 +14,7 @@ class PowerBandEEGAvnd
 {
 public:
   halp_meta(name, "Power Band EEG")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Biodata")
   halp_meta(c_name, "puara_powerbandeeg_avnd")
   halp_meta(
       description,

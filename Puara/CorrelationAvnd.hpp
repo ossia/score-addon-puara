@@ -10,7 +10,7 @@ class CorrelationAvnd
 {
 public:
   halp_meta(name, "Correlation")
-  halp_meta(category, "Analysis/Puara")
+  halp_meta(category, "Analysis/Data")
   halp_meta(c_name, "puara_correlation_avnd")
   halp_meta(
       description,
